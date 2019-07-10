@@ -1,0 +1,202 @@
+---
+title: "Where Do Shelter Dogs Come From?"
+author: "Amber Thomas"
+date: "Last updated: `r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  puddingR::puddingTheme:
+    toc: true
+    code_folding: "show"
+    number_sections: "false"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE)
+```
+
+## Introduction
+
+A few weeks ago, I was walking with a friend and discussing how hard it is to adopt a dog in Seattle. The thing is, Seattle is such a dog-friendly area, that rescue dogs go incredibly quickly. So much so that many rescues actually *import* dogs in need of homes from other states and sometimes other countries. 
+
+Data collection process can be found in `data_collection.Rmd` whereas analysis can be found in this file. 
+
+### Load Packages
+
+```{r load_packages}
+# For general data cleaning and analysis
+library(tidyverse)
+
+# For keeping your files in relative directories
+library(here)
+
+# If your data includes dates that need to be wrangled
+library(lubridate)
+
+# For interactive/searchable tables in your report
+library(DT)
+```
+
+### Load Data
+
+There are 3 data files that I will load in here:
+
+- **dogs**: from data collected from the PetFinder API
+- **descriptions**: Scraped descriptions from each animal's profile
+- **allFrom**: The states and countries that 3,361 of the animal's had listed in their profile as their point of origin.
+
+```{r load_data, message = FALSE, warning = FALSE}
+dogsTrim <- read_csv(here::here("assets", "data", "processed_data", "dogsTrim.csv")) %>% 
+  mutate(id = as.character(id))
+
+descriptions <- read_csv(here::here("assets", "data", "raw_data", "all_descriptions.csv"))
+
+allFrom <- read_csv(here::here("assets", "data", "processed_data", "allFrom.csv"))
+```
+
+## Exploration
+
+Alright, now to explore the data that we've imported. 
+
+### How many dogs total came from out of state? 
+
+```{r}
+removeID <- c("08057", "19053", "33578", "85016", "QC")
+`%notin%` <- purrr::negate(`%in%`)
+
+outOfState <- dogsTrim %>% 
+  left_join(allFrom) %>% 
+  filter(!is.na(cleanLoc)) %>% 
+  mutate(contact_state_full = ifelse(is.na(state.name[match(contact_state, state.abb)]), contact_state, state.name[match(contact_state, state.abb)]) ,
+    same = ifelse(contact_state_full == cleanLoc, TRUE, FALSE)) %>% 
+  filter(same == FALSE) %>% 
+  filter(contact_state_full %notin% removeID)
+```
+Ok, so `r nrow(outOfState)` dogs (`r (nrow(outOfState) / nrow(descriptions)) * 100`%) of dogs with written descriptions, have come from out of state. 
+
+### Most common passages
+
+Let's look at where dogs most commonly go from -> to. 
+
+```{r}
+fromTo <- outOfState %>% 
+  group_by(cleanLoc, contact_state_full) %>% 
+  count(., sort = TRUE) %>% 
+  rename(from = cleanLoc, to = contact_state_full)
+```
+
+```{r echo = FALSE}
+DT::datatable(fromTo, rownames = FALSE, filter = "top", options = list(pageLength = 10, scrollX = TRUE))
+```
+
+Alright so `r fromTo[1, ]$cleanLoc` to `r fromTo[1, ]$contactStateFull` is the most common route. 
+
+### Most Exported
+
+Which state or country exports the most dogs? 
+
+```{r}
+most_exported <- outOfState %>% 
+  group_by(cleanLoc) %>% 
+  count(., sort = TRUE)
+```
+```{r echo = FALSE}
+DT::datatable(most_exported, rownames = FALSE, filter = "top", options = list(pageLength = 10, scrollX = TRUE))
+```
+
+### Most Imported
+
+Which state imports the most dogs? 
+
+```{r}
+most_imported <- outOfState %>% 
+  group_by(contact_state_full) %>% 
+  count(., sort = TRUE)
+```
+```{r echo = FALSE}
+DT::datatable(most_imported, rownames = FALSE, filter = "top", options = list(pageLength = 10, scrollX = TRUE))
+```
+
+```{r echo = FALSE}
+ggplot(most_imported, aes(x = reorder(contact_state_full, n), y = n )) + 
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  ylab("Count of Imported Adoptable Dogs") + 
+  xlab("State or Country Importing Animals")
+```
+
+
+### Percentage of Imports per State
+
+Out of animals that have listed an origin location, how many were moved from out of state? 
+
+```{r}
+perState <- dogsTrim %>% 
+  left_join(allFrom) %>% 
+  filter(!is.na(cleanLoc)) %>% 
+  mutate(contact_state_full = ifelse(is.na(state.name[match(contact_state, state.abb)]), contact_state, state.name[match(contact_state, state.abb)]) ,
+    same = ifelse(contact_state_full == cleanLoc, TRUE, FALSE)) %>% 
+  group_by(contact_state_full) %>% 
+  count(., same = TRUE)
+
+percentImports <- perState %>% 
+  rename(countPerState = n) %>% 
+  left_join(most_imported) %>% 
+  rename(countImported = n) %>% 
+  filter(!is.na(countImported)) %>% 
+  mutate(percentImported = round((countImported/countPerState) * 100))
+
+```
+So a few states have imported 100% of their animals that list acquisition location.
+
+```{r echo = FALSE}
+ggplot(percentImports, aes(x = reorder(contact_state_full, percentImported), y = percentImported )) + 
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  ylab("Count of Imported Adoptable Dogs") + 
+  xlab("State or Country Importing Animals")
+```
+
+### Percent of Imports per State out of all Listings
+
+Above I looked at the percentage of dogs imported out of animals that had an acquisition location listed. But, we can also assume that any animal without that information was acquired in-state. What percentage of total animals have a listed acquisition location out of state? 
+
+```{r}
+perStateAll <- dogsTrim %>% 
+  # keep only dogs that had descriptions 
+  filter(id %in% descriptions$id) %>% 
+  mutate(contact_state_full = ifelse(is.na(state.name[match(contact_state, state.abb)]), contact_state, state.name[match(contact_state, state.abb)])) %>% 
+  count(contact_state_full, sort = TRUE) %>% 
+  filter(!grepl("[[:digit:]]", contact_state_full))
+
+percentImportsAll <- perStateAll %>% 
+  rename(countPerState = n) %>% 
+  left_join(most_imported) %>% 
+  rename(countImported = n) %>% 
+  filter(!is.na(countImported)) %>% 
+  mutate(percentImported = round((countImported/countPerState) * 100))
+```
+
+```{r echo = FALSE}
+ggplot(percentImportsAll, aes(x = reorder(contact_state_full, percentImported), y = percentImported )) + 
+  geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
+  ylab("Count of Imported Adoptable Dogs") + 
+  xlab("State or Country Importing Animals")
+```
+
+### Available for Adoption vs. Exports
+
+While running the above calculations, I stumbled upon something seemingly interested. In the state of Texas, there are 418 animals available for adoption. But, Texas has *exported* 661 animals to other states for adoption. That is, they are supplying more animals to other parts of the country than to their own. Are any other states doing this? 
+
+```{r}
+adoptionVExport <- perStateAll %>% 
+  rename(availablePerState = n) %>% 
+  left_join(most_exported, by = c("contact_state_full" = "cleanLoc")) %>% 
+  rename(exportedPerState = n) %>% 
+  mutate(diff = availablePerState - exportedPerState) %>% 
+  arrange(diff)
+
+head(adoptionVExport)
+```
+
+Looks, like Texas and Hawaii are the only states sending more animals out of state than it retains in the state. Though, Hawaii only exported one more animal than it made available, Texas exported `r adoptionVExport[1, ]$diff * -1` more dogs than are available for adoption (with descriptions).

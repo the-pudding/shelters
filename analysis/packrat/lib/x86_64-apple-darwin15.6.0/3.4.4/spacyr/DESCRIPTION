@@ -1,0 +1,38 @@
+Package: spacyr
+Type: Package
+Title: Wrapper to the 'spaCy' 'NLP' Library
+Version: 1.2
+Authors@R: c(
+    person("Kenneth", "Benoit", email = "kbenoit@lse.ac.uk", role = c("cre", "aut", "cph"), comment = c(ORCID = "0000-0002-0797-564X")), 
+    person("Akitaka", "Matsuo", email = "a.matsuo@lse.ac.uk", role = "aut", comment = c(ORCID = "0000-0002-3323-6330")),
+    person("European Research Council", role = "fnd", comment = "ERC-2011-StG 283794-QUANTESS")
+    )
+Description: An R wrapper to the 'Python' 'spaCy' 'NLP' library,
+    from <http://spacy.io>.
+License: GPL-3
+LazyData: TRUE
+Depends: R (>= 3.0.0), methods
+Imports: data.table, reticulate (>= 1.6)
+Suggests: knitr, lintr, quanteda, R.rsp, rmarkdown, spelling, testthat,
+        tibble
+URL: https://spacyr.quanteda.io
+Encoding: UTF-8
+BugReports: https://github.com/quanteda/spacyr/issues
+RoxygenNote: 6.1.1
+Language: en-GB
+VignetteBuilder: knitr
+Author: Kenneth Benoit [cre, aut, cph] (0000-0002-0797-564X),
+  Akitaka Matsuo [aut] (0000-0002-3323-6330),
+  European Research Council [fnd] (ERC-2011-StG 283794-QUANTESS)
+Maintainer: Kenneth Benoit <kbenoit@lse.ac.uk>
+Built: R 3.4.4; ; 2019-07-02 18:47:54 UTC; unix
+RemoteType: github
+RemoteHost: https://api.github.com
+RemoteRepo: spacyr
+RemoteUsername: quanteda
+RemoteRef: master
+RemoteSha: 04fa7fdb8e63a8c914ce74acc81c5cebbc7a487f
+GithubRepo: spacyr
+GithubUsername: quanteda
+GithubRef: master
+GithubSHA1: 04fa7fdb8e63a8c914ce74acc81c5cebbc7a487f

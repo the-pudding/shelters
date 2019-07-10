@@ -1,0 +1,453 @@
+revisedLoc,n,clean,remove
+Texas,663,,
+Virginia,392,,
+North Carolina,348,,
+Alabama,316,,
+Maryland,282,,
+California,133,,
+Lab Rescue LRCP,120,,TRUE
+Georgia,100,,
+New Jersey,95,,
+Florida,93,,
+Louisiana,89,,
+Kentucky,86,,
+West Virginia,82,,
+Fredericksburg,80,Virginia,
+South Carolina,75,,
+Korea,74,South Korea,
+the United States,72,,TRUE
+KOREA,51,South Korea,
+Lafayette Blvd,46,,TRUE
+China,44,,
+Mississippi,44,,
+Tennessee,41,,
+US,40,,TRUE
+Charlotte,38,North Carolina,
+San An,37,Texas,
+Thailand,34,,
+Noon-5pm,33,,TRUE
+Seattle,33,Washington,
+Taiwan,32,,
+Cumberland County,31,Maine,
+the City of Crossville,30,Maine,
+Bladen County,26,North Carolina,
+Illinois,25,,
+New York,25,,
+Nashville,24,Tennessee,
+Arkansas,21,,
+CALIFORNIA,21,California,
+Ohio,21,,
+Madison County,20,Illinois,
+St.,20,,TRUE
+Mexico,17,,
+Oakland,17,New Jersey,
+Kettering,16,Ohio,
+the Guernsey County Dog,16,,TRUE
+Washing,16,Washington DC,
+DC,14,Washington DC,
+Egypt,14,,
+India,13,,
+Cincinnati,12,Ohio,
+New Mexico,12,,
+Prince Georges County,12,Maryland,
+Wicomico County,12,Maryland,
+Kansas,11,,
+Memphis,11,Tennessee,
+San Bernardino,11,California,
+Atlanta,10,Georgia,
+Bahamas,10,,
+Dena,10,,TRUE
+Hawaii,10,,
+Kong,10,,TRUE
+Pennsylvania,10,,
+Pottsville,10,Pennsylvania,
+Carolinas,9,North Carolina,
+Howlin4Spirit,8,,TRUE
+Indiana,8,,
+Maine,8,,
+Manhattan,8,New York,
+Marion County,8,South Carolina,
+Miami,8,Florida,
+Tulsa,8,Oklahoma,
+Doud,7,,TRUE
+Elyria,7,Ohio,
+Fayetteville,7,West Virginia,
+Jackson,7,Mississippi,
+Missouri,7,,
+Oberlin,7,Ohio,
+Philadelphia,7,Pennsylvania,
+Whitehall,7,Pennsylvania,
+Charlotte North Carolina,6,North Carolina,
+Chicago,6,Illinois,
+Dallas,6,Texas,
+Hous,6,Texas,
+Minnesota,6,,
+Oklahoma,6,,
+Russell County,6,Alabama,
+Cairo,5,Egypt,
+Colorado,5,,
+Hunting,5,West Virginia,
+New Hampshire,5,,
+Newark,5,New Jersey,
+Petsmart,5,,TRUE
+Spain,5,,
+Tampa,5,Florida,
+Tracy,5,California,
+Wisconsin,5,,
+Beijing,4,China,
+Brooklyn,4,New York,
+Buddy,4,,TRUE
+Crawfordville,4,Georgia,
+District of Columbia,4,Washington DC,
+George,4,South Carolina,
+Greenville,4,South Carolina,
+Ho-Bo Care Boxer,4,,TRUE
+Massachusetts,4,,
+Opelousas,4,Louisiana,
+Orlando,4,Florida,
+Parvo,4,,TRUE
+Puer,4,Puerto Rico,
+Rescue Ridge,4,,TRUE
+Samaritan,4,,TRUE
+South Korea,4,,
+Tijuana,4,Mexico,
+UK,4,,TRUE
+Amish,3,,TRUE
+Cabarrus County,3,North Carolina,
+Columbus,3,Ohio,
+County,3,,TRUE
+Delaware,3,,
+Denver,3,Colorado,
+Fort Smith,3,Arkansas,
+Hephzibah,3,Georgia,
+Hillsborough County,3,Florida,
+Hunterdon county,3,New Jersey,
+Iowa,3,,
+Jefferson County,3,Washington,
+Kosovo,3,,
+Kuwait,3,,
+Long Island,3,New York,
+Lubbock,3,Texas,
+Marlin,3,West Virginia,
+North Jersey,3,New Jersey,
+Oman,3,,
+Pulaski County,3,Kentucky,
+Rockdale County,3,Georgia,
+S.,3,,TRUE
+San Bernadino,3,California,
+Scotland County,3,North Carolina,
+Sebec,3,Maine,
+Sparky,3,,TRUE
+Tazewell County,3,Virginia,
+Valencia County,3,New Mexico,
+Vidalia,3,Georgia,
+Afghanistan,2,,
+Aruba,2,,
+Athens,2,Ohio,
+Barnwell,2,South Carolina,
+Blackie,2,,TRUE
+Carolina,2,North Carolina,
+Cecil County,2,Maryland,
+Cleveland,2,Ohio,
+Connecticut,2,,
+Darling,2,South Carolina,
+Detroit,2,Michigan,
+Edison,2,New Jersey,
+Fairfax,2,Virginia,
+Far Rockaway,2,New York,
+Fayette County,2,Georgia,
+Fort Worth,2,Texas,
+Franklin,2,Indiana,
+Fresno,2,California,
+Glaucoma,2,,TRUE
+Greensboro,2,North Carolina,
+Hut,2,Texas,
+Jamaica,2,,
+Jasper,2,,TRUE
+Ky.,2,Kentucky,
+Lee County,2,Virginia,
+Maricopa County,2,Arizona,
+McNairy County,2,Tennessee,
+Mecklenburg,2,North Carolina,
+Medfield,2,Massachusetts,
+Minot,2,North Dakota,
+Moscow,2,Russia,
+Mutts,2,,TRUE
+Nash County,2,North Carolina,
+New Delhi India,2,India,
+Northern NJ,2,New Jersey,
+Oregon,2,,
+Orwigsburg,2,Pennsylvania,
+Pampa,2,Texas,
+Pelham,2,,TRUE
+PG,2,,TRUE
+Phoenix,2,Arizona,
+Pike County,2,Ohio,
+Plymouth,2,Indiana,
+Pueblo,2,Colorado,
+Qatar,2,,
+Richmond,2,Virginia,
+Roswell,2,New Mexico,
+Russia,2,,
+Sealy,2,Texas,
+South Jersey,2,New Jersey,
+Southbury,2,Connecticut,
+Spindle,2,,TRUE
+Suffolk,2,Virginia,
+the Island of St Maarten,2,St. Maarten,
+the State of California,2,California,
+the United Arab Emirates,2,United Arab Emirates,
+Tucson,2,Arizona,
+Tunisia,2,,
+Warden,2,,TRUE
+Wayne,2,New Jersey,
+Yulin,2,China,
+Acme,1,,TRUE
+Adams County,1,Ohio,
+Adore,1,,TRUE
+Adrienne,1,,TRUE
+Alaska,1,,TRUE
+Alexandria,1,Virginia,
+Allegheny County,1,Pennsylvania,
+America,1,,TRUE
+Anchorman,1,,TRUE
+Animal,1,,TRUE
+Arizona,1,,
+Ark,1,,TRUE
+Ark.,1,,TRUE
+Athens-Clarke County Animal Control,1,Georgia,
+Atkins,1,Arkansas,
+Augusta,1,Georgia,
+Austria,1,,TRUE
+Ava,1,,TRUE
+Bahamahs,1,Bahamas,
+Bahrain,1,,
+Baltimore,1,Maryland,
+Baltimore City,1,Maryland,
+Baltimore County,1,Maryland,
+Bath,1,,TRUE
+Belize,1,,
+Berlin,1,Ohio,
+BFF Ireland,1,,TRUE
+Bibb County,1,Georgia,
+Biggie,1,,TRUE
+Billie,1,,TRUE
+Birmingham,1,Alabama,
+Blizzard,1,,TRUE
+Boone,1,,TRUE
+Bosnia,1,,
+Breeder,1,,TRUE
+Brida,1,,TRUE
+Brittany,1,,TRUE
+Bronx,1,New York,
+Buffalo,1,New York,
+Buffy,1,,TRUE
+Burt,1,,TRUE
+Camillus,1,New York,
+Campbell County,1,Virginia,
+Canon City,1,Colorado,
+Catahoula,1,,TRUE
+Char,1,North Carolina,
+Charlee,1,,TRUE
+Chatham,1,Virginia,
+Chesapeake,1,Virginia,
+Chihuahua,1,,TRUE
+CHINA,1,China,
+Clarksville,1,Tennessee,
+Cleveland County,1,North Carolina,
+Coleman,1,Texas,
+Costa Rica,1,,
+Cuba,1,,
+Custer County,1,Oklahoma,
+Deep South,1,,TRUE
+Delilah,1,,TRUE
+Dempsey,1,,TRUE
+Direc,1,,TRUE
+Dixon,1,Missouri,
+Dorchester County,1,South Carolina,
+East Tennessee,1,Tennessee,
+Eastern North Carolina,1,North Carolina,
+Ecuador,1,Ecuador,
+Eddie,1,,TRUE
+Edinburg,1,Texas,
+El,1,,TRUE
+Elijah,1,,TRUE
+Emmanual County,1,Georgia,
+Emmanuel County,1,Georgia,
+Euthanasia,1,,TRUE
+Fayette,1,Georgia,
+Feb,1,,TRUE
+Fiji,1,,TRUE
+Florenceville,1,,TRUE
+Fluvanna County,1,Virginia,
+FOHAPlease,1,,TRUE
+Foster,1,,TRUE
+Franklin County's,1,Ohio,
+Frisco,1,,TRUE
+Ft Lauderdale,1,Florida,
+Glouster,1,Georgia,
+Gordo,1,,TRUE
+Green County,1,Virginia,
+Harris County,1,,TRUE
+HarrisonburMo,1,Virginia,
+Hazard,1,Kentucky,
+Hickory North Carolina,1,North Carolina,
+Hollywood,1,,TRUE
+Homer,1,,TRUE
+HORRIBLE,1,,TRUE
+Idaho,1,,
+Indianapolis,1,Indiana,
+Intercep,1,,TRUE
+Iran,1,,
+Italy,1,,TRUE
+Jacob,1,,TRUE
+Jaden,1,,TRUE
+Jersey,1,New Jersey,
+Jersey City,1,New Jersey,
+Jones County,1,Mississippi,
+Joy,1,Georgia,
+Juarez,1,Mexico,
+Kaleidoscope,1,,TRUE
+King of Prussia,1,,TRUE
+Kings,1,New Hampshire,
+Kongs,1,,TRUE
+Kuwait-,1,Kuwait,
+Kyanite,1,,TRUE
+L.,1,,TRUE
+Lancaster County,1,Kentucky,
+LaPlace,1,Louisiana,
+Las Cruces,1,New Mexico,
+Lawrence,1,Kansas,
+Lennon,1,,TRUE
+Lilo,1,,TRUE
+Long County,1,Georgia,
+Lorain,1,Ohio,
+Los Angeles,1,California,
+Los Cruces,1,New Mexico,
+Louie,1,,TRUE
+Lousiana,1,Louisiana,
+Lousisiana,1,Louisiana,
+Lucas County,1,Ohio,
+Macon County,1,Georgia,
+Malia,1,,TRUE
+Malinois,1,,TRUE
+Manchester,1,New Hampshire,
+Margaritas,1,,TRUE
+Marin,1,,TRUE
+Martin County,1,Kentucky,
+Meade,1,Colorado,
+Medina,1,,TRUE
+Merced,1,California,
+Merit,1,,TRUE
+Michaels,1,,TRUE
+Michigan,1,,
+Midland Valley,1,South Carolina,
+Millersburg,1,Missouri,
+Min Pin,1,,TRUE
+Mississippiand,1,Mississippi,
+Mobile,1,Alabama,
+Monroe,1,Georgia,
+Montreal,1,Quebec,
+Montrose,1,Colorado,
+N.,1,,TRUE
+NC county,1,,TRUE
+Neverland,1,,TRUE
+Nevis,1,,
+New Orleans,1,Louisiana,
+New York City,1,New York,
+Newport,1,Kentucky,
+Nicky,1,,TRUE
+Nikki,1,,TRUE
+North Georgia,1,Georgia,
+NYC,1,New York,
+Ogden,1,,TRUE
+Ohana,1,Arizona,
+Ola,1,Arkansas,
+Orrum,1,North Carolina,
+PAHS,1,,TRUE
+Panama,1,,TRUE
+Pasco County,1,Florida,
+Paws Behind Bars,1,,TRUE
+Peanuts,1,,TRUE
+Petunia,1,,TRUE
+Philly,1,Pennsylvania,
+Phuket,1,Thailand,
+Pikeville,1,Kentucky,
+Pinal County,1,Arizona,
+Pittsylvania,1,Virginia,
+Pittsylvania County,1,Virginia,
+Pocohantus County,1,West Virginia,
+Portland,1,,TRUE
+Poughkeepsie,1,New York,
+Pregnant,1,,TRUE
+Providence,1,,TRUE
+Pulaski county,1,Tennessee,
+Pumpkin,1,,TRUE
+Putnam county,1,Florida,
+Pyr,1,,TRUE
+Queensland,1,,TRUE
+Quincy,1,,TRUE
+Radnor,1,,TRUE
+Rhode Island,1,,
+Rockaway,1,New York,
+Rockbridge County,1,Virginia,
+Rockcastle County,1,,TRUE
+Rockport,1,Texas,
+Rocky Mount,1,North Carolina,
+Rome,1,Georgia,
+Romeo,1,,TRUE
+Rosenberg,1,Texas,
+Rowan County,1,,TRUE
+Rutherford County,1,North Carolina,
+S Korea,1,South Korea,
+Saint John,1,,TRUE
+Sampson County,1,North Carolina,
+San Jose,1,California,
+Sapulpa,1,Oklahoma,
+Sara,1,New York,
+Sarge,1,,TRUE
+Saudi Arabia,1,,
+Scott County,1,Virginia,
+Shawnee,1,Oklahoma,
+Shelby,1,North Carolina,
+Shelby County,1,Kentucky,
+Shepherds,1,,TRUE
+Skye,1,,TRUE
+SOMAD,1,,TRUE
+South Dakota,1,,
+South Ga.,1,Georgia,
+Spotsylvania,1,Virginia,
+St Landry,1,Louisiana,
+Sturbridge,1,Massachusetts,
+Sully,1,,TRUE
+Sun City,1,Arizona,
+Swamp Haven,1,,TRUE
+Terryville Ct,1,Connecticut,
+the British Virgin Islands,1,British Virgin Islands,
+the Jefferson City,1,Missouri,
+the Pasco County,1,Florida,
+the Pulaski Pound,1,,TRUE
+The Stark County Dog,1,,TRUE
+the Sunshine State,1,Florida,
+Thelma,1,,TRUE
+Turkey,1,,
+Tusla,1,Oklahoma,
+Tuxedo,1,New York,
+Union,1,South Carolina,
+Us,1,,TRUE
+Veguita,1,New Mexico,
+Warren County,1,North Carolina,
+Waveland,1,Mississippi,
+West Berlin,1,New Jersey,
+West County,1,Arizona,
+West Hills,1,,TRUE
+West Nashville,1,Tennessee,
+Whitman,1,,TRUE
+Williamsburg,1,Missouri,
+Wilming,1,North Carolina,
+Wonderland,1,,TRUE
+Wooster,1,Ohio,
+Yangsan,1,South Korea,
+Yazmin,1,,TRUE
+Yongin,1,South Korea,
+Zazu,1,,TRUE

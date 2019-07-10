@@ -1,0 +1,41 @@
+cleanNLP-package        cleanNLP: A Tidy Data Model for Natural
+                        Language Processing
+cnlp_annotate           Run the annotation pipeline on a set of
+                        documents
+cnlp_combine_documents
+                        Combine a set of annotations
+cnlp_download_corenlp   Download java files needed for CoreNLP
+cnlp_download_udpipe    Download model files needed for udpipe
+cnlp_extract_documents
+                        Extract documents from an annotation object
+cnlp_get_coreference    Access coreferences from an annotation object
+cnlp_get_dependency     Access dependencies from an annotation object
+cnlp_get_document       Access document meta data from an annotation
+                        object
+cnlp_get_entity         Access named entities from an annotation object
+cnlp_get_sentence       Access sentence-level annotations
+cnlp_get_token          Access tokens from an annotation object
+cnlp_get_vector         Access word embedding vector from an annotation
+                        object
+cnlp_init_corenlp       Interface for initializing the corenlp backend
+cnlp_init_spacy         Interface for initializing the spacy backend
+cnlp_init_tokenizers    Interface for initializing the tokenizers
+                        backend
+cnlp_init_udpipe        Interface for initializing the udpipe backend
+cnlp_quick              Quickly Compute Data Frame of Annotations
+cnlp_read_conll         Reads a CoNLL-U or CoNLL-X File
+cnlp_read_csv           Read annotation files from disk
+cnlp_utils_pca          Compute Principal Components and store as a
+                        Data Frame
+cnlp_utils_tfidf        Construct the TF-IDF Matrix from Annotation or
+                        Data Frame
+cnlp_write_conll        Returns a CoNLL-U Document
+cnlp_write_csv          Write annotation files to disk
+dep_frequency           Universal Dependency Frequencies
+obama                   Annotation of Barack Obama's State of the Union
+                        Addresses
+pos_frequency           Universal Part of Speech Code Frequencies
+print.annotation        Print a summary of an annotation object
+renamed                 Renamed functions
+un                      Universal Declaration of Human Rights
+word_frequency          Most frequent English words

@@ -1,0 +1,597 @@
+---
+title: "PetFinder API Exploration"
+author: "Your Name"
+date: "Last updated: `r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  puddingR::puddingTheme:
+    toc: true
+    code_folding: "show"
+    number_sections: "false"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+A few weeks ago, I was walking with a friend and discussing how hard it is to adopt a dog in Seattle. The thing is, Seattle is such a dog-friendly area, that rescue dogs go incredibly quickly. So much so that many rescues actually *import* dogs in need of homes from other states and sometimes other countries. 
+
+### Load Packages
+
+
+```{r load_packages, message = FALSE}
+# I recommend always loading these
+
+# For general data cleaning and analysis
+library(tidyverse)
+library(glue)
+library(tibble)
+library(googledrive)
+
+# For keeping your files in relative directories
+library(here)
+
+# For dates
+library(lubridate)
+
+# For downloading data
+library(jsonlite)
+library(httr)
+library(data.table)
+
+# For NLP
+library(reticulate)
+library(cleanNLP)
+library(spacyr)
+
+```
+
+## Accessing the API
+
+I was having some trouble getting the `PetfindeR` package working, so I'll try to manually access the PetFinder API. 
+
+```{r setup_auth, eval = FALSE}
+# access saved username and key
+user <- Sys.getenv("PF_ID")
+pw <- Sys.getenv("PF_PW")
+
+# generate new token each session
+tokenURL <- "https://api.petfinder.com/v2/oauth2/token"
+auth <- POST(url = "https://api.petfinder.com/v2/oauth2/token",
+                   body = list(grant_type = "client_credentials",
+                               client_id = user, client_secret = pw),
+                   encode = "json")
+
+token <- content(auth)$access_token
+```
+
+Let's test out a hard-coded request for dogs in the Seattle area that are adoptable.
+```{r eval = FALSE}
+baseURL <- "https://api.petfinder.com/v2/animals?"
+seattlePups <- GET(url = paste0(baseURL, "type=dog&status=adoptable"),
+                   add_headers(Authorization = paste("Bearer", token)))
+pups <- content(seattlePups)$animals
+
+pupAttr <- pups %>% 
+  {
+    tibble(
+      id = map_chr(., "id", .default = NA),
+      org_id = map_chr(., "organization_id", .default = NA),
+      url = map_chr(., "url", .default = NA),
+      type = map_chr(., "type", .default = NA),
+      species = map_chr(., "species", .default = NA),
+      breed_primary = map_chr(., c(6, 1), .default = NA),
+      breed_secondary = map_chr(., c(6, 2), .default = NA),
+      breed_mixed = map_lgl(., c(6, 3), .default = NA),
+      breed_unknown = map_chr(., c(6, 4), .default = NA),
+      color_primary = map_chr(., c(7, 1), .default = NA),
+      color_secondary = map_chr(., c(7, 2), .default = NA),
+      color_tertiary = map_chr(., c(7, 3), .default = NA),
+      age = map_chr(., "age", .default = NA),
+      sex = map_chr(., "gender", .default = NA),
+      size = map_chr(., "size", .default = NA),
+      coat = map_chr(., "coat", .default = NA),
+      fixed = map_lgl(., c(12, 1), .default = NA),
+      house_trained = map_lgl(., c(12, 2), .default = NA),
+      declawed = map_lgl(., c(12, 3), .default = NA),
+      special_needs = map_lgl(., c(12, 4), .default = NA),
+      shots_current = map_lgl(., c(12, 5), .default = NA),
+      env_children = map_lgl(., c(13, 1), .default = NA),
+      env_dogs = map_lgl(., c(13, 2), .default = NA),
+      env_cats = map_lgl(., c(13, 3), .default = NA),
+      name = map_chr(., "name", .default = NA),
+      description = map_chr(., "description", .default = NA),
+      tags = map(., "tags", .default = NA_character_), 
+      photo = map_chr(., c(17, 1, 4), .default = NA_character_),
+      status = map_chr(., "status", .default = NA),
+      posted = map_chr(., "published_at", .default = NA),
+      contact_city = map_chr(., c(20, 3, 3), .default = NA), 
+      contact_state = map_chr(., c(20, 3, 4), .default = NA), 
+      contact_zip = map_chr(., c(20, 3, 5), .default = NA),
+      contact_country = map_chr(., c(20, 3, 6), .default = NA)
+    )
+  }
+
+flatAttr <- pupAttr %>% 
+  rowwise() %>% 
+  mutate(tags = paste(unlist(tags), collapse = "|"))
+  
+
+write.csv(flatAttr, here::here("assets", "data", "raw_data", "test.csv"), row.names = FALSE)
+
+test <- read.csv(here::here("assets", "data", "raw_data", "test.csv"))
+
+pup_df <- purrr::map_dfr(pups, .f = function(x) {
+  rlist::list.flatten(x) %>%
+    rbind.data.frame(deparse.level = 0, stringsAsFactors = F)
+})
+```
+
+Ok, so the above works, now to make this into a function that we can run. 
+
+```{r}
+# Pings API and accesses results
+accessResults <- function(state, start_page = 1){
+  base <- "https://api.petfinder.com/v2/animals?"
+  req <- GET(url = paste0(base, "type=dog&status=adoptable&limit=100&location=", state, "&page=", start_page), add_headers(Authorization = paste("Bearer", token)))
+  
+ req
+}
+
+# Cleans results, converts to data frame and exports to file
+cleanResults <- function(results, state){
+  animals <- content(results)$animals
+  
+  # Flatten results to df
+  pupAttr <- animals %>% 
+    {
+      tibble(
+        id = map_chr(., "id", .default = NA),
+        org_id = map_chr(., "organization_id", .default = NA),
+        url = map_chr(., "url", .default = NA),
+        type = map_chr(., "type", .default = NA),
+        species = map_chr(., "species", .default = NA),
+        breed_primary = map_chr(., c(6, 1), .default = NA),
+        breed_secondary = map_chr(., c(6, 2), .default = NA),
+        breed_mixed = map_lgl(., c(6, 3), .default = NA),
+        breed_unknown = map_chr(., c(6, 4), .default = NA),
+        color_primary = map_chr(., c(7, 1), .default = NA),
+        color_secondary = map_chr(., c(7, 2), .default = NA),
+        color_tertiary = map_chr(., c(7, 3), .default = NA),
+        age = map_chr(., "age", .default = NA),
+        sex = map_chr(., "gender", .default = NA),
+        size = map_chr(., "size", .default = NA),
+        coat = map_chr(., "coat", .default = NA),
+        fixed = map_lgl(., c(12, 1), .default = NA),
+        house_trained = map_lgl(., c(12, 2), .default = NA),
+        declawed = map_lgl(., c(12, 3), .default = NA),
+        special_needs = map_lgl(., c(12, 4), .default = NA),
+        shots_current = map_lgl(., c(12, 5), .default = NA),
+        env_children = map_lgl(., c(13, 1), .default = NA),
+        env_dogs = map_lgl(., c(13, 2), .default = NA),
+        env_cats = map_lgl(., c(13, 3), .default = NA),
+        name = map_chr(., "name", .default = NA),
+        description = map_chr(., "description", .default = NA),
+        tags = map(., "tags", .default = NA_character_), 
+        photo = map_chr(., c(17, 1, 4), .default = NA_character_),
+        status = map_chr(., "status", .default = NA),
+        posted = map_chr(., "published_at", .default = NA),
+        contact_city = map_chr(., c(20, 3, 3), .default = NA), 
+        contact_state = map_chr(., c(20, 3, 4), .default = NA), 
+        contact_zip = map_chr(., c(20, 3, 5), .default = NA),
+        contact_country = map_chr(., c(20, 3, 6), .default = NA)
+      )
+    }
+
+  # tag list to vector
+  pup_df <- pupAttr %>% 
+    rowwise() %>% 
+    mutate(tags = paste(unlist(tags), collapse = "|")) %>% 
+    mutate(stateQ = state,
+           accessed = lubridate::today())
+  
+  fileName = here::here("assets", "data", "raw_data", glue::glue("{state}_dogs.csv"))
+  
+  # Write to file
+  write.table(pup_df, file = fileName, row.names = FALSE, append = TRUE, sep = ",", col.names = !file.exists(fileName))
+}
+
+# Function to loop through for remaining pages
+findOtherPages <- function(state, start_page){
+  req <- accessResults(state, start_page)
+  cleanResults(req, state)
+}
+
+findDogs <- function(state){
+  
+  req <- accessResults(state, start_page = 1)
+  
+  max_pages <- content(req)$pagination$total_pages
+  
+  cleanResults(req, state)
+  
+  # Loop through the remaining pages
+  pages <- c(2:max_pages)
+  argList <- list(state = state, pages = pages)
+  args <- cross_df(argList)
+  
+  purrr::walk2(args$state, args$pages, findOtherPages)
+}
+```
+
+```{r}
+waTest <- accessResults("WA")
+waRes <- cleanResults(waTest, "WA")
+```
+
+
+Let's test this with Washington state
+
+```{r eval = FALSE}
+start <- c("WA", "NY", "TX", "MA")
+purrr::walk(start, findDogs)
+
+## Let's see how many states we get through
+states <- state.abb[!state.abb %in% start]
+
+purrr::walk(states, findDogs)
+```
+
+Well, it looks like we managed to make it through all the states! Let's load the data in
+```{r eval = FALSE, message = FALSE}
+# read all files in and bind them together
+dogs <- purrr::map_dfr(state.abb, .f = function(state){
+  location <- here::here("assets", "data", "raw_data", glue::glue("{state}_dogs.csv"))
+  read_csv(location, col_names = TRUE,
+           cols(
+             .default = col_character(),
+             breed_mixed = col_logical(),
+             breed_unknown = col_logical(), 
+             fixed = col_logical(),
+             house_trained = col_logical(),
+             declawed = col_logical(),
+             special_needs = col_logical(),
+             shots_current = col_logical(),
+             env_children = col_logical(),
+             env_dogs = col_logical(),
+             env_cats = col_logical()
+           )) 
+})
+
+# write to file
+write.csv(dogs, here::here("assets", "data", "raw_data", "allDogs.csv"), row.names = FALSE)
+```
+
+```{r load_data, echo = FALSE}
+dogs <- read.csv(here::here("assets", "data", "raw_data", "allDogs.csv"), stringsAsFactors = FALSE, header = TRUE)
+```
+
+Let's clean this up a bit
+```{r}
+dogsTrim <- dogs %>% 
+  # calculate days on PetFinder
+  mutate(posted = ymd_hms(posted), 
+         accessed = ymd(accessed),
+         stayLength = lubridate::time_length(interval(
+          start = posted,
+          end = accessed
+        ), "days"),
+        stayLength = ceiling(stayLength)) %>% 
+  distinct(id, .keep_all = TRUE) 
+
+write_csv(dogsTrim, here::here("assets", "data", "processed_data", "dogsTrim.csv"))
+
+## Skip below for now
+  # Find price of adoption 
+  mutate(price = str_extract_all(description, "\\$[0-9]+", simplify = FALSE),
+         mentionedStates = str_extract_all(description, state.name, simplify = TRUE)) 
+
+
+avgStay <- dogsTrim %>% 
+  group_by(contact_state) %>% 
+  summarise(avg = median(stayLength, na.rm = FALSE)) 
+
+sub <- tail(dogsTrim, 100)
+```
+
+Alright, so apparently the descriptions returned by the API are purposefully truncated, but we will need that data. So, we can scrape it. 
+
+```{r eval = FALSE}
+findDescription <- function(url, id, .pb = NULL){
+	if ((!is.null(.pb)) && inherits(.pb, "Progress") && (.pb$i < .pb$n)) .pb$tick()$print()
+
+	Sys.sleep(0.01)
+
+  parsedURL <- read_html(url)
+  
+  pages_data <- parsedURL %>% 
+    # The '.' indicates the class
+    html_nodes('pfdc-content-touts , #Site :nth-child(5) .u-vr4x') %>% 
+    # Extract the link
+    html_text() %>% 
+    # Into a tibble
+    enframe(value = "fullDes", name = NULL) %>% 
+    mutate(id = id) %>% 
+    mutate(fullDes = gsub("\n", "", fullDes),
+           fullDes = trimws(fullDes)) %>% 
+    filter(fullDes != "", fullDes != " ")
+  
+  fileName = here::here("assets", "data", "raw_data", "all_descriptions.csv")
+  
+  # Write to file
+  write.table(pages_data, file = fileName, row.names = FALSE, append = TRUE, sep = ",", col.names = !file.exists(fileName))
+  
+}
+
+possiblyFindDes <- possibly(findDescription, otherwise = NA)
+pb <- progress_estimated(nrow(dogsTrim))
+purrr::walk2(dogsTrim$url, dogsTrim$id, .f = possiblyFindDes, .pb = pb)
+```
+
+
+```{r echo = FALSE}
+descriptions <- read_csv(here::here("assets", "data", "raw_data", "all_descriptions.csv"))
+```
+```{r}
+prices <- descriptions %>% 
+  mutate(price = str_extract_all(fullDes, "\\$[0-9]+", simplify = FALSE),
+         from = str_extract_all(fullDes, "from (.*?)[.?!]", simplify = FALSE)) %>% 
+  unnest(from) %>% 
+  mutate(onlyFrom = gsub("to(.*?)[.?!]", "", from))
+```
+
+Alright, my above attempt didn't really work. Let's try some named entity recognition using `spacyr`. 
+
+```{r}
+use_condaenv("spacy_condaenv", required = TRUE)
+cnlp_init_spacy()
+sub <- head(descriptions, 100)
+
+test <- descriptions[49250, ]$fullDes
+anno <- spacy_parse(copy, dependency = TRUE)
+ent <- spacy_extract_entity(copy, extended = TRUE) %>% 
+  filter(ent_type == "MONEY" | ent_type == "GPE")
+
+entitySub <- cnlp_annotate(test) %>% 
+  cnlp_get_entity(.) %>% 
+  filter(entity_type == "GPE") 
+
+dependencies <- cnlp_get_dependency(anno) %>% 
+  left_join(cnlp_get_document(anno)) %>% 
+  filter(relation == "dobj") %>% 
+  select(id = id, start = word, word = lemma_target)
+
+```
+
+
+Let's use some regex to limit the text to words following `from` and preceding `to`, so that if the sentence reads `I came all the way from Texas to Washington` only `from Texas` will be captured.
+
+```{r find_from}
+fromDet <- descriptions %>% 
+  mutate(price = str_extract_all(fullDes, "\\$[0-9]+", simplify = FALSE),
+         from = str_extract_all(fullDes, "from (.*?)[.?!]", simplify = FALSE)) %>% 
+  unnest(from) %>% 
+  mutate(onlyFrom = gsub("to(.*?)[.?!]", "", from))
+```
+
+Now using the named entity recognition in `spacyr`, I'll write a function to look for named entities in the extracted text.
+
+```{r}
+labelEntities <- function(text, id){
+  ent <- spacy_extract_entity(text, extended = TRUE) 
+  
+  if (!is.null(ent)){
+    tags <- ent %>% 
+      filter(ent_type == "GPE") %>%      
+      mutate(id = id)
+
+  
+    fileName = here::here("assets", "data", "processed_data", "from_locations.csv")
+  
+    # Write to file
+    write.table(tags, file = fileName, row.names = FALSE, append = TRUE, sep = ",", col.names = !file.exists(fileName))
+  }
+}
+
+fromLoc <- purrr::walk2(fromDet$onlyFrom, fromDet$id, labelEntities)
+```
+
+```{r echo = FALSE}
+fromLoc <- read_csv(here::here("assets", "data", "processed_data", "from_locations.csv"))
+```
+Now to manually clean up some of those location names
+
+```{r}
+totalLoc <- fromLoc %>% 
+  mutate(revisedLoc = ifelse(is.na(state.name[match(text, state.abb)]), text, state.name[match(text, state.abb)])) %>% 
+  count(revisedLoc, sort = TRUE)
+
+write_csv(totalLoc, here::here("assets", "data", "processed_data", "sum_locations.csv"))
+
+```
+
+```{r eval = FALSE}
+# upload to google drive
+folder <- as_dribble(as_id("1egKvQvptatpY6hveSrK3JbLj77FhaeGC"))
+upload <- drive_upload(
+  here::here("assets", "data", "processed_data", "sum_locations.csv"),
+  folder,
+  name = "locations",
+  type = "spreadsheet"
+)
+```
+Alright, location names have been cleaned, let's try to join the data now. 
+
+```{r}
+googleLoc <- as_id("https://docs.google.com/spreadsheets/d/1nwtU9KUU-cC_KYHaj3w82eaoWPyK5SY30FfRRWSAXf0/edit#gid=1245307350")
+drive_download(
+  file = googleLoc,
+  path = here::here("assets", "data", "processed_data", "cleaned_locations.csv"), 
+  overwrite = TRUE
+)
+
+manualLoc <- read_csv(here::here("assets", "data", "processed_data", "cleaned_locations.csv"))
+```
+
+```{r cleaning_locations}
+cleanLoc <- fromLoc %>% 
+  left_join(manualLoc, by = c("text" = "revisedLoc")) %>% 
+  filter(is.na(remove)) %>% 
+  mutate(cleanLoc = ifelse(is.na(clean), text, clean)) %>% 
+  mutate(cleanLoc = ifelse(is.na(state.name[match(cleanLoc, state.abb)]), cleanLoc, state.name[match(cleanLoc, state.abb)])) 
+
+countLoc <- cleanLoc %>% 
+  count(cleanLoc) %>% 
+  mutate(percent = (n / nrow(fromLoc)) * 100)
+```
+
+Now it's time to have a quick look to see if there are any other listings that didn't list animals as being `from` a place, but maybe instead said they are `located in` a place. 
+
+```{r find_located_in}
+fromLocatedIn <- descriptions %>% 
+  mutate(located = str_extract_all(fullDes, "\\w*(?<!families|organization) located in (.*?)[.?!]", simplify = FALSE)) %>% 
+  unnest(located) %>% 
+  mutate(onlyFrom = gsub("(.*?)[.?!,]", "", located))
+
+check <- fromLocatedIn[362,]$fullDes
+```
+
+Alright, now to extract any named entities from these:
+
+```{r label_from_loc}
+labelLoc <- function(text, id){
+  ent <- spacy_extract_entity(text, extended = TRUE) 
+  
+  if (!is.null(ent)){
+    tags <- ent %>% 
+      filter(ent_type == "GPE") %>%      
+      mutate(id = id)
+
+  
+    fileName = here::here("assets", "data", "processed_data", "from_locations2.csv")
+  
+    # Write to file
+    write.table(tags, file = fileName, row.names = FALSE, append = TRUE, sep = ",", col.names = !file.exists(fileName))
+  }
+}
+
+purrr::walk2(fromLocatedIn$located, fromLocatedIn$id, labelLoc)
+```
+
+Let's see where these entities were
+
+```{r read_entity}
+entityLabels <- read_csv(here::here("assets", "data", "processed_data", "from_locations2.csv"))
+
+countEnt <- entityLabels %>% 
+  mutate(cleanLoc = ifelse(is.na(state.name[match(text, state.abb)]), text, state.name[match(text, state.abb)])) %>% 
+  count(cleanLoc) %>% 
+  # only keep new entities not manually entered already
+  anti_join(manualLoc, by = c("cleanLoc" = "revisedLoc"))
+
+write_csv(countEnt, here::here("assets", "data", "processed_data", "sum_locations2.csv"))
+```
+
+And let's upload this new spreadsheet to Google Drive for manual cleaning.
+
+```{r eval = FALSE}
+# upload to google drive
+folder <- as_dribble(as_id("1egKvQvptatpY6hveSrK3JbLj77FhaeGC"))
+upload <- drive_upload(
+  here::here("assets", "data", "processed_data", "sum_locations2.csv"),
+  folder,
+  name = "locations2",
+  type = "spreadsheet"
+)
+```
+Alright, location names have been cleaned, let's try to join the data now. 
+
+```{r}
+googleLoc2 <- as_id("https://docs.google.com/spreadsheets/d/1pqZUDV6VvcLb0PyS5NtnNMKFmdJ_NF9D1bvOg7axBCk/edit#gid=661573596")
+drive_download(
+  file = googleLoc2,
+  path = here::here("assets", "data", "processed_data", "cleaned_locations2.csv"),
+  overwrite = TRUE
+)
+
+manualLoc2 <- read_csv(here::here("assets", "data", "processed_data", "cleaned_locations2.csv"))
+```
+Now I'll combine both of the extracted text (that is, both the entities derived from text that started with `from` and text that started with `located in`.)
+
+```{r}
+allExtractions <- rbind(fromLoc, entityLabels)
+allManual <- rbind(manualLoc, manualLoc2)
+  
+# join with manually cleaned entities 
+cleanedExtractions <- allExtractions %>% 
+  left_join(allManual, by = c("text" = "revisedLoc")) %>% 
+  filter(is.na(remove)) %>% 
+  mutate(cleanLoc = ifelse(is.na(clean), text, clean)) %>% 
+  mutate(cleanLoc = ifelse(is.na(state.name[match(cleanLoc, state.abb)]), cleanLoc, state.name[match(cleanLoc, state.abb)])) 
+
+extractByID <- cleanedExtractions %>% 
+  select(c(id, cleanLoc)) %>% 
+  group_by(id) %>% 
+  distinct(cleanLoc, .keep_all = TRUE)
+
+# keep only those with more than one distinct location listed for an id
+multipleLoc <- extractByID %>% 
+  summarise(count = n()) %>% 
+  filter(count > 1)
+
+singleLoc <- extractByID %>% 
+  summarise(count = n()) %>% 
+  filter(count == 1)
+
+# prepare data for manual cleaning
+multipleLocManual <- extractByID %>% 
+  filter(id %in% multipleLoc$id) %>% 
+  arrange(desc(id))
+
+write_csv(multipleLocManual, here::here("assets", "data", "processed_data", "multiple_loc.csv"))
+```
+
+Now to export this to Google Docs for some manual cleaning.
+
+```{r eval = FALSE}
+# upload to google drive
+folder <- as_dribble(as_id("1egKvQvptatpY6hveSrK3JbLj77FhaeGC"))
+upload <- drive_upload(
+  here::here("assets", "data", "processed_data", "multiple_loc.csv"),
+  folder,
+  name = "multiple_loc",
+  type = "spreadsheet"
+)
+```
+```{r}
+googleLoc3 <- as_id("https://docs.google.com/spreadsheets/d/1ap7ekGBsyNjz4iu9JBSNOTFTP2QdSSgtT0RCfKTbsDE/edit#gid=133697577")
+drive_download(
+  file = googleLoc3,
+  path = here::here("assets", "data", "processed_data", "cleaned_multLoc.csv"),
+  overwrite = TRUE
+)
+
+cleanedMultLoc <- read_csv(here::here("assets", "data", "processed_data", "cleaned_multLoc.csv"))
+```
+Now, I'll remove any of the listings with multiple locations from our `extractByID` data frame:
+
+```{r}
+singleLocEntity <- extractByID %>% 
+  filter(id %in% singleLoc$id) %>% 
+  ungroup()
+```
+
+and we'll bind this to the `singleLocEntity` data frame. 
+
+```{r}
+multLocNarrowed <- cleanedMultLoc %>% 
+  filter(keep == "TRUE") %>% 
+  select(-keep) %>% 
+  ungroup()
+
+allFrom <- rbind(singleLocEntity, multLocNarrowed)
+
+write_csv(allFrom, here::here("assets", "data", "processed_data", "allFrom.csv"))
+```
+
