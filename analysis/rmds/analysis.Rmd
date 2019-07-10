@@ -88,7 +88,7 @@ fromTo <- outOfState %>%
 DT::datatable(fromTo, rownames = FALSE, filter = "top", options = list(pageLength = 10, scrollX = TRUE))
 ```
 
-Alright so `r fromTo[1, ]$cleanLoc` to `r fromTo[1, ]$contactStateFull` is the most common route. 
+Alright so `r fromTo[1, ]$from` to `r fromTo[1, ]$to` is the most common route. 
 
 ### Most Exported
 
@@ -180,7 +180,7 @@ percentImportsAll <- perStateAll %>%
 ggplot(percentImportsAll, aes(x = reorder(contact_state_full, percentImported), y = percentImported )) + 
   geom_bar(stat = "identity") + 
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
-  ylab("Count of Imported Adoptable Dogs") + 
+  ylab("Percentage of Imported Adoptable Dogs") + 
   xlab("State or Country Importing Animals")
 ```
 
