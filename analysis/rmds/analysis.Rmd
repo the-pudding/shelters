@@ -184,6 +184,8 @@ ggplot(percentImportsAll, aes(x = reorder(contact_state_full, percentImported), 
   xlab("State or Country Importing Animals")
 ```
 
+Alright, so it seems like my gut feeling was spot-on, Washington state is importing the highest percentage of dogs from out of state. 
+
 ### Available for Adoption vs. Exports
 
 While running the above calculations, I stumbled upon something seemingly interested. In the state of Texas, there are 418 animals available for adoption. But, Texas has *exported* 661 animals to other states for adoption. That is, they are supplying more animals to other parts of the country than to their own. Are any other states doing this? 
