@@ -34,6 +34,9 @@ library(lubridate)
 
 # For interactive/searchable tables in your report
 library(DT)
+
+# For state populations
+library(tidycensus)
 ```
 
 ### Load Data
@@ -202,3 +205,142 @@ head(adoptionVExport)
 ```
 
 Looks, like Texas and Hawaii are the only states sending more animals out of state than it retains in the state. Though, Hawaii only exported one more animal than it made available, Texas exported `r adoptionVExport[1, ]$diff * -1` more dogs than are available for adoption (with descriptions).
+
+### Dogs per Human Population
+
+Jan suggested looking at dogs available for adoption per capita (i.e., in comparison to the state's population). 
+
+```{r}
+statePop <- tidycensus::get_estimates(
+  geography = "state",
+  product = "population",
+  year = 2018
+) %>% 
+  filter(variable == "POP") %>% 
+  left_join(perStateAll, by = c("NAME" = "contact_state_full")) %>% 
+  rename(adoptableDogs = n, humanPop = value) %>% 
+  mutate(perTenThousand = humanPop/10000,
+         dogsPerTenThousand = adoptableDogs/perTenThousand) %>% 
+  arrange(desc(dogsPerTenThousand)) %>% 
+  select(-c("GEOID", "variable"))
+```
+
+```{r echo = FALSE}
+DT::datatable(statePop, rownames = FALSE, filter = "top", options = list(pageLength = 10, scrollX = TRUE))
+```
+This only includes dogs available for adoption in that state. 
+
+
+### Animal characteristics imported
+
+A few of the resouces that I've started reading make references that rescues that import dogs from other places, may import specific breeds or ages that may be more desireable to people in those locations. Let's see if that holds up.
+
+#### Breed
+
+What breeds do people typically import from out of state? This question might be easiest answered if we look at % of mixed breeds first.
+
+```{r}
+mixedBreed <- outOfState %>% 
+  filter(breed_primary != "Mixed Breed") %>% 
+  count(breed_mixed)
+
+mixedBreedAll <- dogsTrim %>% 
+  filter(breed_primary != "Mixed Breed") %>% 
+  count(breed_mixed)
+```
+
+So, as expected, mixed breeds make up the vast majority of dogs imported from out of state. `r round((mixedBreed[2,2] / (mixedBreed[1,2] + mixedBreed[2,2])) * 100)$n`% of imported dogs were mixed breed (compared to `r round((mixedBreedAll[2,2] / (mixedBreedAll[1,2] + mixedBreedAll[2,2])) * 100)$n`% of the in-state adoptions). 
+
+What are the top purebreds imported?
+
+```{r}
+importedPureBreds <- outOfState %>% 
+  filter(breed_mixed == "FALSE" & breed_primary != "Mixed Breed") %>% 
+  count(breed_primary, sort = TRUE)
+```
+```{r echo = FALSE}
+DT::datatable(importedPureBreds, rownames = FALSE, filter = "top", options = list(pageLength = 10, scrollX = TRUE))
+```
+
+Interesting, German Shepherds (a large dog) are often imported, followed by Chihuahuas (a small dog). 
+
+We can try looking at the top primary breeds for imported dogs and see if it's similar. 
+
+```{r}
+topBreeds <- outOfState %>% 
+  filter(breed_mixed == "TRUE") %>% 
+  count(breed_primary, sort = TRUE)
+```
+```{r echo = FALSE}
+DT::datatable(topBreeds, rownames = FALSE, filter = "top", options = list(pageLength = 10, scrollX = TRUE))
+```
+
+Let's see if imported breeds vary by state. 
+
+```{r}
+# Find top 3 breeds imported by state
+top3State <- outOfState %>% 
+  group_by(contact_state_full) %>% 
+  count(breed_primary, sort = TRUE) %>% 
+  top_n(3) %>% 
+  mutate(rank = row_number()) %>% 
+  rename(imported = n, importBreed = breed_primary)
+
+# Find top 3 breeds out of all up for adoption by state
+top3StateAll <- dogsTrim %>% 
+  # keep only dogs that had descriptions 
+  filter(id %in% descriptions$id) %>% 
+  mutate(contact_state_full = ifelse(is.na(state.name[match(contact_state, state.abb)]), contact_state, state.name[match(contact_state, state.abb)])) %>% 
+  group_by(contact_state_full) %>% 
+  count(breed_primary, sort = TRUE) %>% 
+  top_n(3) %>% 
+  filter(!grepl("[[:digit:]]", contact_state_full)) %>% 
+  mutate(rank = row_number()) %>% 
+  rename(overall = n, overallBreed = breed_primary)
+
+compareTop3 <- left_join(top3State, top3StateAll, by = c("contact_state_full", "rank")) %>% 
+  filter(!is.na(overall)) %>% 
+  select(-rank) %>% 
+  # remove any imports under 5 for a breed
+  filter(imported >= 5) %>% 
+  arrange(contact_state_full)
+```
+```{r echo = FALSE}
+DT::datatable(compareTop3, rownames = FALSE, filter = "top", options = list(pageLength = 10, scrollX = TRUE))
+```
+
+## Additional Pieces of Information
+
+There is lots of other information that I could analyze. 
+
+**Data I already have**: 
+
+- For all animals in the above dataset:
+
+  - Name
+  - Breed
+  - Age
+  - Sex
+  - Size
+  - Coat Color
+  - Coat Length
+  - Good with Kids/Dogs/Cats
+  - Whether dog is special needs
+  - Whether they're current on their shots
+  - A photo
+  - Time between the posting of an animal on PetFinder and when I pulled the data
+  
+**Data I can relatively easily acquire**:
+
+- For many of the animals in the above dataset
+
+  - Adoption fee
+  
+**Data from Other Sources I can maybe get**:
+
+- Live outcome (vs. euthanasia or deaths) in shelters by state for 2018 or Q1 2019 (available from [Shelter Animals Count](https://shelteranimalscount.org/)). - *free* 
+- Live outcome (vs. euthanasia or deaths) for each shelter for 2011 to Q1 2019 (available from [Shelter Animals Count](https://shelteranimalscount.org/)). - *$2500 for a one-time download*
+- Pet Ownership Statistics by State for 2017-2018 (available from the [American Veterinary Medical Association](https://ebusiness.avma.org/ProductCatalog/product.aspx?ID=1531)) - *1500 for one-time download*
+- Pet Ownership Statistics by State for 2019-2020 (available from the [American Pet Products Association](https://www.americanpetproducts.org/pubs_survey.asp)) - *$3500 for one-time download*
+- Statistics on Pet Care in Underserved Communities (from [Pets for Life](https://www.animalsheltering.org/sites/default/files/content/2017%20Data%20Report_0.pdf)) - *report is free, unclear if underlying data is available*
+- Why pets are rehomed (from [academic paper](http://file.scirp.org/pdf/OJAS_2015100914300959.pdf)) - *unknown if underlying data is available*
