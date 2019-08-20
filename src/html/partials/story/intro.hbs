@@ -11,4 +11,19 @@
 	{{#each doc.intro}}
 		<p class='prose-intro'>{{{value}}}</p>
 	{{/each}}
+
+	<div class='intro-dog'>
+		<img class='intro-dog_image'>
+		<div class='intro-dog_out'>
+			{{#each doc.dogDescOut}}
+				<p class='prose-block'>{{{value}}}</p>
+			{{/each}}
+		</div>
+
+		<div class='intro-dog_in'>
+			{{#each doc.dogDescIn}}
+				<p class='prose-block'>{{{value}}}</p>
+			{{/each}}
+		</div>
+	</div>
 </section>

@@ -579,11 +579,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* global d3 */
 // reader parameters
-var readerState = 'Washington'; // updating text selections
+var readerState = 'Maine'; // updating text selections
 
 var $section = d3.selectAll('.intro');
-var $state = d3.selectAll('.userState');
-var $name = d3.selectAll('.exampleDog'); // constants
+var $state = $section.selectAll('.userState');
+var $name = $section.selectAll('.exampleDog');
+var $pOut = $section.selectAll('.intro-dog_out');
+var $pIn = $section.selectAll('.intro-dog_in');
+var $img = $section.selectAll('.intro-dog_image'); // constants
 
 var exampleDogs = null;
 var readerDog = null;
@@ -594,10 +597,19 @@ function filterDogs() {
   }); // update state
 
   $state.text(readerState);
-  $name.text(readerDog[0].name);
-  console.log({
-    readerDog: readerDog
-  });
+  $name.text(readerDog[0].name); // show appropriate text
+
+  if (readerDog[0].imported === "TRUE") {
+    $pOut.classed('is-visible', true);
+    $pIn.classed('is-visible', false);
+  } else {
+    $pOut.classed('is-visible', false);
+    $pIn.classed('is-visible', true);
+  } // add dog image
+
+
+  $img.attr('src', readerDog[0].image);
+  console.log(readerDog[0].image);
 } // code for determining user's location and subsequent data
 
 
