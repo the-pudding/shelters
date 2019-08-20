@@ -73,6 +73,19 @@ outOfState <- dogsTrim %>%
     same = ifelse(contact_state_full == cleanLoc, TRUE, FALSE)) %>% 
   filter(same == FALSE) %>% 
   filter(contact_state_full %notin% removeID)
+
+stateCenters <- as_tibble(state.name) %>% 
+  cbind(as_tibble(state.center))
+
+dogsStateCenters <- outOfState %>% 
+  left_join(stateCenters, by = c("cleanLoc" = "value")) %>% 
+  rename(startX = x, startY = y) %>% 
+  left_join(stateCenters, by = c("contact_state_full" = "value")) %>% 
+  rename(longitude = x, latitude = y) %>% 
+  filter(!is.na(latitude),
+         !is.na(longitude))
+
+write.csv(dogsStateCenters, here::here("assets", "data", "processed_data", "dogsStateCenters.csv"), row.names = FALSE)
 ```
 Ok, so `r nrow(outOfState)` dogs (`r (nrow(outOfState) / nrow(descriptions)) * 100`%) of dogs with written descriptions, have come from out of state. 
 
@@ -344,3 +357,24 @@ There is lots of other information that I could analyze.
 - Pet Ownership Statistics by State for 2019-2020 (available from the [American Pet Products Association](https://www.americanpetproducts.org/pubs_survey.asp)) - *$3500 for one-time download*
 - Statistics on Pet Care in Underserved Communities (from [Pets for Life](https://www.animalsheltering.org/sites/default/files/content/2017%20Data%20Report_0.pdf)) - *report is free, unclear if underlying data is available*
 - Why pets are rehomed (from [academic paper](http://file.scirp.org/pdf/OJAS_2015100914300959.pdf)) - *unknown if underlying data is available*
+
+
+### Test
+
+```{r}
+ggplot(dogsTrim, aes(x = stayLength)) + 
+  geom_histogram(stat = "bin", binwidth = 50)
+```
+```{r}
+ggplot(dogsTrim, aes(x = size, y = stayLength)) + 
+  geom_boxplot(stat = "boxplot")
+```
+```{r}
+dogSize <- dogsTrim %>% 
+  filter(age == "Adult") %>% 
+  group_by(size) %>% 
+  summarise(avgStayLength = mean(stayLength, na.rm = TRUE),
+            count = n())
+  
+```
+
