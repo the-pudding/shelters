@@ -527,7 +527,45 @@ var isMobile = {
 };
 var _default = isMobile;
 exports.default = _default;
-},{}],"TAPd":[function(require,module,exports) {
+},{}],"load-data.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = loadData;
+
+/* global d3 */
+
+/* usage
+	import loadData from './load-data'
+	loadData().then(result => {
+
+	}).catch(console.error)
+*/
+function loadJSON(file) {
+  return new Promise(function (resolve, reject) {
+    d3.json("assets/data/".concat(file)).then(function (result) {
+      // clean here
+      resolve(result);
+    }).catch(reject);
+  });
+}
+
+function loadCSV(file) {
+  return new Promise(function (resolve, reject) {
+    d3.csv("assets/data/".concat(file)).then(function (result) {
+      // clean here
+      resolve(result);
+    }).catch(reject);
+  });
+}
+
+function loadData() {
+  var loads = [loadJSON('exampleDogs.json')];
+  return Promise.all(loads);
+}
+},{}],"graphic.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -535,11 +573,41 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _loadData = _interopRequireDefault(require("./load-data"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /* global d3 */
+// reader parameters
+var readerState = 'Washington'; // updating text selections
+
+var $section = d3.selectAll('.intro');
+var $state = d3.selectAll('.userState');
+var $name = d3.selectAll('.exampleDog'); // constants
+
+var exampleDogs = null;
+var readerDog = null;
+
+function filterDogs() {
+  readerDog = exampleDogs.filter(function (d) {
+    return d.current === readerState;
+  }); // update state
+
+  $state.text(readerState);
+  $name.text(readerDog[0].name);
+  console.log({
+    readerDog: readerDog
+  });
+} // code for determining user's location and subsequent data
+
+
 function resize() {}
 
 function init() {
-  console.log('Make something awesome!');
+  (0, _loadData.default)().then(function (result) {
+    exampleDogs = result[0];
+    filterDogs();
+  }).catch(console.error);
 }
 
 var _default = {
@@ -547,7 +615,7 @@ var _default = {
   resize: resize
 };
 exports.default = _default;
-},{}],"v9Q8":[function(require,module,exports) {
+},{"./load-data":"load-data.js"}],"v9Q8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -646,7 +714,7 @@ var _default = {
   init: init
 };
 exports.default = _default;
-},{}],"epB2":[function(require,module,exports) {
+},{}],"main.js":[function(require,module,exports) {
 "use strict";
 
 var _lodash = _interopRequireDefault(require("lodash.debounce"));
@@ -704,5 +772,5 @@ function init() {
 }
 
 init();
-},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"TAPd","./footer":"v9Q8"}]},{},["epB2"], null)
+},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"graphic.js","./footer":"v9Q8"}]},{},["main.js"], null)
 //# sourceMappingURL=/main.js.map
