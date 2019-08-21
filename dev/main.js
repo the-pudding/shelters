@@ -579,14 +579,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* global d3 */
 // reader parameters
-var readerState = 'Maine'; // updating text selections
+var readerState = 'New York'; // updating text selections
 
 var $section = d3.selectAll('.intro');
 var $state = $section.selectAll('.userState');
 var $name = $section.selectAll('.exampleDog');
 var $pOut = $section.selectAll('.intro-dog_out');
 var $pIn = $section.selectAll('.intro-dog_in');
-var $img = $section.selectAll('.intro-dog_image'); // constants
+var $img = $section.selectAll('.intro-dog_image');
+var $inCount = $section.selectAll('.inTotal');
+var $outCount = $section.selectAll('.outTotal');
+var $total = $section.selectAll('.stateTotal');
+var $pupHerHis = $section.selectAll('.herhis');
+var $pupSheHe = $section.selectAll('.shehe'); // constants
 
 var exampleDogs = null;
 var readerDog = null;
@@ -605,8 +610,17 @@ function filterDogs() {
   } else {
     $pOut.classed('is-visible', false);
     $pIn.classed('is-visible', true);
-  } // add dog image
+  } // update counts
 
+
+  $inCount.text(readerDog[0].count_imported);
+  $outCount.text(readerDog[0].count_exported);
+  $total.text(readerDog[0].total); // update pronouns
+
+  var pupPronoun = readerDog[0].sex;
+  console.log(pupPronoun);
+  $pupHerHis.text(pupPronoun === 'm' ? 'his' : 'her');
+  $pupSheHe.text(pupPronoun === 'm' ? 'he' : 'she'); // add dog image
 
   $img.attr('src', readerDog[0].image);
   console.log(readerDog[0].image);

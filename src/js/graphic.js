@@ -2,7 +2,7 @@
 import loadData from './load-data'
 
 // reader parameters
-const readerState = 'Maine'
+const readerState = 'New York'
 
 // updating text selections
 const $section = d3.selectAll('.intro')
@@ -11,6 +11,12 @@ const $name = $section.selectAll('.exampleDog')
 const $pOut = $section.selectAll('.intro-dog_out')
 const $pIn = $section.selectAll('.intro-dog_in')
 const $img = $section.selectAll('.intro-dog_image')
+const $inCount = $section.selectAll('.inTotal')
+const $outCount = $section.selectAll('.outTotal')
+const $total = $section.selectAll('.stateTotal')
+const $pupHerHis = $section.selectAll('.herhis')
+const $pupSheHe = $section.selectAll('.shehe')
+
 
 
 // constants
@@ -32,6 +38,17 @@ function filterDogs(){
     $pOut.classed('is-visible', false)
     $pIn.classed('is-visible', true)
   }
+
+  // update counts
+  $inCount.text(readerDog[0].count_imported)
+  $outCount.text(readerDog[0].count_exported)
+  $total.text(readerDog[0].total)
+
+  // update pronouns
+  const pupPronoun = readerDog[0].sex
+  console.log(pupPronoun)
+  $pupHerHis.text(pupPronoun === 'm' ? 'his' : 'her')
+  $pupSheHe.text(pupPronoun === 'm' ? 'he' : 'she')
 
   // add dog image
   $img.attr('src', readerDog[0].image)
