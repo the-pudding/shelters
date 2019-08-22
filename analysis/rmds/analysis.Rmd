@@ -74,6 +74,12 @@ outOfState <- dogsTrim %>%
   filter(same == FALSE) %>% 
   filter(contact_state_full %notin% removeID)
 
+outOfStateExport <- outOfState %>% 
+  select(c("id", "breed_primary", "breed_secondary", "age", "sex", "name", "cleanLoc", "contact_state_full", "size")) %>% 
+  rename("final_state" = "cleanLoc", "original_state" = "contact_state_full")
+
+puddingR::export_data(outOfStateExport, "exportedDogs", directory = "../../src/assets/data/")
+
 stateCenters <- as_tibble(state.name) %>% 
   cbind(as_tibble(state.center))
 

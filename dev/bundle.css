@@ -348,6 +348,88 @@ sup {
 sub {
   bottom: -0.25em;
 }
+.exported .exported-figure {
+  position: relative;
+}
+.exported .figure-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  max-width: 54rem;
+  margin: 0 auto;
+  height: 500px;
+  overflow: hidden;
+}
+.exported .figure-container.is-expanded {
+  height: auto;
+  -webkit-transition: height 300ms ease-in-out;
+  transition: height 300ms ease-in-out;
+  overflow: none;
+}
+.exported .figure-container .state {
+  margin: 1rem 1.5rem;
+  width: 15rem;
+}
+.exported .figure-container .state-name {
+  font-family: 'National 2 Web';
+  font-size: 24px;
+  text-align: center;
+  margin: 0.5rem 0;
+}
+.exported .figure-container .container-mini {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.exported .figure-container .container-mini .dog {
+  width: 20px;
+  height: 20px;
+  background-image: url("assets/images/pinkDog.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: 0.1rem;
+}
+.exported .bttn-wrapper {
+  max-width: 5.5rem;
+  margin: 0 auto;
+  cursor: pointer;
+}
+.exported .bttn-wrapper .show-more {
+  font-family: 'National 2 Web';
+  text-transform: uppercase;
+  color: #949494;
+  border: 1px solid #c9c9c9;
+  padding: 0.25rem;
+  width: 100%;
+  display: none;
+  font-size: 14px;
+}
+.exported .bttn-wrapper .show-more:hover {
+  background-color: rgba(201,201,201,0.1);
+}
+.exported .bttn-wrapper .show-more.is-visible {
+  display: inline-block;
+}
+.exported .transparency {
+  position: absolute;
+  width: 100%;
+  height: 5rem;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(249,249,247,0)), to(#f9f9f7));
+  background: linear-gradient(rgba(249,249,247,0), #f9f9f7);
+  bottom: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.exported .transparency.is-visible {
+  visibility: visible;
+}
 footer.pudding-footer {
   padding: 3rem 1rem;
   border-top: 4px solid #000;
@@ -819,5 +901,25 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
 }
 .intro .intro-dog_in.is-visible {
   display: block;
+}
+.figure-meta {
+  max-width: 50rem;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+.figure-title {
+  font-family: 'Tiempos Text Web';
+  font-size: 28px;
+  color: #352418;
+  text-align: center;
+}
+.figure-title span {
+  color: #df753c;
+  font-weight: bold;
+}
+.figure-sub {
+  font-family: 'National 2 Web';
+  font-size: 18px;
+  text-align: center;
 }
 /*# sourceMappingURL=bundle.css.map */

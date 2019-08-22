@@ -2,6 +2,7 @@
 import debounce from 'lodash.debounce';
 import isMobile from './utils/is-mobile';
 import graphic from './graphic';
+import exported from './exported-dogs';
 import footer from './footer';
 
 const $body = d3.select('body');
@@ -39,6 +40,7 @@ function init() {
   setupStickyHeader();
   // kick off graphic code
   graphic.init();
+  exported.init();
   // load footer stories
   footer.init();
 }

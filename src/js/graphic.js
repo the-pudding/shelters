@@ -1,12 +1,12 @@
 /* global d3 */
-import loadData from './load-data'
+import load from './load-data'
 
 // reader parameters
-const readerState = 'New York'
+const readerState = 'Washington'
 
 // updating text selections
 const $section = d3.selectAll('.intro')
-const $state = $section.selectAll('.userState')
+const $state = d3.selectAll('.userState')
 const $name = $section.selectAll('.exampleDog')
 const $pOut = $section.selectAll('.intro-dog_out')
 const $pIn = $section.selectAll('.intro-dog_in')
@@ -21,6 +21,7 @@ const $pupSheHe = $section.selectAll('.shehe')
 
 // constants
 let exampleDogs = null
+let exportedDogs = null
 let readerDog = null
 
 function filterDogs(){
@@ -46,25 +47,21 @@ function filterDogs(){
 
   // update pronouns
   const pupPronoun = readerDog[0].sex
-  console.log(pupPronoun)
   $pupHerHis.text(pupPronoun === 'm' ? 'his' : 'her')
   $pupSheHe.text(pupPronoun === 'm' ? 'he' : 'she')
 
   // add dog image
   $img.attr('src', readerDog[0].image)
-  console.log(readerDog[0].image)
 }
-
-
 
 
 // code for determining user's location and subsequent data
 function resize() {}
 
 function init() {
-  loadData()
+  load.loadJSON('exampleDogs.json')
     .then(result => {
-      exampleDogs = result[0]
+      exampleDogs = result
       filterDogs()
     })
     .catch(console.error)

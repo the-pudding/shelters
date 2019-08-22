@@ -527,13 +527,13 @@ var isMobile = {
 };
 var _default = isMobile;
 exports.default = _default;
-},{}],"load-data.js":[function(require,module,exports) {
+},{}],"xZJw":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = loadData;
+exports.default = void 0;
 
 /* global d3 */
 
@@ -555,17 +555,29 @@ function loadJSON(file) {
 function loadCSV(file) {
   return new Promise(function (resolve, reject) {
     d3.csv("assets/data/".concat(file)).then(function (result) {
-      // clean here
       resolve(result);
     }).catch(reject);
   });
 }
 
-function loadData() {
-  var loads = [loadJSON('exampleDogs.json')];
-  return Promise.all(loads);
+function loadExamples() {
+  loadJSON('exampleDogs.json');
 }
-},{}],"graphic.js":[function(require,module,exports) {
+
+function loadExported() {
+  loadCSV('exportedDogs.csv');
+}
+
+var _default = {
+  loadCSV: loadCSV,
+  loadJSON: loadJSON // export default function loadData() {
+  //   const loads = [loadJSON('exampleDogs.json'), loadCSV('exportedDogs.csv')];
+  //   return Promise.all(loads);
+  // }
+
+};
+exports.default = _default;
+},{}],"TAPd":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -579,10 +591,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* global d3 */
 // reader parameters
-var readerState = 'New York'; // updating text selections
+var readerState = 'Washington'; // updating text selections
 
 var $section = d3.selectAll('.intro');
-var $state = $section.selectAll('.userState');
+var $state = d3.selectAll('.userState');
 var $name = $section.selectAll('.exampleDog');
 var $pOut = $section.selectAll('.intro-dog_out');
 var $pIn = $section.selectAll('.intro-dog_in');
@@ -594,6 +606,7 @@ var $pupHerHis = $section.selectAll('.herhis');
 var $pupSheHe = $section.selectAll('.shehe'); // constants
 
 var exampleDogs = null;
+var exportedDogs = null;
 var readerDog = null;
 
 function filterDogs() {
@@ -618,20 +631,18 @@ function filterDogs() {
   $total.text(readerDog[0].total); // update pronouns
 
   var pupPronoun = readerDog[0].sex;
-  console.log(pupPronoun);
   $pupHerHis.text(pupPronoun === 'm' ? 'his' : 'her');
   $pupSheHe.text(pupPronoun === 'm' ? 'he' : 'she'); // add dog image
 
   $img.attr('src', readerDog[0].image);
-  console.log(readerDog[0].image);
 } // code for determining user's location and subsequent data
 
 
 function resize() {}
 
 function init() {
-  (0, _loadData.default)().then(function (result) {
-    exampleDogs = result[0];
+  _loadData.default.loadJSON('exampleDogs.json').then(function (result) {
+    exampleDogs = result;
     filterDogs();
   }).catch(console.error);
 }
@@ -641,7 +652,151 @@ var _default = {
   resize: resize
 };
 exports.default = _default;
-},{"./load-data":"load-data.js"}],"v9Q8":[function(require,module,exports) {
+},{"./load-data":"xZJw"}],"HYmN":[function(require,module,exports) {
+/*
+ USAGE (example: line chart)
+ 1. c+p this template to a new file (line.js)
+ 2. change puddingChartName to puddingChartLine
+ 3. in graphic file: import './pudding-chart/line'
+ 4a. const charts = d3.selectAll('.thing').data(data).puddingChartLine();
+ 4b. const chart = d3.select('.thing').datum(datum).puddingChartLine();
+*/
+d3.selection.prototype.exportsByState = function init(options) {
+  function createChart(el) {
+    var $sel = d3.select(el);
+
+    var _data = $sel.datum(); // dimension stuff
+
+
+    var width = 0;
+    var height = 0;
+    var marginTop = 0;
+    var marginBottom = 0;
+    var marginLeft = 0;
+    var marginRight = 0; // scales
+
+    var scaleX = null;
+    var scaleY = null; // dom elements
+
+    var $svg = null;
+    var $axis = null;
+    var $vis = null;
+    var $containerMini = null; // helper functions
+
+    var Chart = {
+      // called once at start
+      init: function init() {
+        var $title = $sel.append('p').attr('class', 'state-name').text(_data.key);
+        $containerMini = $sel.append('div').attr('class', 'container-mini');
+        Chart.resize();
+        Chart.render();
+      },
+      // on resize, update new dimensions
+      resize: function resize() {
+        // defaults to grabbing dimensions from container element
+        // width = $sel.node().offsetWidth - marginLeft - marginRight;
+        // height = $sel.node().offsetHeight - marginTop - marginBottom;
+        // $svg
+        // 	.attr('width', width + marginLeft + marginRight)
+        // 	.attr('height', height + marginTop + marginBottom);
+        return Chart;
+      },
+      // update scales and render chart
+      render: function render() {
+        $containerMini.selectAll('.dog').data(_data.values).enter().append('div').attr('class', 'dog');
+        return Chart;
+      },
+      // get / set data
+      data: function data(val) {
+        if (!arguments.length) return _data;
+        _data = val;
+        $sel.datum(_data);
+        Chart.render();
+        return Chart;
+      }
+    };
+    Chart.init();
+    return Chart;
+  } // create charts
+
+
+  var charts = this.nodes().map(createChart);
+  return charts.length > 1 ? charts : charts.pop();
+};
+},{}],"exported-dogs.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _loadData = _interopRequireDefault(require("./load-data"));
+
+require("./pudding-chart/exports-template");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* global d3 */
+// reader parameters
+var readerState = 'Washington'; // updating text selections
+
+var $section = d3.selectAll('.exported');
+var $container = $section.selectAll('.figure-container');
+var $moreButton = $section.select('.show-more');
+var $transparency = $section.select('.transparency'); // constants
+
+var exportedDogs = null;
+var charts = null;
+
+function setupExpand() {
+  $moreButton.on('click', function () {
+    var truncated = !$container.classed('is-expanded');
+    var text = truncated ? 'Show Fewer' : 'Show All';
+    $moreButton.text(text);
+    $container.classed('is-expanded', truncated);
+
+    if (!truncated) {
+      var y = +$moreButton.attr('data-y');
+      window.scrollTo(0, y);
+    }
+
+    $moreButton.attr('data-y', window.scrollY);
+    $transparency.classed('is-visible', !truncated);
+  });
+}
+
+function filterDogs() {
+  // filter exported dogs
+  var filteredExports = exportedDogs.filter(function (d) {
+    return d.final_state === readerState;
+  });
+  var nestedExports = d3.nest().key(function (d) {
+    return d.original_state;
+  }).entries(filteredExports).sort(function (a, b) {
+    return d3.descending(a.values.length, b.values.length);
+  });
+  charts = $container.selectAll('.state').data(nestedExports).enter().append('div').attr('class', 'state').exportsByState();
+} // code for determining user's location and subsequent data
+
+
+function resize() {}
+
+function init() {
+  _loadData.default.loadCSV('exportedDogs.csv').then(function (result) {
+    exportedDogs = result;
+    filterDogs(); // setup interaction with show more button
+
+    setupExpand();
+  }).catch(console.error);
+}
+
+var _default = {
+  init: init,
+  resize: resize
+};
+exports.default = _default;
+},{"./load-data":"xZJw","./pudding-chart/exports-template":"HYmN"}],"v9Q8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -740,7 +895,7 @@ var _default = {
   init: init
 };
 exports.default = _default;
-},{}],"main.js":[function(require,module,exports) {
+},{}],"epB2":[function(require,module,exports) {
 "use strict";
 
 var _lodash = _interopRequireDefault(require("lodash.debounce"));
@@ -748,6 +903,8 @@ var _lodash = _interopRequireDefault(require("lodash.debounce"));
 var _isMobile = _interopRequireDefault(require("./utils/is-mobile"));
 
 var _graphic = _interopRequireDefault(require("./graphic"));
+
+var _exportedDogs = _interopRequireDefault(require("./exported-dogs"));
 
 var _footer = _interopRequireDefault(require("./footer"));
 
@@ -791,12 +948,14 @@ function init() {
 
   setupStickyHeader(); // kick off graphic code
 
-  _graphic.default.init(); // load footer stories
+  _graphic.default.init();
+
+  _exportedDogs.default.init(); // load footer stories
 
 
   _footer.default.init();
 }
 
 init();
-},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"graphic.js","./footer":"v9Q8"}]},{},["main.js"], null)
+},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"TAPd","./exported-dogs":"exported-dogs.js","./footer":"v9Q8"}]},{},["epB2"], null)
 //# sourceMappingURL=/main.js.map
