@@ -577,7 +577,7 @@ var _default = {
 
 };
 exports.default = _default;
-},{}],"graphic.js":[function(require,module,exports) {
+},{}],"TAPd":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -591,7 +591,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* global d3 */
 // reader parameters
-var readerState = 'New York'; // updating text selections
+var readerState = null; // updating text selections
 
 var $section = d3.selectAll('.intro');
 var $state = d3.selectAll('.userState');
@@ -608,6 +608,11 @@ var $pupSheHe = $section.selectAll('.shehe'); // constants
 var exampleDogs = null;
 var exportedDogs = null;
 var readerDog = null;
+
+function updateLocation(loc) {
+  readerState = loc;
+  filterDogs();
+}
 
 function filterDogs() {
   readerDog = exampleDogs.filter(function (d) {
@@ -640,8 +645,12 @@ function filterDogs() {
 
 function resize() {}
 
-function init() {
+function init(loc) {
   _loadData.default.loadJSON('exampleDogs.json').then(function (result) {
+    console.log({
+      loc: loc
+    });
+    readerState = loc;
     exampleDogs = result;
     filterDogs();
   }).catch(console.error);
@@ -649,7 +658,8 @@ function init() {
 
 var _default = {
   init: init,
-  resize: resize
+  resize: resize,
+  updateLocation: updateLocation
 };
 exports.default = _default;
 },{"./load-data":"xZJw"}],"pudding-chart/exports-template.js":[function(require,module,exports) {
@@ -665,11 +675,8 @@ d3.selection.prototype.exportsByState = function init(options) {
   function createChart(el) {
     var $sel = d3.select(el);
 
-    var _data = $sel.datum();
+    var _data = $sel.datum(); // dimension stuff
 
-    console.log({
-      data: _data
-    }); // dimension stuff
 
     var width = 0;
     var height = 0;
@@ -689,8 +696,6 @@ d3.selection.prototype.exportsByState = function init(options) {
     var Chart = {
       // called once at start
       init: function init() {
-        var $title = $sel.append('p').attr('class', 'state-name').text(_data.key);
-        $containerMini = $sel.append('div').attr('class', 'container-mini');
         Chart.resize();
         Chart.render();
       },
@@ -706,19 +711,38 @@ d3.selection.prototype.exportsByState = function init(options) {
       },
       // update scales and render chart
       render: function render() {
-        var sorted = _data.values.sort(function (a, b) {
-          return d3.ascending(a.size, b.size);
-        }).sort(function (a, b) {
-          return d3.ascending(a.file, b.file);
-        });
+        var $state = $sel.selectAll('.state').data(_data).join(function (enter) {
+          var state = enter.append('div').attr('class', 'state');
+          var $title = state.append('p').attr('class', 'state-name').text(function (d) {
+            return d.key;
+          });
+          var $container = state.append('div').attr('class', 'container-mini');
+          $container.selectAll('.dog').data(function (d) {
+            return d.values;
+          }).enter().append('div').attr('class', 'dog').style('background-image', function (d) {
+            return "url(assets/images/profiles/".concat(d.file, ".png)");
+          });
+        }, function (exit) {
+          exit.remove();
+        }); //
+        // const sorted = data.values
+        // 	.sort((a, b) => d3.ascending(a.size, b.size))
+        // 	.sort((a,b) => {
+        // 		return d3.ascending(a.file, b.file)
+        // 	})
+        // $containerMini.selectAll('.dog')
+        // 	.data(sorted)
+        // 	.join(
+        // 		enter => {
+        // 			enter.append('div')
+        // 				.attr('class', 'dog')
+        // 				.style('background-image', d => `url(assets/images/profiles/${d.file}.png)`)
+        // 		},
+        // 		exit => {
+        // 			exit.remove()
+        // 		}
+        // 	)
 
-        console.log({
-          data: _data,
-          sorted: sorted
-        });
-        $containerMini.selectAll('.dog').data(sorted).enter().append('div').attr('class', 'dog').style('background-image', function (d) {
-          return "url(assets/images/profiles/".concat(d.file, ".png)");
-        });
         return Chart;
       },
       // get / set data
@@ -754,7 +778,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* global d3 */
 // reader parameters
-var readerState = 'New York'; // updating text selections
+var readerState = null; // updating text selections
 
 var $section = d3.selectAll('.exported');
 var $container = $section.selectAll('.figure-container');
@@ -781,6 +805,19 @@ function setupExpand() {
   });
 }
 
+function updateLocation(loc) {
+  readerState = loc;
+  var filteredExports = exportedDogs.filter(function (d) {
+    return d.final_state === readerState;
+  });
+  var nestedExports = d3.nest().key(function (d) {
+    return d.original_state;
+  }).entries(filteredExports).sort(function (a, b) {
+    return d3.descending(a.values.length, b.values.length);
+  });
+  charts.data(nestedExports); //filterDogs()
+}
+
 function filterDogs() {
   // filter exported dogs
   var filteredExports = exportedDogs.filter(function (d) {
@@ -791,14 +828,15 @@ function filterDogs() {
   }).entries(filteredExports).sort(function (a, b) {
     return d3.descending(a.values.length, b.values.length);
   });
-  charts = $container.selectAll('.state').data(nestedExports).enter().append('div').attr('class', 'state').exportsByState();
+  charts = $section.select('.figure-container').datum(nestedExports).exportsByState();
 } // code for determining user's location and subsequent data
 
 
 function resize() {}
 
-function init() {
+function init(loc) {
   _loadData.default.loadCSV('exportedDogs.csv').then(function (result) {
+    readerState = loc;
     exportedDogs = result;
     filterDogs(); // setup interaction with show more button
 
@@ -808,7 +846,8 @@ function init() {
 
 var _default = {
   init: init,
-  resize: resize
+  resize: resize,
+  updateLocation: updateLocation
 };
 exports.default = _default;
 },{"./load-data":"xZJw","./pudding-chart/exports-template":"pudding-chart/exports-template.js"}],"v9Q8":[function(require,module,exports) {
@@ -910,6 +949,171 @@ var _default = {
   init: init
 };
 exports.default = _default;
+},{}],"osrT":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = [{
+  state: 'Alabama',
+  abbr: 'AL'
+}, {
+  state: 'Alaska',
+  abbr: 'AK'
+}, {
+  state: 'Arizona',
+  abbr: 'AZ'
+}, {
+  state: 'Arkansas',
+  abbr: 'AR'
+}, {
+  state: 'California',
+  abbr: 'CA'
+}, {
+  state: 'Colorado',
+  abbr: 'CO'
+}, {
+  state: 'Connecticut',
+  abbr: 'CT'
+}, {
+  state: 'Delaware',
+  abbr: 'DE'
+}, {
+  state: 'District of Columbia',
+  abbr: 'DC'
+}, {
+  state: 'Florida',
+  abbr: 'FL'
+}, {
+  state: 'Georgia',
+  abbr: 'GA'
+}, {
+  state: 'Hawaii',
+  abbr: 'HI'
+}, {
+  state: 'Idaho',
+  abbr: 'ID'
+}, {
+  state: 'Illinois',
+  abbr: 'IL'
+}, {
+  state: 'Indiana',
+  abbr: 'IN'
+}, {
+  state: 'Iowa',
+  abbr: 'IA'
+}, {
+  state: 'Kansas',
+  abbr: 'KS'
+}, {
+  state: 'Kentucky',
+  abbr: 'KY'
+}, {
+  state: 'Louisiana',
+  abbr: 'LA'
+}, {
+  state: 'Maine',
+  abbr: 'ME'
+}, {
+  state: 'Montana',
+  abbr: 'MT'
+}, {
+  state: 'Nebraska',
+  abbr: 'NE'
+}, {
+  state: 'Nevada',
+  abbr: 'NV'
+}, {
+  state: 'New Hampshire',
+  abbr: 'NH'
+}, {
+  state: 'New Jersey',
+  abbr: 'NJ'
+}, {
+  state: 'New Mexico',
+  abbr: 'NM'
+}, {
+  state: 'New York',
+  abbr: 'NY'
+}, {
+  state: 'North Carolina',
+  abbr: 'NC'
+}, {
+  state: 'North Dakota',
+  abbr: 'ND'
+}, {
+  state: 'Ohio',
+  abbr: 'OH'
+}, {
+  state: 'Oklahoma',
+  abbr: 'OK'
+}, {
+  state: 'Oregon',
+  abbr: 'OR'
+}, {
+  state: 'Maryland',
+  abbr: 'MD'
+}, {
+  state: 'Massachusetts',
+  abbr: 'MA'
+}, {
+  state: 'Michigan',
+  abbr: 'MI'
+}, {
+  state: 'Minnesota',
+  abbr: 'MN'
+}, {
+  state: 'Mississippi',
+  abbr: 'MS'
+}, {
+  state: 'Missouri',
+  abbr: 'MO'
+}, {
+  state: 'Pennsylvania',
+  abbr: 'PA'
+}, {
+  state: 'Rhode Island',
+  abbr: 'RI'
+}, {
+  state: 'South Carolina',
+  abbr: 'SC'
+}, {
+  state: 'South Dakota',
+  abbr: 'SD'
+}, {
+  state: 'Tennessee',
+  abbr: 'TN'
+}, {
+  state: 'Texas',
+  abbr: 'TX'
+}, {
+  state: 'Utah',
+  abbr: 'UT'
+}, {
+  state: 'Vermont',
+  abbr: 'VT'
+}, {
+  state: 'Virginia',
+  abbr: 'VA'
+}, {
+  state: 'Washington',
+  abbr: 'WA'
+}, {
+  state: 'West Virginia',
+  abbr: 'WV'
+}, {
+  state: 'Wisconsin',
+  abbr: 'WI'
+}, {
+  state: 'Wyoming',
+  abbr: 'WY'
+}, {
+  state: 'Washington DC',
+  abbr: 'DC'
+}];
+exports.default = _default;
 },{}],"epB2":[function(require,module,exports) {
 "use strict";
 
@@ -923,11 +1127,15 @@ var _exportedDogs = _interopRequireDefault(require("./exported-dogs"));
 
 var _footer = _interopRequireDefault(require("./footer"));
 
+var _usStateData = _interopRequireDefault(require("./utils/us-state-data"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* global d3 */
 var $body = d3.select('body');
 var previousWidth = 0;
+var $dropdown = d3.selectAll('.stateSelect');
+var readerState = 'Washington';
 
 function resize() {
   // only do resize on width changes, not height
@@ -939,6 +1147,30 @@ function resize() {
 
     _graphic.default.resize();
   }
+}
+
+function setupStateDropdown() {
+  var justStates = _usStateData.default.map(function (d) {
+    return d.state;
+  });
+
+  $dropdown.selectAll('option').data(justStates).enter().append('option').attr('value', function (d) {
+    return d;
+  }).text(function (d) {
+    return d;
+  }).property('selected', function (d) {
+    return d === readerState;
+  });
+  $dropdown.on('change', function (d) {
+    readerState = this.value;
+    updateLocation();
+  });
+}
+
+function updateLocation() {
+  _graphic.default.updateLocation(readerState);
+
+  _exportedDogs.default.updateLocation(readerState);
 }
 
 function setupStickyHeader() {
@@ -963,14 +1195,16 @@ function init() {
 
   setupStickyHeader(); // kick off graphic code
 
-  _graphic.default.init();
+  setupStateDropdown();
 
-  _exportedDogs.default.init(); // load footer stories
+  _graphic.default.init(readerState);
+
+  _exportedDogs.default.init(readerState); // load footer stories
 
 
   _footer.default.init();
 }
 
 init();
-},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"graphic.js","./exported-dogs":"exported-dogs.js","./footer":"v9Q8"}]},{},["epB2"], null)
+},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"TAPd","./exported-dogs":"exported-dogs.js","./footer":"v9Q8","./utils/us-state-data":"osrT"}]},{},["epB2"], null)
 //# sourceMappingURL=/main.js.map

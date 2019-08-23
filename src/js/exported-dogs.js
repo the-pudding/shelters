@@ -3,7 +3,7 @@ import load from './load-data'
 import './pudding-chart/exports-template'
 
 // reader parameters
-const readerState = 'New York'
+let readerState = null
 
 // updating text selections
 const $section = d3.selectAll('.exported')
@@ -33,6 +33,20 @@ function setupExpand(){
 	});
 }
 
+function updateLocation(loc){
+  readerState = loc
+
+  const filteredExports = exportedDogs.filter(d => d.final_state === readerState)
+
+  const nestedExports = d3.nest()
+    .key(d => d.original_state)
+    .entries(filteredExports)
+    .sort((a, b) => d3.descending(a.values.length, b.values.length))
+
+  charts.data(nestedExports)
+  //filterDogs()
+}
+
 function filterDogs(){
   // filter exported dogs
   const filteredExports = exportedDogs.filter(d => d.final_state === readerState)
@@ -42,12 +56,9 @@ function filterDogs(){
     .entries(filteredExports)
     .sort((a, b) => d3.descending(a.values.length, b.values.length))
 
-  charts = $container
-    .selectAll('.state')
-    .data(nestedExports)
-    .enter()
-    .append('div')
-    .attr('class', 'state')
+  charts = $section
+    .select('.figure-container')
+    .datum(nestedExports)
     .exportsByState()
 }
 
@@ -55,9 +66,10 @@ function filterDogs(){
 // code for determining user's location and subsequent data
 function resize() {}
 
-function init() {
+function init(loc) {
   load.loadCSV('exportedDogs.csv')
     .then(result => {
+      readerState = loc
       exportedDogs = result
       filterDogs()
 
@@ -67,4 +79,4 @@ function init() {
     .catch(console.error)
 }
 
-export default { init, resize };
+export default { init, resize, updateLocation };

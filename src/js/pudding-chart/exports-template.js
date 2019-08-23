@@ -11,7 +11,7 @@ d3.selection.prototype.exportsByState = function init(options) {
 	function createChart(el) {
 		const $sel = d3.select(el);
 		let data = $sel.datum();
-		console.log({data})
+
 		// dimension stuff
 		let width = 0;
 		let height = 0;
@@ -35,12 +35,7 @@ d3.selection.prototype.exportsByState = function init(options) {
 		const Chart = {
 			// called once at start
 			init() {
-				const $title = $sel.append('p')
-					.attr('class', 'state-name')
-					.text(data.key)
 
-				$containerMini = $sel.append('div')
-					.attr('class', 'container-mini')
 
 				Chart.resize();
 				Chart.render();
@@ -57,19 +52,55 @@ d3.selection.prototype.exportsByState = function init(options) {
 			},
 			// update scales and render chart
 			render() {
-				const sorted = data.values
-					.sort((a, b) => d3.ascending(a.size, b.size))
-					.sort((a,b) => {
-						return d3.ascending(a.file, b.file)
-					})
-				console.log({data, sorted})
+				const $state = $sel.selectAll('.state')
+					.data(data)
+					.join(
+						enter => {
+							const state = enter
+								.append('div')
+								.attr('class', 'state')
 
-				$containerMini.selectAll('.dog')
-					.data(sorted)
-					.enter()
-					.append('div')
-					.attr('class', 'dog')
-					.style('background-image', d => `url(assets/images/profiles/${d.file}.png)`)
+							const $title = state.append('p')
+								.attr('class', 'state-name')
+								.text(d => d.key)
+
+							const $container = state.append('div')
+								.attr('class', 'container-mini')
+
+							$container.selectAll('.dog')
+								.data(d => d.values)
+								.enter()
+								.append('div')
+								.attr('class', 'dog')
+								.style('background-image', d => `url(assets/images/profiles/${d.file}.png)`)
+						},
+						exit => {
+							exit.remove()
+						}
+					)
+
+
+				//
+				// const sorted = data.values
+				// 	.sort((a, b) => d3.ascending(a.size, b.size))
+				// 	.sort((a,b) => {
+				// 		return d3.ascending(a.file, b.file)
+				// 	})
+
+				// $containerMini.selectAll('.dog')
+				// 	.data(sorted)
+				// 	.join(
+				// 		enter => {
+				// 			enter.append('div')
+				// 				.attr('class', 'dog')
+				// 				.style('background-image', d => `url(assets/images/profiles/${d.file}.png)`)
+				// 		},
+				// 		exit => {
+				// 			exit.remove()
+				// 		}
+				// 	)
+
+
 
 				return Chart;
 			},

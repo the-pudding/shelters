@@ -2,7 +2,7 @@
 import load from './load-data'
 
 // reader parameters
-const readerState = 'New York'
+let readerState = null
 
 // updating text selections
 const $section = d3.selectAll('.intro')
@@ -23,6 +23,12 @@ const $pupSheHe = $section.selectAll('.shehe')
 let exampleDogs = null
 let exportedDogs = null
 let readerDog = null
+
+function updateLocation(loc){
+  readerState = loc
+  filterDogs()
+}
+
 
 function filterDogs(){
   readerDog = exampleDogs.filter(d => d.current === readerState)
@@ -58,13 +64,15 @@ function filterDogs(){
 // code for determining user's location and subsequent data
 function resize() {}
 
-function init() {
+function init(loc) {
   load.loadJSON('exampleDogs.json')
     .then(result => {
+      console.log({loc})
+      readerState = loc
       exampleDogs = result
       filterDogs()
     })
     .catch(console.error)
 }
 
-export default { init, resize };
+export default { init, resize, updateLocation };
