@@ -25,6 +25,7 @@ Data collection process can be found in `data_collection.Rmd` whereas analysis c
 ```{r load_packages}
 # For general data cleaning and analysis
 library(tidyverse)
+library(googledrive)
 
 # For keeping your files in relative directories
 library(here)
@@ -76,7 +77,12 @@ outOfState <- dogsTrim %>%
 
 outOfStateExport <- outOfState %>% 
   select(c("id", "breed_primary", "breed_secondary", "age", "sex", "name", "cleanLoc", "contact_state_full", "size")) %>% 
-  rename("final_state" = "cleanLoc", "original_state" = "contact_state_full")
+  rename("original_state" = "cleanLoc", "final_state" = "contact_state_full")
+
+importedBreeds <- outOfStateExport %>% 
+  count(breed_primary, sort = TRUE)
+
+puddingR::export_data(importedBreeds, "imported_breeds")
 
 puddingR::export_data(outOfStateExport, "exportedDogs", directory = "../../src/assets/data/")
 
@@ -93,6 +99,17 @@ dogsStateCenters <- outOfState %>%
 
 write.csv(dogsStateCenters, here::here("assets", "data", "processed_data", "dogsStateCenters.csv"), row.names = FALSE)
 ```
+```{r eval = FALSE}
+# upload to google drive
+folder <- as_dribble(as_id("1egKvQvptatpY6hveSrK3JbLj77FhaeGC"))
+upload <- drive_upload(
+  here::here("assets", "data", "processed_data", "imported_breeds.csv"),
+  folder,
+  name = "imported_breeds",
+  type = "spreadsheet"
+)
+```
+
 Ok, so `r nrow(outOfState)` dogs (`r (nrow(outOfState) / nrow(descriptions)) * 100`%) of dogs with written descriptions, have come from out of state. 
 
 ### Most common passages

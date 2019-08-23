@@ -389,9 +389,8 @@ sub {
           flex: 1;
 }
 .exported .figure-container .container-mini .dog {
-  width: 20px;
-  height: 20px;
-  background-image: url("assets/images/pinkDog.png");
+  width: 35px;
+  height: 35px;
   background-size: contain;
   background-repeat: no-repeat;
   margin: 0.1rem;

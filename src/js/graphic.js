@@ -2,7 +2,7 @@
 import load from './load-data'
 
 // reader parameters
-const readerState = 'Washington'
+const readerState = 'New York'
 
 // updating text selections
 const $section = d3.selectAll('.intro')

@@ -3,7 +3,7 @@ import load from './load-data'
 import './pudding-chart/exports-template'
 
 // reader parameters
-const readerState = 'Washington'
+const readerState = 'New York'
 
 // updating text selections
 const $section = d3.selectAll('.exported')

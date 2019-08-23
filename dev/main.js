@@ -577,7 +577,7 @@ var _default = {
 
 };
 exports.default = _default;
-},{}],"TAPd":[function(require,module,exports) {
+},{}],"graphic.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -591,7 +591,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* global d3 */
 // reader parameters
-var readerState = 'Washington'; // updating text selections
+var readerState = 'New York'; // updating text selections
 
 var $section = d3.selectAll('.intro');
 var $state = d3.selectAll('.userState');
@@ -652,7 +652,7 @@ var _default = {
   resize: resize
 };
 exports.default = _default;
-},{"./load-data":"xZJw"}],"HYmN":[function(require,module,exports) {
+},{"./load-data":"xZJw"}],"pudding-chart/exports-template.js":[function(require,module,exports) {
 /*
  USAGE (example: line chart)
  1. c+p this template to a new file (line.js)
@@ -665,8 +665,11 @@ d3.selection.prototype.exportsByState = function init(options) {
   function createChart(el) {
     var $sel = d3.select(el);
 
-    var _data = $sel.datum(); // dimension stuff
+    var _data = $sel.datum();
 
+    console.log({
+      data: _data
+    }); // dimension stuff
 
     var width = 0;
     var height = 0;
@@ -703,7 +706,19 @@ d3.selection.prototype.exportsByState = function init(options) {
       },
       // update scales and render chart
       render: function render() {
-        $containerMini.selectAll('.dog').data(_data.values).enter().append('div').attr('class', 'dog');
+        var sorted = _data.values.sort(function (a, b) {
+          return d3.ascending(a.size, b.size);
+        }).sort(function (a, b) {
+          return d3.ascending(a.file, b.file);
+        });
+
+        console.log({
+          data: _data,
+          sorted: sorted
+        });
+        $containerMini.selectAll('.dog').data(sorted).enter().append('div').attr('class', 'dog').style('background-image', function (d) {
+          return "url(assets/images/profiles/".concat(d.file, ".png)");
+        });
         return Chart;
       },
       // get / set data
@@ -739,7 +754,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /* global d3 */
 // reader parameters
-var readerState = 'Washington'; // updating text selections
+var readerState = 'New York'; // updating text selections
 
 var $section = d3.selectAll('.exported');
 var $container = $section.selectAll('.figure-container');
@@ -796,7 +811,7 @@ var _default = {
   resize: resize
 };
 exports.default = _default;
-},{"./load-data":"xZJw","./pudding-chart/exports-template":"HYmN"}],"v9Q8":[function(require,module,exports) {
+},{"./load-data":"xZJw","./pudding-chart/exports-template":"pudding-chart/exports-template.js"}],"v9Q8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -957,5 +972,5 @@ function init() {
 }
 
 init();
-},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"TAPd","./exported-dogs":"exported-dogs.js","./footer":"v9Q8"}]},{},["epB2"], null)
+},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"graphic.js","./exported-dogs":"exported-dogs.js","./footer":"v9Q8"}]},{},["epB2"], null)
 //# sourceMappingURL=/main.js.map
