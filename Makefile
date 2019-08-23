@@ -1,6 +1,6 @@
 .PHONY: setup
 
-setup: 
+setup:
 	curl -Lk https://github.com/russellgoldenberg/starter/archive/master.zip > temp.zip
 	unzip -q temp.zip
 	mv starter-master/* .
@@ -14,3 +14,10 @@ setup:
 	npm i
 	rm package-lock.json
 	npm run doc
+
+github:
+	rm -rf docs
+	cp -r dist/ docs
+	git add -A
+	git commit -m "update dev version"
+	git push
