@@ -37,7 +37,12 @@ function loadExported(){
   loadCSV('exportedDogs.csv')
 }
 
-export default {loadCSV, loadJSON}
+function loadMap(){
+  const loads = [loadCSV('loc_centers.csv'), loadCSV('movement_paths.csv')];
+  return Promise.all(loads);
+}
+
+export default {loadCSV, loadJSON, loadMap}
 
 // export default function loadData() {
 //   const loads = [loadJSON('exampleDogs.json'), loadCSV('exportedDogs.csv')];

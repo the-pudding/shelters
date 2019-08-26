@@ -527,7 +527,7 @@ var isMobile = {
 };
 var _default = isMobile;
 exports.default = _default;
-},{}],"xZJw":[function(require,module,exports) {
+},{}],"load-data.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -568,9 +568,15 @@ function loadExported() {
   loadCSV('exportedDogs.csv');
 }
 
+function loadMap() {
+  var loads = [loadCSV('loc_centers.csv'), loadCSV('movement_paths.csv')];
+  return Promise.all(loads);
+}
+
 var _default = {
   loadCSV: loadCSV,
-  loadJSON: loadJSON // export default function loadData() {
+  loadJSON: loadJSON,
+  loadMap: loadMap // export default function loadData() {
   //   const loads = [loadJSON('exampleDogs.json'), loadCSV('exportedDogs.csv')];
   //   return Promise.all(loads);
   // }
@@ -662,7 +668,7 @@ var _default = {
   updateLocation: updateLocation
 };
 exports.default = _default;
-},{"./load-data":"xZJw"}],"pudding-chart/exports-template.js":[function(require,module,exports) {
+},{"./load-data":"load-data.js"}],"HYmN":[function(require,module,exports) {
 /*
  USAGE (example: line chart)
  1. c+p this template to a new file (line.js)
@@ -762,7 +768,7 @@ d3.selection.prototype.exportsByState = function init(options) {
   var charts = this.nodes().map(createChart);
   return charts.length > 1 ? charts : charts.pop();
 };
-},{}],"exported-dogs.js":[function(require,module,exports) {
+},{}],"sOMx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -850,7 +856,7 @@ var _default = {
   updateLocation: updateLocation
 };
 exports.default = _default;
-},{"./load-data":"xZJw","./pudding-chart/exports-template":"pudding-chart/exports-template.js"}],"v9Q8":[function(require,module,exports) {
+},{"./load-data":"load-data.js","./pudding-chart/exports-template":"HYmN"}],"v9Q8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1114,7 +1120,44 @@ var _default = [{
   abbr: 'DC'
 }];
 exports.default = _default;
-},{}],"epB2":[function(require,module,exports) {
+},{}],"movement.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _loadData = _interopRequireDefault(require("./load-data"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// data
+var centers = null;
+var movement = null; // selections
+
+var $section = d3.selectAll('.movement');
+var $figure = $section.selectAll('.movement-figure');
+
+function resize() {}
+
+function init() {
+  _loadData.default.loadMap().then(function (result) {
+    centers = result[0];
+    movement = result[1];
+    console.log({
+      centers: centers,
+      movement: movement
+    });
+  }).catch(console.error);
+}
+
+var _default = {
+  init: init,
+  resize: resize
+};
+exports.default = _default;
+},{"./load-data":"load-data.js"}],"main.js":[function(require,module,exports) {
 "use strict";
 
 var _lodash = _interopRequireDefault(require("lodash.debounce"));
@@ -1128,6 +1171,8 @@ var _exportedDogs = _interopRequireDefault(require("./exported-dogs"));
 var _footer = _interopRequireDefault(require("./footer"));
 
 var _usStateData = _interopRequireDefault(require("./utils/us-state-data"));
+
+var _movement = _interopRequireDefault(require("./movement"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1199,12 +1244,14 @@ function init() {
 
   _graphic.default.init(readerState);
 
-  _exportedDogs.default.init(readerState); // load footer stories
+  _exportedDogs.default.init(readerState);
+
+  _movement.default.init(); // load footer stories
 
 
   _footer.default.init();
 }
 
 init();
-},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"TAPd","./exported-dogs":"exported-dogs.js","./footer":"v9Q8","./utils/us-state-data":"osrT"}]},{},["epB2"], null)
+},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"TAPd","./exported-dogs":"sOMx","./footer":"v9Q8","./utils/us-state-data":"osrT","./movement":"movement.js"}]},{},["main.js"], null)
 //# sourceMappingURL=/main.js.map

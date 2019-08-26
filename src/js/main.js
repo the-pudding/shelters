@@ -5,6 +5,7 @@ import graphic from './graphic';
 import exported from './exported-dogs';
 import footer from './footer';
 import states from './utils/us-state-data'
+import movement from './movement'
 
 const $body = d3.select('body');
 let previousWidth = 0;
@@ -67,6 +68,7 @@ function init() {
   setupStateDropdown()
   graphic.init(readerState);
   exported.init(readerState);
+  movement.init();
 
   // load footer stories
   footer.init();

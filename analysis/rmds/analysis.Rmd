@@ -38,6 +38,10 @@ library(DT)
 
 # For state populations
 library(tidycensus)
+
+# For mapping
+library(rgeos)
+library(rworldmap)
 ```
 
 ### Load Data
@@ -84,8 +88,6 @@ importedBreeds <- outOfStateExport %>%
 
 puddingR::export_data(importedBreeds, "imported_breeds")
 
-puddingR::export_data(outOfStateExport, "exportedDogs", directory = "../../src/assets/data/")
-
 stateCenters <- as_tibble(state.name) %>% 
   cbind(as_tibble(state.center))
 
@@ -93,9 +95,9 @@ dogsStateCenters <- outOfState %>%
   left_join(stateCenters, by = c("cleanLoc" = "value")) %>% 
   rename(startX = x, startY = y) %>% 
   left_join(stateCenters, by = c("contact_state_full" = "value")) %>% 
-  rename(longitude = x, latitude = y) %>% 
-  filter(!is.na(latitude),
-         !is.na(longitude))
+  rename(endX = x, endY = y) %>% 
+  filter(!is.na(startX),
+         !is.na(startY))
 
 write.csv(dogsStateCenters, here::here("assets", "data", "processed_data", "dogsStateCenters.csv"), row.names = FALSE)
 ```
@@ -109,6 +111,23 @@ upload <- drive_upload(
   type = "spreadsheet"
 )
 ```
+```{r}
+googleLoc <- as_id("https://docs.google.com/spreadsheets/d/18h1C-ey0cVElZotdYZ3aEtRokc7LXUDVkl1DlmnRQc4/edit#gid=1648478200")
+drive_download(
+  file = googleLoc,
+  path = here::here("assets", "data", "processed_data", "cleaned_breeds.csv"), 
+  overwrite = TRUE
+)
+
+manualBreeds <- read_csv(here::here("assets", "data", "processed_data", "cleaned_breeds.csv"))
+
+outOfStateExportFile <- outOfStateExport %>% 
+  left_join(manualBreeds)
+  
+puddingR::export_data(outOfStateExportFile, "exportedDogs", directory = "../../src/assets/data/")
+```
+
+
 
 Ok, so `r nrow(outOfState)` dogs (`r (nrow(outOfState) / nrow(descriptions)) * 100`%) of dogs with written descriptions, have come from out of state. 
 
@@ -121,6 +140,54 @@ fromTo <- outOfState %>%
   group_by(cleanLoc, contact_state_full) %>% 
   count(., sort = TRUE) %>% 
   rename(from = cleanLoc, to = contact_state_full)
+
+puddingR::export_data(fromTo, "movement_paths", directory = "../../src/assets/data/")
+
+centersNeededOut <- outOfState %>% 
+  count(cleanLoc, sort = TRUE) %>% 
+  rename(location = cleanLoc)      
+
+centersNeededIn <- outOfState %>% 
+  count(contact_state_full, sort = TRUE) %>% 
+  rename(location = contact_state_full)
+
+# get map
+worldMap <- getMap(resolution = "high")
+
+# get centroids
+centroids <- gCentroid(worldMap, byid = TRUE)
+
+countryCenters <- as.data.frame(centroids, row.names = NULL) %>% 
+  rownames_to_column("location") %>% 
+  filter(!location == "Georgia")
+
+stateCenters <- stateCenters %>% rename("location" = "value")
+
+manualNames <- c("Bahamas", "Washington DC", "St. Maarten", "Bosnia", "Nevis", "Quebec")
+manualX <- c("25.066667", "38.9101", "18.0425", "43.9159", "17.1554", "46.8139")
+manualY <- c("-77.333333", "77.0147", "63.0548", "17.6791", "62.5796", "71.2080")
+
+manualCenters <- as_tibble(cbind(manualNames, manualX, manualY)) %>% 
+  rename("location" = "manualNames", "x" = "manualX", "y" = "manualY")
+
+centerRef <- rbind(stateCenters, countryCenters, manualCenters)
+
+allCenters <- rbind(centersNeededOut, centersNeededIn) %>% 
+  mutate(location = ifelse(location == "DC", "Washington DC", location)) %>% 
+  distinct(location) %>% 
+  left_join(centerRef, by = "location")  %>% 
+  rename("longitude" = "x", "latitude" = "y")
+
+puddingR::export_data(allCenters, "loc_centers", directory = "../../src/assets/data/")
+
+# upload to google drive
+folder <- as_dribble(as_id("1egKvQvptatpY6hveSrK3JbLj77FhaeGC"))
+upload <- drive_upload(
+  here::here("assets", "data", "processed_data", "loc_centers.csv"),
+  folder,
+  name = "location_centers",
+  type = "spreadsheet"
+)
 ```
 
 ```{r echo = FALSE}
