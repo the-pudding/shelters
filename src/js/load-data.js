@@ -38,7 +38,7 @@ function loadExported(){
 }
 
 function loadMap(){
-  const loads = [loadCSV('loc_centers.csv'), loadCSV('movement_paths.csv')];
+  const loads = [loadCSV('loc_centers.csv'), loadCSV('movement_paths.csv'), loadJSON('topo.json')];
   return Promise.all(loads);
 }
 

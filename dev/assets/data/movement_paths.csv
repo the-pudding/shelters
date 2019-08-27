@@ -182,7 +182,7 @@
 "Ohio","Virginia",2
 "Pennsylvania","New Jersey",2
 "Qatar","Maryland",2
-"Russia","DC",2
+"Russia","Washington DC",2
 "South Carolina","New Hampshire",2
 "South Carolina","Virginia",2
 "South Korea","Minnesota",2
@@ -294,9 +294,9 @@
 "New York","North Carolina",1
 "New York","Rhode Island",1
 "New York","Virginia",1
-"North Carolina","DC",1
 "North Carolina","Florida",1
 "North Carolina","Rhode Island",1
+"North Carolina","Washington DC",1
 "Ohio","Alabama",1
 "Ohio","New Jersey",1
 "Ohio","Pennsylvania",1
@@ -341,10 +341,10 @@
 "Tunisia","Virginia",1
 "Turkey","Maryland",1
 "Vermont","New Hampshire",1
-"Virginia","DC",1
 "Virginia","Pennsylvania",1
-"Washington DC","DC",1
+"Virginia","Washington DC",1
 "Washington DC","Virginia",1
+"Washington DC","Washington DC",1
 "West Virginia","Connecticut",1
 "West Virginia","Georgia",1
 "Wisconsin","Illinois",1
