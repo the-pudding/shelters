@@ -15,8 +15,8 @@ d3.selection.prototype.northernLine = function init(options) {
 		// dimension stuff
 		let width = 0;
 		let height = 0;
-		const marginTop = 20;
-		const marginBottom = 20;
+		const marginTop = 50;
+		const marginBottom = 50;
 		const marginLeft = 50;
 		const marginRight = 50;
 
@@ -68,8 +68,11 @@ d3.selection.prototype.northernLine = function init(options) {
 				  .domain(d3.extent(data, d => d.latDiff))
 
 				scaleStroke
-					.range([1, 10])
+					.range([width * 0.01, width * 0.1])
 					.domain(d3.extent(data, d => d.n))
+
+				console.log(scaleStroke(104))
+				console.log(scaleStroke(5))
 
 				leftLine = width * 0.25
 				rightLine = width * 0.75
@@ -102,26 +105,31 @@ d3.selection.prototype.northernLine = function init(options) {
 							enter.append('path')
 								.attr('class', 'move-path')
 								.attr('d', d => {
-									const padding = width * 0.15
-									const paddingY = height * 0.1
+									const padding = width * 0.2
 									const starting = [leftLine, startPoint]
 									const ending = [rightLine, scaleY(d.latDiff)]
-									const startControl = [leftLine + padding, startPoint]
+									const startControl = [leftLine + (padding + scaleStroke(d.n)), startPoint]
 									const endControl = [rightLine - padding, scaleY(d.latDiff)]
+									const backStart = [rightLine - (padding + scaleStroke(d.n)), scaleY(d.latDiff)]
+									const backEnd = [leftLine + padding, startPoint]
 
 									const path = [
 										// move to starting point
 										'M', starting,
 										// add cubic bezier curve
 										'C', startControl, endControl,
-										ending
+										// add end point
+										ending,
+										'C', backStart, backEnd,
+										starting
 									]
 
 									const joined = path.join(' ')
 									return joined
 								})
-                	.style('stroke-width', d => `${Math.round(scaleStroke(d.n))}px`)
-                	.style('stroke', d => d.latDiff >= 0 ? '#E69E9E' : '#DF753C')
+								.style('fill', d => d.latDiff >= 0 ? '#E69E9E' : '#DF753C')
+                	// .style('stroke-width', '1px')
+                	// .style('stroke', d => d.latDiff >= 0 ? '#E69E9E' : '#DF753C')
 						},
 						update => {
 							update

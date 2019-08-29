@@ -20,9 +20,13 @@ function cleanData(arr){
 
 function setup(){
   const filtered = movementData.filter(d => d.inUS === 'TRUE')
+    .sort(d => d3.descending(d.n))
+
+  const sorted = movementData
+    .sort(d => d3.ascending(d.n))
 
 	const chart = $container
-    .datum(movementData.slice(0, 100))
+    .datum(filtered)
     .northernLine()
 }
 

@@ -922,6 +922,9 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
   stroke: #f2c9c9;
   opacity: 0.2;
 }
+.northern {
+  background-color: #fff;
+}
 .northern-chart {
   height: 100vh;
 }
@@ -929,7 +932,7 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
   opacity: 0.3;
 }
 .northern-chart .move-path {
-  fill: none;
+  opacity: 0.2;
 }
 .figure-meta {
   max-width: 50rem;

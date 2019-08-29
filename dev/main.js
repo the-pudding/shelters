@@ -1138,8 +1138,8 @@ d3.selection.prototype.northernLine = function init(options) {
 
     var width = 0;
     var height = 0;
-    var marginTop = 20;
-    var marginBottom = 20;
+    var marginTop = 50;
+    var marginBottom = 50;
     var marginLeft = 50;
     var marginRight = 50;
     var leftLine = 0;
@@ -1177,9 +1177,11 @@ d3.selection.prototype.northernLine = function init(options) {
         scaleY.range([height, 0]).domain(d3.extent(_data, function (d) {
           return d.latDiff;
         }));
-        scaleStroke.range([1, 10]).domain(d3.extent(_data, function (d) {
+        scaleStroke.range([width * 0.01, width * 0.1]).domain(d3.extent(_data, function (d) {
           return d.n;
         }));
+        console.log(scaleStroke(104));
+        console.log(scaleStroke(5));
         leftLine = width * 0.25;
         rightLine = width * 0.75;
         startPoint = scaleY(0);
@@ -1203,22 +1205,23 @@ d3.selection.prototype.northernLine = function init(options) {
           // 	.style('stroke-width', d => `${Math.round(scaleStroke(d.n))}px`)
           // 	.style('stroke', d => d.latDiff >= 0 ? '#E69E9E' : '#DF753C')
           enter.append('path').attr('class', 'move-path').attr('d', function (d) {
-            var padding = width * 0.15;
-            var paddingY = height * 0.1;
+            var padding = width * 0.2;
             var starting = [leftLine, startPoint];
             var ending = [rightLine, scaleY(d.latDiff)];
-            var startControl = [leftLine + padding, startPoint];
+            var startControl = [leftLine + (padding + scaleStroke(d.n)), startPoint];
             var endControl = [rightLine - padding, scaleY(d.latDiff)];
+            var backStart = [rightLine - (padding + scaleStroke(d.n)), scaleY(d.latDiff)];
+            var backEnd = [leftLine + padding, startPoint];
             var path = [// move to starting point
             'M', starting, // add cubic bezier curve
-            'C', startControl, endControl, ending];
+            'C', startControl, endControl, // add end point
+            ending, 'C', backStart, backEnd, starting];
             var joined = path.join(' ');
             return joined;
-          }).style('stroke-width', function (d) {
-            return "".concat(Math.round(scaleStroke(d.n)), "px");
-          }).style('stroke', function (d) {
+          }).style('fill', function (d) {
             return d.latDiff >= 0 ? '#E69E9E' : '#DF753C';
-          });
+          }); // .style('stroke-width', '1px')
+          // .style('stroke', d => d.latDiff >= 0 ? '#E69E9E' : '#DF753C')
         }, function (update) {
           update.attr('cx', rightLine).attr('cy', function (d) {
             return scaleY(d.latDiff);
@@ -1281,8 +1284,13 @@ function cleanData(arr) {
 function setup() {
   var filtered = movementData.filter(function (d) {
     return d.inUS === 'TRUE';
+  }).sort(function (d) {
+    return d3.descending(d.n);
   });
-  var chart = $container.datum(movementData.slice(0, 100)).northernLine();
+  var sorted = movementData.sort(function (d) {
+    return d3.ascending(d.n);
+  });
+  var chart = $container.datum(filtered).northernLine();
 }
 
 function resize() {}
