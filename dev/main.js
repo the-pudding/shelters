@@ -1194,8 +1194,26 @@ d3.selection.prototype.northernLine = function init(options) {
           // 	.attr('r', 5)
           // 	.attr('cx', rightLine)
           // 	.attr('cy', d => scaleY(d.latDiff))
-          enter.append('line').attr('class', 'move-line').attr('x1', leftLine).attr('x2', rightLine).attr('y1', startPoint).attr('y2', function (d) {
-            return scaleY(d.latDiff);
+          // enter.append('line')
+          // 	.attr('class', 'move-line')
+          // 	.attr('x1', leftLine)
+          // 	.attr('x2', rightLine)
+          // 	.attr('y1', startPoint)
+          // 	.attr('y2', d => scaleY(d.latDiff))
+          // 	.style('stroke-width', d => `${Math.round(scaleStroke(d.n))}px`)
+          // 	.style('stroke', d => d.latDiff >= 0 ? '#E69E9E' : '#DF753C')
+          enter.append('path').attr('class', 'move-path').attr('d', function (d) {
+            var padding = width * 0.15;
+            var paddingY = height * 0.1;
+            var starting = [leftLine, startPoint];
+            var ending = [rightLine, scaleY(d.latDiff)];
+            var startControl = [leftLine + padding, startPoint];
+            var endControl = [rightLine - padding, scaleY(d.latDiff)];
+            var path = [// move to starting point
+            'M', starting, // add cubic bezier curve
+            'C', startControl, endControl, ending];
+            var joined = path.join(' ');
+            return joined;
           }).style('stroke-width', function (d) {
             return "".concat(Math.round(scaleStroke(d.n)), "px");
           }).style('stroke', function (d) {

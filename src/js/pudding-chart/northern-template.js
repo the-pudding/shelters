@@ -90,14 +90,38 @@ d3.selection.prototype.northernLine = function init(options) {
 							// 	.attr('cx', rightLine)
 							// 	.attr('cy', d => scaleY(d.latDiff))
 
-							enter.append('line')
-								.attr('class', 'move-line')
-								.attr('x1', leftLine)
-								.attr('x2', rightLine)
-								.attr('y1', startPoint)
-								.attr('y2', d => scaleY(d.latDiff))
-								.style('stroke-width', d => `${Math.round(scaleStroke(d.n))}px`)
-								.style('stroke', d => d.latDiff >= 0 ? '#E69E9E' : '#DF753C')
+							// enter.append('line')
+							// 	.attr('class', 'move-line')
+							// 	.attr('x1', leftLine)
+							// 	.attr('x2', rightLine)
+							// 	.attr('y1', startPoint)
+							// 	.attr('y2', d => scaleY(d.latDiff))
+							// 	.style('stroke-width', d => `${Math.round(scaleStroke(d.n))}px`)
+							// 	.style('stroke', d => d.latDiff >= 0 ? '#E69E9E' : '#DF753C')
+
+							enter.append('path')
+								.attr('class', 'move-path')
+								.attr('d', d => {
+									const padding = width * 0.15
+									const paddingY = height * 0.1
+									const starting = [leftLine, startPoint]
+									const ending = [rightLine, scaleY(d.latDiff)]
+									const startControl = [leftLine + padding, startPoint]
+									const endControl = [rightLine - padding, scaleY(d.latDiff)]
+
+									const path = [
+										// move to starting point
+										'M', starting,
+										// add cubic bezier curve
+										'C', startControl, endControl,
+										ending
+									]
+
+									const joined = path.join(' ')
+									return joined
+								})
+                	.style('stroke-width', d => `${Math.round(scaleStroke(d.n))}px`)
+                	.style('stroke', d => d.latDiff >= 0 ? '#E69E9E' : '#DF753C')
 						},
 						update => {
 							update
