@@ -1,0 +1,353 @@
+"from","to","n","latDiff","inUS"
+"Texas","New York",170,11.75,TRUE
+"Texas","Washington",121,16.03,TRUE
+"Texas","New Jersey",105,8.57,TRUE
+"California","Washington",104,10.89,TRUE
+"Alabama","Pennsylvania",99,8.32,TRUE
+"Alabama","Maryland",75,6.69,TRUE
+"North Carolina","New Jersey",67,4.54,TRUE
+"Texas","Maine",58,14.23,TRUE
+"South Korea","Washington",50,11.04,FALSE
+"Texas","Colorado",48,7.29,TRUE
+"North Carolina","Pennsylvania",34,5.49,TRUE
+"Alabama","Vermont",32,11.66,TRUE
+"Louisiana","Rhode Island",31,10.97,TRUE
+"Texas","Wisconsin",31,13.2,TRUE
+"Maine","Tennessee",30,-9.95,TRUE
+"North Carolina","Virginia",28,2.14,TRUE
+"South Carolina","New Jersey",28,6.34,TRUE
+"Georgia","New York",25,10.8,TRUE
+"Texas","Virginia",25,6.17,TRUE
+"Georgia","New Jersey",24,7.63,TRUE
+"Alabama","Virginia",23,4.97,TRUE
+"North Carolina","New York",23,7.72,TRUE
+"Texas","Massachusetts",22,10.97,TRUE
+"South Carolina","New York",19,9.52,TRUE
+"South Korea","Virginia",19,1.18,FALSE
+"Texas","Minnesota",19,15,TRUE
+"Alabama","New York",18,10.55,TRUE
+"Kentucky","Ohio",16,2.83,TRUE
+"Kentucky","Minnesota",15,9,TRUE
+"Tennessee","New York",15,7.46,TRUE
+"Thailand","New York",15,28.02,FALSE
+"West Virginia","Pennsylvania",15,2.49,TRUE
+"Florida","New York",14,15.26,TRUE
+"Taiwan","Washington",14,23.67,FALSE
+"West Virginia","Virginia",13,-0.86,TRUE
+"Texas","Rhode Island",12,10.2,TRUE
+"Bahamas","New York",10,18.07,FALSE
+"Mississippi","New York",10,10.46,TRUE
+"New York","New Jersey",10,-3.17,TRUE
+"South Carolina","Connecticut",10,7.97,TRUE
+"Georgia","Maryland",9,6.94,TRUE
+"North Carolina","Delaware",9,3.26,TRUE
+"Thailand","Washington",9,32.3,FALSE
+"Georgia","Massachusetts",8,10.03,TRUE
+"Georgia","Pennsylvania",8,8.57,TRUE
+"Louisiana","Florida",8,-2.74,TRUE
+"Texas","Connecticut",8,10.2,TRUE
+"California","New York",7,6.6,TRUE
+"Georgia","Wisconsin",7,12.26,TRUE
+"India","New Jersey",7,17.08,FALSE
+"Louisiana","Massachusetts",7,11.75,TRUE
+"Mexico","Arizona",7,10.27,FALSE
+"Mississippi","Virginia",7,4.89,TRUE
+"New Mexico","Colorado",7,4.2,TRUE
+"North Carolina","Maryland",7,3.86,TRUE
+"North Carolina","Massachusetts",7,6.95,TRUE
+"Alabama","Connecticut",6,9,TRUE
+"Alabama","New Hampshire",6,10.8,TRUE
+"Egypt","New Jersey",6,13.47,FALSE
+"Florida","Pennsylvania",6,13.03,TRUE
+"Georgia","Virginia",6,5.23,TRUE
+"Hawaii","Washington",6,15.67,TRUE
+"Louisiana","New York",6,12.52,TRUE
+"Mississippi","Maine",6,12.95,TRUE
+"Mississippi","Pennsylvania",6,8.23,TRUE
+"North Carolina","Connecticut",6,6.17,TRUE
+"Texas","Maryland",6,7.89,TRUE
+"Texas","New Hampshire",6,12,TRUE
+"Virginia","Massachusetts",6,4.8,TRUE
+"West Virginia","New Jersey",6,1.54,TRUE
+"Alabama","Maine",5,13.03,TRUE
+"Georgia","Maine",5,13.29,TRUE
+"Louisiana","Connecticut",5,10.97,TRUE
+"Louisiana","Indiana",5,9.43,TRUE
+"Louisiana","Maine",5,15,TRUE
+"South Korea","New York",5,6.75,FALSE
+"Tennessee","Pennsylvania",5,5.23,TRUE
+"West Virginia","Kentucky",5,-1.03,TRUE
+"Alabama","New Jersey",4,7.37,TRUE
+"Arkansas","Minnesota",4,11.66,TRUE
+"California","Oregon",4,7.37,TRUE
+"China","Indiana",4,3.49,FALSE
+"China","Maine",4,9.06,FALSE
+"China","New Jersey",4,3.4,FALSE
+"Egypt","Georgia",4,5.84,FALSE
+"Kansas","Colorado",4,0.26,TRUE
+"Kansas","Maine",4,7.2,TRUE
+"Kentucky","Delaware",4,1.29,TRUE
+"Kentucky","Illinois",4,2.66,TRUE
+"Kentucky","New York",4,5.74,TRUE
+"Kentucky","Pennsylvania",4,3.52,TRUE
+"Louisiana","Maryland",4,8.66,TRUE
+"Louisiana","New Jersey",4,9.35,TRUE
+"Mississippi","Connecticut",4,8.92,TRUE
+"New Jersey","New York",4,3.17,TRUE
+"North Carolina","Maine",4,10.2,TRUE
+"South Carolina","Maine",4,12,TRUE
+"South Carolina","Maryland",4,5.66,TRUE
+"South Carolina","Pennsylvania",4,7.29,TRUE
+"South Carolina","Vermont",4,10.63,TRUE
+"Tennessee","New Jersey",4,4.29,TRUE
+"Texas","Arizona",4,2.83,TRUE
+"Texas","North Carolina",4,4.03,TRUE
+"Texas","Ohio",4,8.83,TRUE
+"Washington DC","Washington",4,8.51,FALSE
+"West Virginia","Maryland",4,0.86,TRUE
+"Alabama","Florida",3,-4.72,TRUE
+"Alabama","Massachusetts",3,9.77,TRUE
+"Alabama","Michigan",3,10.55,TRUE
+"Arkansas","New York",3,8.4,TRUE
+"Arkansas","Oklahoma",3,0.77,TRUE
+"Arkansas","Rhode Island",3,6.86,TRUE
+"China","New Hampshire",3,6.83,FALSE
+"China","North Carolina",3,-1.14,FALSE
+"Florida","Maine",3,17.75,TRUE
+"Kuwait","Virginia",3,8.23,FALSE
+"Louisiana","Michigan",3,12.52,TRUE
+"Louisiana","Vermont",3,13.63,TRUE
+"Mississippi","Georgia",3,-0.34,TRUE
+"Mississippi","New Jersey",3,7.29,TRUE
+"New York","Pennsylvania",3,-2.23,TRUE
+"New York","South Carolina",3,-9.52,TRUE
+"North Carolina","Georgia",3,-3.09,TRUE
+"North Carolina","South Carolina",3,-1.8,TRUE
+"Oklahoma","Pennsylvania",3,5.4,TRUE
+"Spain","Indiana",3,-0.19,FALSE
+"Taiwan","Delaware",3,14.92,FALSE
+"Tennessee","Delaware",3,3,TRUE
+"Tennessee","Massachusetts",3,6.69,TRUE
+"Tennessee","Ohio",3,4.54,TRUE
+"Texas","Oregon",3,12.52,TRUE
+"Texas","Vermont",3,12.86,TRUE
+"Virginia","Maryland",3,1.71,TRUE
+"Virginia","New Jersey",3,2.4,TRUE
+"Virginia","South Carolina",3,-3.94,TRUE
+"Virginia","Vermont",3,6.69,TRUE
+"Washington","Kentucky",3,-10.03,TRUE
+"West Virginia","New York",3,4.72,TRUE
+"Alabama","Colorado",2,6.09,TRUE
+"Alabama","Tennessee",2,3.09,TRUE
+"Arkansas","Connecticut",2,6.86,TRUE
+"Arkansas","New Jersey",2,5.23,TRUE
+"Arkansas","Wisconsin",2,9.86,TRUE
+"California","Arizona",2,-2.31,TRUE
+"California","Maine",2,9.09,TRUE
+"China","Minnesota",2,9.83,FALSE
+"China","Pennsylvania",2,4.35,FALSE
+"China","Washington",2,10.86,FALSE
+"Egypt","New York",2,16.64,FALSE
+"Florida","New Jersey",2,12.09,TRUE
+"Georgia","Florida",2,-4.46,TRUE
+"Georgia","Ohio",2,7.89,TRUE
+"India","New York",2,20.25,FALSE
+"Indiana","Illinois",2,0,TRUE
+"Iowa","Wisconsin",2,2.66,TRUE
+"Kentucky","Indiana",2,2.66,TRUE
+"Kentucky","New Jersey",2,2.57,TRUE
+"Kentucky","Wisconsin",2,7.2,TRUE
+"Louisiana","Minnesota",2,15.78,TRUE
+"Louisiana","Tennessee",2,5.06,TRUE
+"Louisiana","Virginia",2,6.94,TRUE
+"Louisiana","Washington",2,16.8,TRUE
+"Maine","Connecticut",2,-4.03,TRUE
+"Massachusetts","Maine",2,3.26,TRUE
+"Mexico","Minnesota",2,22.45,FALSE
+"Mexico","New York",2,19.19,FALSE
+"Mexico","Utah",2,15.16,FALSE
+"Mississippi","Maryland",2,6.6,TRUE
+"Mississippi","Rhode Island",2,8.92,TRUE
+"Mississippi","Tennessee",2,3,TRUE
+"Mississippi","Vermont",2,11.57,TRUE
+"Missouri","Illinois",2,1.71,TRUE
+"Missouri","Iowa",2,3.6,TRUE
+"New Jersey","Massachusetts",2,2.4,TRUE
+"New Jersey","Vermont",2,4.29,TRUE
+"New Mexico","Arizona",2,-0.26,TRUE
+"New York","Vermont",2,1.11,TRUE
+"North Carolina","Ohio",2,4.8,TRUE
+"Ohio","Michigan",2,2.92,TRUE
+"Ohio","New York",2,2.92,TRUE
+"Ohio","Virginia",2,-2.66,TRUE
+"Pennsylvania","New Jersey",2,-0.94,TRUE
+"Qatar","Maryland",2,13.97,FALSE
+"Russia","Washington DC",2,-23.07,FALSE
+"South Carolina","New Hampshire",2,9.77,TRUE
+"South Carolina","Virginia",2,3.94,TRUE
+"South Korea","Minnesota",2,10.01,FALSE
+"Spain","Virginia",2,-2.68,FALSE
+"St. Maarten","Maryland",2,21.24,FALSE
+"Tennessee","Rhode Island",2,5.92,TRUE
+"Texas","Indiana",2,8.66,TRUE
+"Texas","Iowa",2,10.55,TRUE
+"Texas","Michigan",2,11.75,TRUE
+"Thailand","Virginia",2,22.44,FALSE
+"United Arab Emirates","Washington",2,23.52,FALSE
+"Virginia","Delaware",2,1.11,TRUE
+"Virginia","North Carolina",2,-2.14,TRUE
+"Washington DC","New York",2,4.23,FALSE
+"Washington DC","Oregon",2,5,FALSE
+"West Virginia","Ohio",2,1.8,TRUE
+"Afghanistan","Colorado",1,4.84,FALSE
+"Afghanistan","Connecticut",1,7.76,FALSE
+"Alabama","North Carolina",1,2.83,TRUE
+"Alabama","Wisconsin",1,12,TRUE
+"Arkansas","Iowa",1,7.2,TRUE
+"Arkansas","Massachusetts",1,7.63,TRUE
+"Aruba","New York",1,30.62,FALSE
+"Aruba","Rhode Island",1,29.07,FALSE
+"Bahamas","Florida",1,2.81,FALSE
+"Bahrain","Virginia",1,11.52,FALSE
+"Belize","Minnesota",1,29.19,FALSE
+"Bosnia","Georgia",1,-11.58,FALSE
+"British Virgin Islands","Virginia",1,19.04,FALSE
+"California","Iowa",1,5.4,TRUE
+"California","Utah",1,2.57,TRUE
+"China","Connecticut",1,5.03,FALSE
+"China","New York",1,6.57,FALSE
+"Colorado","Kentucky",1,-1.29,TRUE
+"Connecticut","New York",1,1.54,TRUE
+"Costa Rica","Washington",1,37.45,FALSE
+"Delaware","Ohio",1,1.54,TRUE
+"Ecuador","New York",1,44.56,FALSE
+"Egypt","Arizona",1,7.72,FALSE
+"Egypt","Iowa",1,15.44,FALSE
+"Florida","Arizona",1,6.34,TRUE
+"Florida","Connecticut",1,13.72,TRUE
+"Florida","Georgia",1,4.46,TRUE
+"Florida","Kentucky",1,9.52,TRUE
+"Florida","Massachusetts",1,14.49,TRUE
+"Florida","New Hampshire",1,15.52,TRUE
+"Florida","North Carolina",1,7.55,TRUE
+"Florida","Tennessee",1,7.8,TRUE
+"Florida","Vermont",1,16.38,TRUE
+"Florida","Virginia",1,9.69,TRUE
+"Georgia","Connecticut",1,9.26,TRUE
+"Georgia","Kentucky",1,5.06,TRUE
+"Georgia","Rhode Island",1,9.26,TRUE
+"Georgia","Tennessee",1,3.34,TRUE
+"Georgia","Vermont",1,11.92,TRUE
+"Idaho","Oregon",1,0.34,TRUE
+"Illinois","Georgia",1,-7.72,TRUE
+"Illinois","Indiana",1,0,TRUE
+"Illinois","Iowa",1,1.89,TRUE
+"Illinois","New York",1,3.09,TRUE
+"Illinois","Ohio",1,0.17,TRUE
+"Illinois","Oklahoma",1,-4.54,TRUE
+"Illinois","Pennsylvania",1,0.86,TRUE
+"India","Virginia",1,14.68,FALSE
+"India","Washington",1,24.54,FALSE
+"Indiana","Ohio",1,0.17,TRUE
+"Indiana","Vermont",1,4.2,TRUE
+"Iran","Maryland",1,6.7,FALSE
+"Jamaica","Indiana",1,21.89,FALSE
+"Jamaica","Massachusetts",1,24.21,FALSE
+"Kansas","Iowa",1,3.52,TRUE
+"Kansas","Missouri",1,-0.09,TRUE
+"Kansas","Nebraska",1,2.92,TRUE
+"Kansas","New York",1,4.72,TRUE
+"Kentucky","Maryland",1,1.89,TRUE
+"Kentucky","Michigan",1,5.74,TRUE
+"Kentucky","Rhode Island",1,4.2,TRUE
+"Kentucky","Virginia",1,0.17,TRUE
+"Kosovo","Maryland",1,-3.29,FALSE
+"Kosovo","New Jersey",1,-2.61,FALSE
+"Kosovo","Virginia",1,-5.01,FALSE
+"Kuwait","New York",1,13.8,FALSE
+"Louisiana","Georgia",1,1.71,TRUE
+"Louisiana","Illinois",1,9.43,TRUE
+"Louisiana","New Hampshire",1,12.78,TRUE
+"Louisiana","North Carolina",1,4.8,TRUE
+"Louisiana","Ohio",1,9.6,TRUE
+"Maine","Massachusetts",1,-3.26,TRUE
+"Maryland","Virginia",1,-1.71,TRUE
+"Mexico","Colorado",1,14.73,FALSE
+"Mexico","Michigan",1,19.19,FALSE
+"Mexico","South Carolina",1,9.67,FALSE
+"Mexico","Washington",1,23.48,FALSE
+"Michigan","New York",1,0,TRUE
+"Mississippi","New Hampshire",1,10.72,TRUE
+"Mississippi","Wisconsin",1,11.92,TRUE
+"Missouri","Minnesota",1,8.06,TRUE
+"Missouri","New Jersey",1,1.63,TRUE
+"Missouri","Virginia",1,-0.77,TRUE
+"Nevis","Kansas",1,21.27,FALSE
+"New Hampshire","Maine",1,2.23,TRUE
+"New Hampshire","Massachusetts",1,-1.03,TRUE
+"New Jersey","Alabama",1,-7.37,TRUE
+"New Jersey","Delaware",1,-1.29,TRUE
+"New Jersey","South Carolina",1,-6.34,TRUE
+"New Jersey","Virginia",1,-2.4,TRUE
+"New Mexico","Utah",1,4.63,TRUE
+"New York","New Hampshire",1,0.26,TRUE
+"New York","North Carolina",1,-7.72,TRUE
+"New York","Rhode Island",1,-1.54,TRUE
+"New York","Virginia",1,-5.57,TRUE
+"North Carolina","Florida",1,-7.55,TRUE
+"North Carolina","Rhode Island",1,6.17,TRUE
+"North Carolina","Washington DC",1,3.49,TRUE
+"Ohio","Alabama",1,-7.63,TRUE
+"Ohio","New Jersey",1,-0.26,TRUE
+"Ohio","Pennsylvania",1,0.69,TRUE
+"Ohio","Vermont",1,4.03,TRUE
+"Ohio","Washington",1,7.2,TRUE
+"Oklahoma","New Jersey",1,4.46,TRUE
+"Oklahoma","Virginia",1,2.06,TRUE
+"Oman","Maryland",1,18.67,FALSE
+"Oman","New York",1,22.53,FALSE
+"Oman","Virginia",1,16.96,FALSE
+"Oregon","New York",1,-0.77,TRUE
+"Oregon","Pennsylvania",1,-3,TRUE
+"Oregon","Tennessee",1,-8.23,TRUE
+"Pennsylvania","Maryland",1,-1.63,TRUE
+"Puerto Rico","Massachusetts",1,24.14,FALSE
+"Puerto Rico","New York",1,24.91,FALSE
+"Puerto Rico","Pennsylvania",1,22.68,FALSE
+"Puerto Rico","Virginia",1,19.33,FALSE
+"Quebec","Missouri",1,-8.48,FALSE
+"Saudi Arabia","Arizona",1,10.1,FALSE
+"South Carolina","Arizona",1,0.6,TRUE
+"South Carolina","Massachusetts",1,8.75,TRUE
+"South Carolina","North Carolina",1,1.8,TRUE
+"South Carolina","Rhode Island",1,7.97,TRUE
+"South Dakota","Minnesota",1,2.06,TRUE
+"South Korea","New Jersey",1,3.58,FALSE
+"Tennessee","Arizona",1,-1.46,TRUE
+"Tennessee","Connecticut",1,5.92,TRUE
+"Tennessee","Illinois",1,4.37,TRUE
+"Tennessee","Kentucky",1,1.71,TRUE
+"Tennessee","Minnesota",1,10.72,TRUE
+"Tennessee","New Hampshire",1,7.72,TRUE
+"Tennessee","Wisconsin",1,8.92,TRUE
+"Texas","Florida",1,-3.52,TRUE
+"Texas","Kentucky",1,6,TRUE
+"Texas","North Dakota",1,15.86,TRUE
+"Texas","Oklahoma",1,4.12,TRUE
+"Texas","Pennsylvania",1,9.52,TRUE
+"Texas","Tennessee",1,4.29,TRUE
+"Thailand","Colorado",1,23.56,FALSE
+"Tunisia","New Jersey",1,5.84,FALSE
+"Tunisia","Virginia",1,3.44,FALSE
+"Turkey","Maryland",1,0.22,FALSE
+"Vermont","New Hampshire",1,-0.86,TRUE
+"Virginia","Pennsylvania",1,3.34,TRUE
+"Virginia","Washington DC",1,1.35,TRUE
+"Washington DC","Virginia",1,-1.35,FALSE
+"Washington DC","Washington DC",1,0,FALSE
+"West Virginia","Connecticut",1,3.17,TRUE
+"West Virginia","Georgia",1,-6.09,TRUE
+"Wisconsin","Illinois",1,-4.54,TRUE
+"Wisconsin","Indiana",1,-4.54,TRUE
+"Wisconsin","Minnesota",1,1.8,TRUE
+"Wisconsin","New Jersey",1,-4.63,TRUE

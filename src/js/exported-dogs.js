@@ -17,7 +17,7 @@ let charts = null
 
 
 function setupExpand(){
-  $moreButton.on('click', () => {
+	$moreButton.on('click', () => {
 		const truncated = !$container.classed('is-expanded');
 		const text = truncated ? 'Show Fewer' : 'Show All';
 		$moreButton.text(text);
@@ -34,32 +34,32 @@ function setupExpand(){
 }
 
 function updateLocation(loc){
-  readerState = loc
+	readerState = loc
 
-  const filteredExports = exportedDogs.filter(d => d.final_state === readerState)
+	const filteredExports = exportedDogs.filter(d => d.final_state === readerState)
 
-  const nestedExports = d3.nest()
-    .key(d => d.original_state)
-    .entries(filteredExports)
-    .sort((a, b) => d3.descending(a.values.length, b.values.length))
+	const nestedExports = d3.nest()
+		.key(d => d.original_state)
+		.entries(filteredExports)
+		.sort((a, b) => d3.descending(a.values.length, b.values.length))
 
-  charts.data(nestedExports)
-  //filterDogs()
+	charts.data(nestedExports)
+	// filterDogs()
 }
 
 function filterDogs(){
-  // filter exported dogs
-  const filteredExports = exportedDogs.filter(d => d.final_state === readerState)
+	// filter exported dogs
+	const filteredExports = exportedDogs.filter(d => d.final_state === readerState)
 
-  const nestedExports = d3.nest()
-    .key(d => d.original_state)
-    .entries(filteredExports)
-    .sort((a, b) => d3.descending(a.values.length, b.values.length))
+	const nestedExports = d3.nest()
+		.key(d => d.original_state)
+		.entries(filteredExports)
+		.sort((a, b) => d3.descending(a.values.length, b.values.length))
 
-  charts = $section
-    .select('.figure-container')
-    .datum(nestedExports)
-    .exportsByState()
+	charts = $section
+		.select('.figure-container')
+		.datum(nestedExports)
+		.exportsByState()
 }
 
 
@@ -67,16 +67,16 @@ function filterDogs(){
 function resize() {}
 
 function init(loc) {
-  load.loadCSV('exportedDogs.csv')
-    .then(result => {
-      readerState = loc
-      exportedDogs = result
-      filterDogs()
+	load.loadCSV('exportedDogs.csv')
+		.then(result => {
+			readerState = loc
+			exportedDogs = result
+			filterDogs()
 
-      // setup interaction with show more button
-      setupExpand()
-    })
-    .catch(console.error)
+			// setup interaction with show more button
+			setupExpand()
+		})
+		.catch(console.error)
 }
 
 export default { init, resize, updateLocation };
