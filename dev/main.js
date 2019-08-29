@@ -3916,28 +3916,33 @@ var $section = d3.selectAll('.movement');
 var $figure = $section.selectAll('.movement-figure');
 var $svg = $figure.selectAll('.figure-container_svg'); // dimensions
 
-var width = 900;
-var height = 600;
+var width = 0;
+var height = 0;
 var marginTop = 20;
 var marginBottom = 20;
 var marginLeft = 20;
 var marginRight = 20;
 var hypotenuse = Math.sqrt(width * width + height * height); // map constants
 
-var projection = d3.geoAlbers();
+var projection = d3.geoAlbersUsa();
 var radius = d3.scaleSqrt();
 var path = d3.geoPath();
 
 function setupDOM() {
-  $svg.append("path").datum(topojson.feature(us, us.objects.land)).attr("class", "land").attr("d", path);
-  $svg.append("path").datum(topojson.mesh(us, us.objects.states, function (a, b) {
+  var $basemap = $svg.append('g').attr('class', 'basemap');
+  $basemap.append("path").datum(topojson.feature(us, us.objects.land)).attr("class", "land").attr("d", path);
+  $basemap.append("path").datum(topojson.mesh(us, us.objects.states, function (a, b) {
     return a !== b;
   })).attr("class", "state-borders").attr("d", path);
-  $svg.append("path").datum({
+  console.log({
+    us: us
+  });
+  var $drawnPaths = $svg.append('g').attr('class', 'paths');
+  $drawnPaths.append("path").datum({
     type: "MultiPoint",
     coordinates: centers
   }).attr("class", "state-dots").attr("d", path);
-  var state = $svg.selectAll(".state-center").data(centers).enter().append("g").attr("class", "state-center");
+  var state = $drawnPaths.selectAll(".state-center").data(centers).enter().append("g").attr("class", "state-center");
   state.append("path").attr("class", "movement-arc").attr("d", function (d) {
     return path(d.arcs);
   });
@@ -3945,15 +3950,18 @@ function setupDOM() {
 
 function setup() {
   findCoordinates();
-  setupDOM();
   resize();
+  setupDOM();
 }
 
 function resize() {
   width = $figure.node().offsetWidth - marginLeft - marginRight;
   height = $figure.node().offsetHeight - marginTop - marginBottom;
   $svg.attr('width', width + marginLeft + marginRight).attr('height', height + marginTop + marginBottom);
-  projection.translate([width / 2, height / 2]).scale(1280);
+  projection.translate([width / 2, height / 2]).scale(1000);
+  console.log({
+    projection: projection
+  });
   radius.domain([0, 100]).range([0, 14]);
   path.projection(projection).pointRadius(2.5);
 }

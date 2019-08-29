@@ -137,6 +137,8 @@ Let's look at where dogs most commonly go from -> to.
 
 ```{r}
 fromTo <- outOfState %>% 
+  mutate(cleanLoc = ifelse(cleanLoc == "DC", "Washington DC", cleanLoc),
+         contact_state_full = ifelse(contact_state_full == "DC", "Washington DC", contact_state_full)) %>% 
   group_by(cleanLoc, contact_state_full) %>% 
   count(., sort = TRUE) %>% 
   rename(from = cleanLoc, to = contact_state_full)
@@ -164,8 +166,8 @@ countryCenters <- as.data.frame(centroids, row.names = NULL) %>%
 stateCenters <- stateCenters %>% rename("location" = "value")
 
 manualNames <- c("Bahamas", "Washington DC", "St. Maarten", "Bosnia", "Nevis", "Quebec")
-manualX <- c("25.066667", "38.9101", "18.0425", "43.9159", "17.1554", "46.8139")
-manualY <- c("-77.333333", "77.0147", "63.0548", "17.6791", "62.5796", "71.2080")
+manualY <- c("25.066667", "38.9101", "18.0425", "43.9159", "17.1554", "46.8139")
+manualX <- c("-77.333333", "77.0147", "63.0548", "17.6791", "62.5796", "71.2080")
 
 manualCenters <- as_tibble(cbind(manualNames, manualX, manualY)) %>% 
   rename("location" = "manualNames", "x" = "manualX", "y" = "manualY")
@@ -181,13 +183,13 @@ allCenters <- rbind(centersNeededOut, centersNeededIn) %>%
 puddingR::export_data(allCenters, "loc_centers", directory = "../../src/assets/data/")
 
 # upload to google drive
-folder <- as_dribble(as_id("1egKvQvptatpY6hveSrK3JbLj77FhaeGC"))
-upload <- drive_upload(
-  here::here("assets", "data", "processed_data", "loc_centers.csv"),
-  folder,
-  name = "location_centers",
-  type = "spreadsheet"
-)
+# folder <- as_dribble(as_id("1egKvQvptatpY6hveSrK3JbLj77FhaeGC"))
+# upload <- drive_upload(
+#   here::here("assets", "data", "processed_data", "loc_centers.csv"),
+#   folder,
+#   name = "location_centers",
+#   type = "spreadsheet"
+# )
 ```
 
 ```{r echo = FALSE}
@@ -195,6 +197,26 @@ DT::datatable(fromTo, rownames = FALSE, filter = "top", options = list(pageLengt
 ```
 
 Alright so `r fromTo[1, ]$from` to `r fromTo[1, ]$to` is the most common route. 
+
+```{r}
+northernMovement <- fromTo %>% 
+  left_join(allCenters, by = c("from" = "location")) %>% 
+  select(-longitude) %>% 
+  rename(startLat = latitude) %>% 
+  left_join(allCenters, by = c("to" = "location")) %>% 
+  select(-longitude) %>% 
+  rename(endLat = latitude) %>% 
+  ungroup() %>% 
+  mutate(startLat = as.numeric(startLat),
+         endLat = as.numeric(endLat),
+    latDiff = round(endLat - startLat, 2)) %>% 
+  select(-c("startLat", "endLat"))
+
+ggplot(northernMovement, aes(x = latDiff)) + geom_histogram()
+
+puddingR::export_data(northernMovement, "northernMovement", directory = "../../src/assets/data/")
+```
+
 
 ### Most Exported
 

@@ -901,16 +901,26 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
 .intro .intro-dog_in.is-visible {
   display: block;
 }
-.movement figure .land {
+.movement {
+  background-color: #df753c;
+}
+.movement figure {
+  height: 600px;
+}
+.movement figure svg {
+  margin: 0 auto;
+}
+.movement figure svg .land {
   fill: #fff;
 }
-.movement figure .state-borders {
+.movement figure svg .state-borders {
   fill: none;
   stroke: #df753c;
 }
-.movement figure .movement-arc {
+.movement figure svg .movement-arc {
   fill: none;
   stroke: #f2c9c9;
+  opacity: 0.2;
 }
 .figure-meta {
   max-width: 50rem;

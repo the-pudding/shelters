@@ -12,8 +12,8 @@ const $figure = $section.selectAll('.movement-figure')
 const $svg = $figure.selectAll('.figure-container_svg')
 
 // dimensions
-let width = 900;
-let height = 600;
+let width = 0;
+let height = 0;
 const marginTop = 20;
 const marginBottom = 20;
 const marginLeft = 20;
@@ -21,27 +21,35 @@ const marginRight = 20;
 const hypotenuse = Math.sqrt(width * width + height * height);
 
 // map constants
-let projection = d3.geoAlbers()
+let projection = d3.geoAlbersUsa()
 let radius = d3.scaleSqrt()
 let path = d3.geoPath()
 
 function setupDOM(){
-  $svg.append("path")
+  const $basemap = $svg.append('g')
+    .attr('class', 'basemap')
+
+  $basemap.append("path")
       .datum(topojson.feature(us, us.objects.land))
       .attr("class", "land")
       .attr("d", path);
 
-  $svg.append("path")
+  $basemap.append("path")
       .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
       .attr("class", "state-borders")
       .attr("d", path);
 
-  $svg.append("path")
+    console.log({us})
+
+  const $drawnPaths = $svg.append('g')
+    .attr('class', 'paths')
+
+  $drawnPaths.append("path")
       .datum({type: "MultiPoint", coordinates: centers})
       .attr("class", "state-dots")
       .attr("d", path);
 
-  let state = $svg.selectAll(".state-center")
+  let state = $drawnPaths.selectAll(".state-center")
    .data(centers)
    .enter()
    .append("g")
@@ -54,8 +62,9 @@ function setupDOM(){
 
 function setup(){
   findCoordinates()
-  setupDOM()
   resize()
+  setupDOM()
+
 }
 
 
@@ -69,7 +78,9 @@ function resize(){
 
   projection
     .translate([width / 2, height / 2])
-    .scale(1280);
+    .scale(1000);
+
+  console.log({projection})
 
   radius
       .domain([0, 100])
