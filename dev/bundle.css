@@ -843,6 +843,7 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
 .intro {
   margin: 0 auto;
   padding: 6rem 1rem 3rem 1rem;
+  background-color: #f2c9c9;
 }
 .intro__hed {
   max-width: 60rem;
@@ -900,6 +901,18 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
 }
 .intro .intro-dog_in.is-visible {
   display: block;
+}
+.intro .stateSelect {
+  cursor: pointer;
+  height: 2.5rem;
+  width: 10rem;
+  line-height: 1.7;
+  background-color: #df753c;
+  color: #f9f9f7;
+  border: none;
+  font-family: 'Tiempos Text Web';
+  font-size: 20px;
+  font-weight: bold;
 }
 .movement .figure-container {
   display: -webkit-box;
