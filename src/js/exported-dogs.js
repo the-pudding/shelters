@@ -33,23 +33,9 @@ function setupExpand(){
 	});
 }
 
-function updateLocation(loc){
+function nestDogs(loc){
 	readerState = loc
 
-	const filteredExports = exportedDogs.filter(d => d.final_state === readerState)
-
-	const nestedExports = d3.nest()
-		.key(d => d.original_state)
-		.entries(filteredExports)
-		.sort((a, b) => d3.descending(a.values.length, b.values.length))
-
-	console.log({nestedExports})
-
-	charts.data(nestedExports)
-	// filterDogs()
-}
-
-function filterDogs(){
 	// filter exported dogs
 	const filteredExports = exportedDogs.filter(d => d.final_state === readerState)
 
@@ -75,7 +61,20 @@ function filterDogs(){
 		.entries(filteredExports)
 		.sort((a, b) => d3.descending(a.value.stateTotal, b.value.stateTotal))
 
+	return nestedExports
+}
+
+function updateLocation(loc){
+
+	const nestedExports = nestDogs(loc)
 	console.log({nestedExports})
+
+	charts.data(nestedExports)
+
+}
+
+function filterDogs(loc){
+	const nestedExports = nestDogs(loc)
 
 	charts = $section
 		.select('.figure-container')
@@ -92,7 +91,7 @@ function init(loc) {
 		.then(result => {
 			readerState = loc
 			exportedDogs = result
-			filterDogs()
+			filterDogs(loc)
 
 			// setup interaction with show more button
 			setupExpand()

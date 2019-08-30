@@ -717,7 +717,9 @@ d3.selection.prototype.exportsByState = function init(options) {
       },
       // update scales and render chart
       render: function render() {
-        var $state = $sel.selectAll('.state').data(_data).join(function (enter) {
+        var $state = $sel.selectAll('.state').data(_data, function (d) {
+          return d.key;
+        }).join(function (enter) {
           var state = enter.append('div').attr('class', 'state');
           var $title = state.append('p').attr('class', 'state-name').text(function (d) {
             return d.key;
@@ -826,24 +828,9 @@ function setupExpand() {
   });
 }
 
-function updateLocation(loc) {
-  readerState = loc;
-  var filteredExports = exportedDogs.filter(function (d) {
-    return d.final_state === readerState;
-  });
-  var nestedExports = d3.nest().key(function (d) {
-    return d.original_state;
-  }).entries(filteredExports).sort(function (a, b) {
-    return d3.descending(a.values.length, b.values.length);
-  });
-  console.log({
-    nestedExports: nestedExports
-  });
-  charts.data(nestedExports); // filterDogs()
-}
+function nestDogs(loc) {
+  readerState = loc; // filter exported dogs
 
-function filterDogs() {
-  // filter exported dogs
   var filteredExports = exportedDogs.filter(function (d) {
     return d.final_state === readerState;
   });
@@ -877,9 +864,19 @@ function filterDogs() {
   }).entries(filteredExports).sort(function (a, b) {
     return d3.descending(a.value.stateTotal, b.value.stateTotal);
   });
+  return nestedExports;
+}
+
+function updateLocation(loc) {
+  var nestedExports = nestDogs(loc);
   console.log({
     nestedExports: nestedExports
   });
+  charts.data(nestedExports);
+}
+
+function filterDogs(loc) {
+  var nestedExports = nestDogs(loc);
   charts = $section.select('.figure-container').datum(nestedExports).exportsByState();
 } // code for determining user's location and subsequent data
 
@@ -890,7 +887,7 @@ function init(loc) {
   _loadData.default.loadCSV('exportedDogs.csv').then(function (result) {
     readerState = loc;
     exportedDogs = result;
-    filterDogs(); // setup interaction with show more button
+    filterDogs(loc); // setup interaction with show more button
 
     setupExpand();
   }).catch(console.error);

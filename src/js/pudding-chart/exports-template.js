@@ -52,7 +52,7 @@ d3.selection.prototype.exportsByState = function init(options) {
 			// update scales and render chart
 			render() {
 				const $state = $sel.selectAll('.state')
-					.data(data)
+					.data(data, d => d.key)
 					.join(
 						enter => {
 							const state = enter
