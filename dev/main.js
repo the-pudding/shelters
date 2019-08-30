@@ -668,7 +668,7 @@ var _default = {
   updateLocation: updateLocation
 };
 exports.default = _default;
-},{"./load-data":"xZJw"}],"HYmN":[function(require,module,exports) {
+},{"./load-data":"xZJw"}],"pudding-chart/exports-template.js":[function(require,module,exports) {
 /*
  USAGE (example: line chart)
  1. c+p this template to a new file (line.js)
@@ -723,13 +723,21 @@ d3.selection.prototype.exportsByState = function init(options) {
             return d.key;
           });
           var $container = state.append('div').attr('class', 'container-mini');
-          $container.selectAll('.dog').data(function (d) {
-            return d.values;
-          }).enter().append('div').attr('class', 'dog').style('background-image', function (d) {
-            return "url(assets/images/profiles/".concat(d.file, ".png)");
-          });
-        }, function (exit) {
-          exit.remove();
+          return state; // .enter()
+          // .append('div')
+          // .attr('class', 'dog')
+          //
+        });
+        console.log({
+          $state: $state
+        });
+        $state.select('.container-mini').selectAll('.dog').data(function (d) {
+          return d.value.breedMap;
+        }).join(function (enter) {
+          var dog = enter.append('div').attr('class', 'dog');
+          return dog;
+        }).style('background-image', function (d) {
+          return "url(assets/images/profiles/".concat(d.key, ".png)");
         }); //
         // const sorted = data.values
         // 	.sort((a, b) => d3.ascending(a.size, b.size))
@@ -768,7 +776,7 @@ d3.selection.prototype.exportsByState = function init(options) {
   var charts = this.nodes().map(createChart);
   return charts.length > 1 ? charts : charts.pop();
 };
-},{}],"sOMx":[function(require,module,exports) {
+},{}],"exported-dogs.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -782,7 +790,14 @@ require("./pudding-chart/exports-template");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* global d3 */
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 // reader parameters
 var readerState = null; // updating text selections
 
@@ -821,6 +836,9 @@ function updateLocation(loc) {
   }).entries(filteredExports).sort(function (a, b) {
     return d3.descending(a.values.length, b.values.length);
   });
+  console.log({
+    nestedExports: nestedExports
+  });
   charts.data(nestedExports); // filterDogs()
 }
 
@@ -831,8 +849,36 @@ function filterDogs() {
   });
   var nestedExports = d3.nest().key(function (d) {
     return d.original_state;
+  }).rollup(function (leaves) {
+    var _ref;
+
+    var stateTotal = leaves.length;
+    var breeds = d3.nest().key(function (d) {
+      return d.file;
+    }).rollup(function (buds) {
+      var count = Math.floor(buds.length / 1);
+      return d3.range(count).map(function () {
+        return {
+          key: buds[0].file
+        };
+      });
+    }).entries(leaves).sort(function (a, b) {
+      return d3.descending(a.value, b.value);
+    });
+
+    var breedMap = (_ref = []).concat.apply(_ref, _toConsumableArray(breeds.map(function (d) {
+      return d.value;
+    })));
+
+    return {
+      stateTotal: stateTotal,
+      breedMap: breedMap
+    };
   }).entries(filteredExports).sort(function (a, b) {
-    return d3.descending(a.values.length, b.values.length);
+    return d3.descending(a.value.stateTotal, b.value.stateTotal);
+  });
+  console.log({
+    nestedExports: nestedExports
   });
   charts = $section.select('.figure-container').datum(nestedExports).exportsByState();
 } // code for determining user's location and subsequent data
@@ -856,7 +902,7 @@ var _default = {
   updateLocation: updateLocation
 };
 exports.default = _default;
-},{"./load-data":"xZJw","./pudding-chart/exports-template":"HYmN"}],"v9Q8":[function(require,module,exports) {
+},{"./load-data":"xZJw","./pudding-chart/exports-template":"pudding-chart/exports-template.js"}],"v9Q8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1336,8 +1382,14 @@ d3.selection.prototype.tileMap = function init(options) {
       // on resize, update new dimensions
       resize: function resize() {
         // defaults to grabbing dimensions from container element
-        width = $sel.node().offsetWidth;
-        $sel.style('height', "".concat(width, "px")); // container height should be height - text height
+        if (_data.location === 'Maine') {
+          width = $sel.node().offsetWidth;
+          $sel.style('height', "".concat(width, "px"));
+        } else {
+          width = d3.select('.block-Maine').node().offsetWidth;
+          $sel.style('height', "".concat(width, "px"));
+        } // container height should be height - text height
+
 
         containerHeight = width - textHeight; // resize entire bounding chart once
 
@@ -1354,10 +1406,7 @@ d3.selection.prototype.tileMap = function init(options) {
           // add state name
           $sel.append('p').text(_data.abbreviation); // add div for chart
 
-          var $container = $sel.append('div').attr('class', 'container').style('height', "".concat(containerHeight, "px"));
-          console.log({
-            containerHeight: containerHeight
-          }); // add containers for imports and exports
+          var $container = $sel.append('div').attr('class', 'container').style('height', "".concat(containerHeight, "px")); // add containers for imports and exports
 
           var $imports = $container.append('div').attr('class', 'container-imports');
           var $exports = $container.append('div').attr('class', 'container-exports'); // if the data exists for that state, add dogs
@@ -1601,5 +1650,5 @@ function init() {
 }
 
 init();
-},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"TAPd","./exported-dogs":"sOMx","./footer":"v9Q8","./utils/us-state-data":"osrT","./northern-movement":"dOkl","./tile-movement":"tile-movement.js"}]},{},["main.js"], null)
+},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"TAPd","./exported-dogs":"exported-dogs.js","./footer":"v9Q8","./utils/us-state-data":"osrT","./northern-movement":"dOkl","./tile-movement":"tile-movement.js"}]},{},["main.js"], null)
 //# sourceMappingURL=/main.js.map

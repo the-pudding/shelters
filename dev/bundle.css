@@ -370,13 +370,13 @@ sub {
 }
 .exported .figure-container .state {
   margin: 1rem 1.5rem;
-  width: 15rem;
 }
 .exported .figure-container .state-name {
   font-family: 'National 2 Web';
-  font-size: 24px;
-  text-align: center;
+  font-size: 20px;
+  text-align: left;
   margin: 0.5rem 0;
+  font-weight: bold;
 }
 .exported .figure-container .container-mini {
   display: -webkit-box;

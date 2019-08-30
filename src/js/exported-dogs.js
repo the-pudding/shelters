@@ -43,6 +43,8 @@ function updateLocation(loc){
 		.entries(filteredExports)
 		.sort((a, b) => d3.descending(a.values.length, b.values.length))
 
+	console.log({nestedExports})
+
 	charts.data(nestedExports)
 	// filterDogs()
 }
@@ -53,8 +55,27 @@ function filterDogs(){
 
 	const nestedExports = d3.nest()
 		.key(d => d.original_state)
+		.rollup(leaves => {
+			const stateTotal = leaves.length
+
+			const breeds = d3.nest().key(d => d.file)
+				.rollup(buds => {
+					const count = Math.floor(buds.length / 1)
+					return d3.range(count).map(() => ({
+						key: buds[0].file
+					}))
+				})
+				.entries(leaves)
+				.sort((a, b) => d3.descending(a.value, b.value))
+
+			const breedMap = [].concat(...breeds.map(d => d.value))
+
+			return {stateTotal, breedMap}
+		})
 		.entries(filteredExports)
-		.sort((a, b) => d3.descending(a.values.length, b.values.length))
+		.sort((a, b) => d3.descending(a.value.stateTotal, b.value.stateTotal))
+
+	console.log({nestedExports})
 
 	charts = $section
 		.select('.figure-container')

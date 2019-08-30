@@ -29,8 +29,13 @@ d3.selection.prototype.tileMap = function init(options) {
 			// on resize, update new dimensions
 			resize() {
 				// defaults to grabbing dimensions from container element
-				width = $sel.node().offsetWidth
-				$sel.style('height', `${width}px`)
+				if (data.location === 'Maine'){
+  				width = $sel.node().offsetWidth
+  				$sel.style('height', `${width}px`)
+				} else {
+					width = d3.select('.block-Maine').node().offsetWidth
+					$sel.style('height', `${width}px`)
+				}
 
 				// container height should be height - text height
 				containerHeight = width - textHeight
@@ -54,8 +59,6 @@ d3.selection.prototype.tileMap = function init(options) {
 					const $container = $sel.append('div')
 						.attr('class', 'container')
 						.style('height', `${containerHeight}px`)
-
-					console.log({containerHeight})
 
 					// add containers for imports and exports
 					const $imports = $container.append('div')

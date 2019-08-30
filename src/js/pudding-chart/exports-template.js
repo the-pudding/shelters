@@ -11,10 +11,9 @@ d3.selection.prototype.exportsByState = function init(options) {
 	function createChart(el) {
 		const $sel = d3.select(el);
 		let data = $sel.datum();
-
 		// dimension stuff
-		let width = 0;
-		let height = 0;
+		const width = 0;
+		const height = 0;
 		const marginTop = 0;
 		const marginBottom = 0;
 		const marginLeft = 0;
@@ -25,10 +24,10 @@ d3.selection.prototype.exportsByState = function init(options) {
 		const scaleY = null;
 
 		// dom elements
-		let $svg = null;
-		let $axis = null;
-		let $vis = null;
-		let $containerMini = null
+		const $svg = null;
+		const $axis = null;
+		const $vis = null;
+		const $containerMini = null
 
 		// helper functions
 
@@ -67,17 +66,25 @@ d3.selection.prototype.exportsByState = function init(options) {
 							const $container = state.append('div')
 								.attr('class', 'container-mini')
 
-							$container.selectAll('.dog')
-								.data(d => d.values)
-								.enter()
-								.append('div')
-								.attr('class', 'dog')
-								.style('background-image', d => `url(assets/images/profiles/${d.file}.png)`)
-						},
-						exit => {
-							exit.remove()
+							return state
+							// .enter()
+							// .append('div')
+							// .attr('class', 'dog')
+							//
 						}
-					)
+					);
+
+				console.log({$state})
+
+				$state.select('.container-mini').selectAll('.dog')
+					.data(d => d.value.breedMap)
+					.join(enter => {
+						const dog = enter.append('div')
+							.attr('class', 'dog')
+
+						return dog
+					})
+					.style('background-image', d => `url(assets/images/profiles/${d.key}.png)`)
 
 
 				//
