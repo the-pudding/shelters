@@ -21,43 +21,45 @@ const $pupSheHe = $section.selectAll('.shehe')
 
 // constants
 let exampleDogs = null
-let exportedDogs = null
+const exportedDogs = null
 let readerDog = null
 
 function updateLocation(loc){
-  readerState = loc
-  filterDogs()
+	readerState = loc
+	filterDogs()
 }
 
 
 function filterDogs(){
-  readerDog = exampleDogs.filter(d => d.current === readerState)
+	readerDog = exampleDogs.filter(d => d.current === readerState)
 
-  // update state
-  $state.text(readerState)
-  $name.text(readerDog[0].name)
+	// update state
+	$state.text(readerState)
+	$name.text(readerDog[0].name)
 
-  // show appropriate text
-  if (readerDog[0].imported === "TRUE"){
-    $pOut.classed('is-visible', true)
-    $pIn.classed('is-visible', false)
-  } else {
-    $pOut.classed('is-visible', false)
-    $pIn.classed('is-visible', true)
-  }
+	// show appropriate text
+	if (readerDog[0].imported === 'TRUE'){
+		$pOut.classed('is-visible', true)
+		$pIn.classed('is-visible', false)
+	} else {
+		$pOut.classed('is-visible', false)
+		$pIn.classed('is-visible', true)
+	}
 
-  // update counts
-  $inCount.text(readerDog[0].count_imported)
-  $outCount.text(readerDog[0].count_exported)
-  $total.text(readerDog[0].total)
+	// update counts
+	$inCount.text(readerDog[0].count_imported)
+	$outCount.text(readerDog[0].count_exported)
+	$total.text(readerDog[0].total)
 
-  // update pronouns
-  const pupPronoun = readerDog[0].sex
-  $pupHerHis.text(pupPronoun === 'm' ? 'his' : 'her')
-  $pupSheHe.text(pupPronoun === 'm' ? 'he' : 'she')
+	// update pronouns
+	const pupPronoun = readerDog[0].sex
+	$pupHerHis.text(pupPronoun === 'm' ? 'his' : 'her')
+	$pupSheHe.text(pupPronoun === 'm' ? 'he' : 'she')
 
-  // add dog image
-  $img.attr('src', readerDog[0].image)
+	// add dog image
+	const fileName = readerDog[0].name.replace(' ', '')
+	const fileState = readerDog[0].current.replace(' ', '')
+	$img.attr('src', `assets/images/faces/${fileName}_${fileState}.png`)
 }
 
 
@@ -65,14 +67,14 @@ function filterDogs(){
 function resize() {}
 
 function init(loc) {
-  load.loadJSON('exampleDogs.json')
-    .then(result => {
-      console.log({loc})
-      readerState = loc
-      exampleDogs = result
-      filterDogs()
-    })
-    .catch(console.error)
+	load.loadJSON('exampleDogs.json')
+		.then(result => {
+			console.log({loc})
+			readerState = loc
+			exampleDogs = result
+			filterDogs()
+		})
+		.catch(console.error)
 }
 
 export default { init, resize, updateLocation };

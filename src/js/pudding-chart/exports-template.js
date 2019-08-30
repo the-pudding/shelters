@@ -84,7 +84,7 @@ d3.selection.prototype.exportsByState = function init(options) {
 
 						return dog
 					})
-					.style('background-image', d => `url(assets/images/profiles/${d.key}.png)`)
+					.style('background-image', d => d.key === 'mix' ? 'url(assets/images/profiles/labrador.png)' : `url(assets/images/profiles/${d.key}.png)`)
 
 
 				//

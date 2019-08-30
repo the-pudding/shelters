@@ -583,7 +583,7 @@ var _default = {
 
 };
 exports.default = _default;
-},{}],"TAPd":[function(require,module,exports) {
+},{}],"graphic.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -628,7 +628,7 @@ function filterDogs() {
   $state.text(readerState);
   $name.text(readerDog[0].name); // show appropriate text
 
-  if (readerDog[0].imported === "TRUE") {
+  if (readerDog[0].imported === 'TRUE') {
     $pOut.classed('is-visible', true);
     $pIn.classed('is-visible', false);
   } else {
@@ -645,7 +645,9 @@ function filterDogs() {
   $pupHerHis.text(pupPronoun === 'm' ? 'his' : 'her');
   $pupSheHe.text(pupPronoun === 'm' ? 'he' : 'she'); // add dog image
 
-  $img.attr('src', readerDog[0].image);
+  var fileName = readerDog[0].name.replace(' ', '');
+  var fileState = readerDog[0].current.replace(' ', '');
+  $img.attr('src', "assets/images/faces/".concat(fileName, "_").concat(fileState, ".png"));
 } // code for determining user's location and subsequent data
 
 
@@ -739,7 +741,7 @@ d3.selection.prototype.exportsByState = function init(options) {
           var dog = enter.append('div').attr('class', 'dog');
           return dog;
         }).style('background-image', function (d) {
-          return "url(assets/images/profiles/".concat(d.key, ".png)");
+          return d.key === 'mix' ? 'url(assets/images/profiles/labrador.png)' : "url(assets/images/profiles/".concat(d.key, ".png)");
         }); //
         // const sorted = data.values
         // 	.sort((a, b) => d3.ascending(a.size, b.size))
@@ -1647,5 +1649,5 @@ function init() {
 }
 
 init();
-},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"TAPd","./exported-dogs":"exported-dogs.js","./footer":"v9Q8","./utils/us-state-data":"osrT","./northern-movement":"dOkl","./tile-movement":"tile-movement.js"}]},{},["main.js"], null)
+},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"graphic.js","./exported-dogs":"exported-dogs.js","./footer":"v9Q8","./utils/us-state-data":"osrT","./northern-movement":"dOkl","./tile-movement":"tile-movement.js"}]},{},["main.js"], null)
 //# sourceMappingURL=/main.js.map

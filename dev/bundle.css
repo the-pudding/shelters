@@ -358,9 +358,9 @@ sub {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   max-width: 54rem;
-  margin: 0 auto;
-  height: 500px;
+  margin: 1rem auto;
   overflow: hidden;
+  height: 500px;
 }
 .exported .figure-container.is-expanded {
   height: auto;
@@ -884,7 +884,7 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
 }
 .intro .intro-dog_image {
   float: left;
-  width: 170px;
+  width: 150px;
   height: auto;
   margin-right: 1rem;
   margin-top: 1rem;
