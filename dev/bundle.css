@@ -901,26 +901,67 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
 .intro .intro-dog_in.is-visible {
   display: block;
 }
-.movement {
-  background-color: #df753c;
+.movement .figure-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  max-width: 50rem;
+  margin: 0 auto 2rem auto;
 }
-.movement figure {
-  height: 600px;
+.movement .figure-container .grid-block {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 8%;
+          flex: 1 0 8%;
+  padding: 0.25rem;
 }
-.movement figure svg {
-  margin: 0 auto;
+.movement .figure-container .grid-block p {
+  margin: 0 0 0.3rem 0;
+  font-size: 12px;
+  font-family: 'National 2 Web';
+  line-height: 0.9;
+  text-align: center;
 }
-.movement figure svg .land {
-  fill: #fff;
+.movement .figure-container .grid-block .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
-.movement figure svg .state-borders {
-  fill: none;
-  stroke: #df753c;
+.movement .figure-container .grid-block .container-imports {
+  border-bottom: 1px solid #000;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap-reverse;
+      flex-wrap: wrap-reverse;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
+  height: 50%;
 }
-.movement figure svg .movement-arc {
-  fill: none;
-  stroke: #f2c9c9;
-  opacity: 0.2;
+.movement .figure-container .grid-block .container-imports .import {
+  width: 2px;
+  height: 2px;
+  background-color: #edb4b4;
+}
+.movement .figure-container .grid-block .container-exports {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  height: 50%;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
+}
+.movement .figure-container .grid-block .container-exports .export {
+  width: 2px;
+  height: 2px;
+  background-color: #e38552;
 }
 .northern {
   background-color: #fff;

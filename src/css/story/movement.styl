@@ -1,17 +1,37 @@
 .movement
-  background-color $orange
-  figure
-    height 600px
-    svg
-      margin 0 auto
-      .land
-        fill $white
-
-      .state-borders
-        fill none
-        stroke $orange
-
-      .movement-arc
-        fill none
-        stroke $pink
-        opacity 0.2
+  .figure-container
+    display flex
+    flex-wrap wrap
+    max-width $column-width
+    margin 0 auto 2rem auto
+    .grid-block
+      flex 1 0 8%
+      padding 0.25rem
+      p
+        margin 0 0 0.3rem 0
+        set-type-size('x-small')
+        font-family $national
+        line-height 0.9
+        text-align: center;
+      .container
+        display flex
+        flex-direction column
+        &-imports
+          border-bottom 1px solid $black
+          display flex
+          flex-wrap wrap-reverse
+          align-content flex-start
+          height 50%
+          .import
+            width 2px
+            height 2px
+            background-color: darken($pink, 5)
+        &-exports
+          display flex
+          flex-wrap wrap
+          height 50%
+          align-content flex-start
+          .export
+            width 2px
+            height 2px
+            background-color: lighten($orange, 5)

@@ -768,7 +768,7 @@ d3.selection.prototype.exportsByState = function init(options) {
   var charts = this.nodes().map(createChart);
   return charts.length > 1 ? charts : charts.pop();
 };
-},{}],"exported-dogs.js":[function(require,module,exports) {
+},{}],"sOMx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1120,7 +1120,7 @@ var _default = [{
   abbr: 'DC'
 }];
 exports.default = _default;
-},{}],"pudding-chart/northern-template.js":[function(require,module,exports) {
+},{}],"bcyP":[function(require,module,exports) {
 /*
  USAGE (example: line chart)
  1. c+p this template to a new file (line.js)
@@ -1248,7 +1248,7 @@ d3.selection.prototype.northernLine = function init(options) {
   var charts = this.nodes().map(createChart);
   return charts.length > 1 ? charts : charts.pop();
 };
-},{}],"northern-movement.js":[function(require,module,exports) {
+},{}],"dOkl":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1307,7 +1307,200 @@ var _default = {
   init: init
 };
 exports.default = _default;
-},{"./pudding-chart/northern-template":"pudding-chart/northern-template.js","./load-data":"xZJw"}],"main.js":[function(require,module,exports) {
+},{"./pudding-chart/northern-template":"bcyP","./load-data":"xZJw"}],"pudding-chart/tile-template.js":[function(require,module,exports) {
+/*
+ USAGE (example: line chart)
+ 1. c+p this template to a new file (line.js)
+ 2. change puddingChartName to puddingChartLine
+ 3. in graphic file: import './pudding-chart/line'
+ 4a. const charts = d3.selectAll('.thing').data(data).puddingChartLine();
+ 4b. const chart = d3.select('.thing').datum(datum).puddingChartLine();
+*/
+d3.selection.prototype.tileMap = function init(options) {
+  function createChart(el) {
+    var $sel = d3.select(el);
+
+    var _data = $sel.datum(); // dimension stuff
+
+
+    var width = 0;
+    var textHeight = 18;
+    var containerHeight = null; // helper functions
+
+    var Chart = {
+      // called once at start
+      init: function init() {
+        Chart.resize();
+        Chart.render();
+      },
+      // on resize, update new dimensions
+      resize: function resize() {
+        // defaults to grabbing dimensions from container element
+        width = $sel.node().offsetWidth;
+        $sel.style('height', "".concat(width, "px")); // container height should be height - text height
+
+        containerHeight = width - textHeight; // resize entire bounding chart once
+
+        if (_data.location === 'Florida') {
+          var $figure = d3.select('.movement-figure');
+          var $bound = $figure.select('.figure-container').style('height', "".concat(width * 8, "px"));
+        }
+
+        return Chart;
+      },
+      // update scales and render chart
+      render: function render() {
+        if (_data.location != 'blank') {
+          // add state name
+          $sel.append('p').text(_data.abbreviation); // add div for chart
+
+          var $container = $sel.append('div').attr('class', 'container').style('height', "".concat(containerHeight, "px"));
+          console.log({
+            containerHeight: containerHeight
+          }); // add containers for imports and exports
+
+          var $imports = $container.append('div').attr('class', 'container-imports');
+          var $exports = $container.append('div').attr('class', 'container-exports'); // if the data exists for that state, add dogs
+
+          if (_data.count) {
+            $imports.selectAll('.import dog').data(d3.range(_data.count.imported)).join(function (enter) {
+              enter.append('div').attr('class', 'import');
+            });
+            $exports.selectAll('.export dog').data(d3.range(_data.count.exported)).join(function (enter) {
+              enter.append('div').attr('class', 'export');
+            });
+          }
+        }
+
+        return Chart;
+      },
+      // get / set data
+      data: function data(val) {
+        if (!arguments.length) return _data;
+        _data = val;
+        $sel.datum(_data);
+        Chart.render();
+        return Chart;
+      }
+    };
+    Chart.init();
+    return Chart;
+  } // create charts
+
+
+  var charts = this.nodes().map(createChart);
+  return charts.length > 1 ? charts : charts.pop();
+};
+},{}],"utils/lookup-state-abbr.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _usStateData = _interopRequireDefault(require("./us-state-data"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Return state abbrevation from name
+ * @param {string} state to use to lookup abbreviation
+
+ * @returns {string} abbreviation
+ */
+function lookupStateAbbr(state) {
+  var match = _usStateData.default.find(function (d) {
+    return d.state.toLowerCase() === state.toLowerCase();
+  });
+
+  return match ? match.abbr : null;
+}
+
+var _default = lookupStateAbbr;
+exports.default = _default;
+},{"./us-state-data":"osrT"}],"tile-movement.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _loadData = _interopRequireDefault(require("./load-data"));
+
+require("./pudding-chart/tile-template");
+
+var _lookupStateAbbr = _interopRequireDefault(require("./utils/lookup-state-abbr"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// data
+var importExport = null;
+var tileLoc = null; // selections
+
+var $section = d3.select('.movement');
+var $container = $section.select('.figure-container');
+
+function cleanData(arr) {
+  return arr.map(function (d, i) {
+    return _objectSpread({}, d, {
+      imported: +d.imported,
+      exported: +d.exported,
+      number: i
+    });
+  });
+}
+
+function setup() {
+  var locationMap = d3.map(importExport, function (d) {
+    return d.location;
+  }); // add data to tile location
+
+  var tileData = tileLoc.map(function (d, i) {
+    return {
+      location: d,
+      gridNumber: i + 1,
+      count: locationMap.get(d),
+      abbreviation: d === 'blank' ? null : (0, _lookupStateAbbr.default)(d)
+    };
+  });
+  console.log({
+    tileData: tileData
+  });
+  var charts = $container.selectAll('.grid-block').data(tileData).join(function (enter) {
+    return enter.append('div').attr('class', function (d) {
+      return "grid-block block-".concat(d.location);
+    });
+  }).tileMap();
+}
+
+function loadLocations() {
+  _loadData.default.loadJSON('tile-locations.json').then(function (result) {
+    tileLoc = result;
+    setup();
+  }).catch(console.error);
+}
+
+function resize() {}
+
+function init() {
+  _loadData.default.loadCSV('importExport.csv').then(function (result) {
+    importExport = cleanData(result);
+    loadLocations();
+  }).catch(console.error);
+}
+
+var _default = {
+  init: init,
+  resize: resize
+};
+exports.default = _default;
+},{"./load-data":"xZJw","./pudding-chart/tile-template":"pudding-chart/tile-template.js","./utils/lookup-state-abbr":"utils/lookup-state-abbr.js"}],"main.js":[function(require,module,exports) {
 "use strict";
 
 var _lodash = _interopRequireDefault(require("lodash.debounce"));
@@ -1323,6 +1516,8 @@ var _footer = _interopRequireDefault(require("./footer"));
 var _usStateData = _interopRequireDefault(require("./utils/us-state-data"));
 
 var _northernMovement = _interopRequireDefault(require("./northern-movement"));
+
+var _tileMovement = _interopRequireDefault(require("./tile-movement"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1396,14 +1591,15 @@ function init() {
   _graphic.default.init(readerState);
 
   _exportedDogs.default.init(readerState); // movement.init();
+  // northern.init();
 
 
-  _northernMovement.default.init(); // load footer stories
+  _tileMovement.default.init(); // load footer stories
 
 
   _footer.default.init();
 }
 
 init();
-},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"TAPd","./exported-dogs":"exported-dogs.js","./footer":"v9Q8","./utils/us-state-data":"osrT","./northern-movement":"northern-movement.js"}]},{},["main.js"], null)
+},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"TAPd","./exported-dogs":"sOMx","./footer":"v9Q8","./utils/us-state-data":"osrT","./northern-movement":"dOkl","./tile-movement":"tile-movement.js"}]},{},["main.js"], null)
 //# sourceMappingURL=/main.js.map

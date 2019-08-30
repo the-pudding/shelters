@@ -210,7 +210,8 @@ northernMovement <- fromTo %>%
   mutate(startLat = as.numeric(startLat),
          endLat = as.numeric(endLat),
     latDiff = round(endLat - startLat, 2)) %>% 
-  select(-c("startLat", "endLat"))
+  select(-c("startLat", "endLat")) %>% 
+  mutate(inUS = from %in% state.name)
 
 ggplot(northernMovement, aes(x = latDiff)) + geom_histogram()
 

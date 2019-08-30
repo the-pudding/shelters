@@ -7,6 +7,7 @@ import footer from './footer';
 import states from './utils/us-state-data'
 // import movement from './movement'
 import northern from './northern-movement'
+import tile from './tile-movement'
 
 const $body = d3.select('body');
 let previousWidth = 0;
@@ -70,7 +71,8 @@ function init() {
 	graphic.init(readerState);
 	exported.init(readerState);
 	// movement.init();
-	northern.init();
+	// northern.init();
+	tile.init()
 
 	// load footer stories
 	footer.init();
