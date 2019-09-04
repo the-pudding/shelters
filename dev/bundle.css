@@ -360,7 +360,6 @@ sub {
   max-width: 54rem;
   margin: 1rem auto;
   overflow: hidden;
-  height: 500px;
 }
 .exported .figure-container.is-expanded {
   height: auto;
@@ -373,10 +372,12 @@ sub {
 }
 .exported .figure-container .state-name {
   font-family: 'National 2 Web';
-  font-size: 20px;
+  font-size: 14px;
   text-align: left;
   margin: 0.5rem 0;
-  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 1px dashed #282828;
+  padding-bottom: 0.2rem;
 }
 .exported .figure-container .container-mini {
   display: -webkit-box;
@@ -389,11 +390,10 @@ sub {
           flex: 1;
 }
 .exported .figure-container .container-mini .dog {
-  width: 35px;
-  height: 35px;
+  width: 42px;
+  height: 31px;
   background-size: contain;
   background-repeat: no-repeat;
-  margin: 0.1rem;
 }
 .exported .bttn-wrapper {
   max-width: 5.5rem;
@@ -407,14 +407,14 @@ sub {
   border: 1px solid #c9c9c9;
   padding: 0.25rem;
   width: 100%;
-  display: none;
+  display: inline-block;
   font-size: 14px;
 }
 .exported .bttn-wrapper .show-more:hover {
   background-color: rgba(201,201,201,0.1);
 }
-.exported .bttn-wrapper .show-more.is-visible {
-  display: inline-block;
+.exported .bttn-wrapper .show-more.is-disabled {
+  display: none;
 }
 .exported .transparency {
   position: absolute;
@@ -1000,12 +1000,12 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
   text-align: center;
 }
 .figure-title span {
-  color: #df753c;
   font-weight: bold;
 }
 .figure-sub {
   font-family: 'National 2 Web';
   font-size: 18px;
   text-align: center;
+  margin-top: 1rem;
 }
 /*# sourceMappingURL=bundle.css.map */

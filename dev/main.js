@@ -812,6 +812,7 @@ var $transparency = $section.select('.transparency'); // constants
 
 var exportedDogs = null;
 var charts = null;
+var dogCount = 0;
 
 function setupExpand() {
   $moreButton.on('click', function () {
@@ -836,6 +837,18 @@ function nestDogs(loc) {
   var filteredExports = exportedDogs.filter(function (d) {
     return d.final_state === readerState;
   });
+  dogCount = filteredExports.length;
+
+  if (dogCount >= 100) {
+    $container.style('height', '600px');
+    $transparency.classed('is-visible', true);
+    $moreButton.property('disabled', false).classed('is-disabled', false);
+  } else {
+    $container.style('height', 'auto');
+    $transparency.classed('is-visible', false);
+    $moreButton.property('disabled', true).classed('is-disabled', true);
+  }
+
   var nestedExports = d3.nest().key(function (d) {
     return d.original_state;
   }).rollup(function (leaves) {
@@ -871,9 +884,6 @@ function nestDogs(loc) {
 
 function updateLocation(loc) {
   var nestedExports = nestDogs(loc);
-  console.log({
-    nestedExports: nestedExports
-  });
   charts.data(nestedExports);
 }
 

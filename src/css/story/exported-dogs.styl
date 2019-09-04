@@ -7,7 +7,7 @@
     max-width 54rem
     margin 1rem auto
     overflow hidden
-    height 500px
+    //height 600px
     &.is-expanded
       height auto
       transition height 300ms ease-in-out
@@ -16,21 +16,22 @@
       margin 1rem 1.5rem
       &-name
         font-family $national
-        set-type-size('large')
+        set-type-size('small')
         text-align left
         margin 0.5rem 0
-        font-weight bold
+        text-transform uppercase
+        border-bottom 1px dashed $off-black
+        padding-bottom 0.2rem
     .container-mini
       display flex
       flex-wrap wrap
       flex 1
       .dog
-        width 35px
-        height 35px
+        width 42px
+        height 31px
         // background-image url('assets/images/pinkDog.png')
         background-size contain
         background-repeat no-repeat
-        margin 0.1rem
 
   .bttn-wrapper
     max-width 5.5rem
@@ -44,12 +45,13 @@
       border 1px solid $gray-light
       padding 0.25rem
       width 100%
-      display none
+      display inline-block
       set-type-size('small')
       &:hover
         background-color rgba($gray-light, 0.1)
-      &.is-visible
-        display inline-block
+      &.is-disabled
+        display none
+
 
 
   .transparency

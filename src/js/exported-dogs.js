@@ -14,6 +14,7 @@ const $transparency = $section.select('.transparency')
 // constants
 let exportedDogs = null
 let charts = null
+let dogCount = 0
 
 
 function setupExpand(){
@@ -38,6 +39,19 @@ function nestDogs(loc){
 
 	// filter exported dogs
 	const filteredExports = exportedDogs.filter(d => d.final_state === readerState)
+
+	dogCount = filteredExports.length
+
+	if (dogCount >= 100){
+		$container.style('height', '600px')
+		$transparency.classed('is-visible', true)
+		$moreButton.property('disabled', false).classed('is-disabled', false)
+	}
+	else {
+		$container.style('height', 'auto')
+		$transparency.classed('is-visible', false)
+		$moreButton.property('disabled', true).classed('is-disabled', true)
+	}
 
 	const nestedExports = d3.nest()
 		.key(d => d.original_state)
@@ -67,11 +81,11 @@ function nestDogs(loc){
 function updateLocation(loc){
 
 	const nestedExports = nestDogs(loc)
-	console.log({nestedExports})
 
 	charts.data(nestedExports)
 
 }
+
 
 function filterDogs(loc){
 	const nestedExports = nestDogs(loc)
