@@ -16,6 +16,8 @@ d3.selection.prototype.tileMap = function init(options) {
 		const textHeight = 18;
 		let containerHeight = null
 
+		const factor = 2
+
 		// helper functions
 
 		const Chart = {
@@ -70,14 +72,14 @@ d3.selection.prototype.tileMap = function init(options) {
 					// if the data exists for that state, add dogs
 					if (data.count){
     					$imports.selectAll('.import dog')
-    						.data(d3.range(data.count.imported))
+    						.data(d3.range(data.count.imported / factor))
     						.join(enter => {
     							enter.append('div')
     								.attr('class', 'import')
     						})
 
 						$exports.selectAll('.export dog')
-							.data(d3.range(data.count.exported))
+							.data(d3.range(data.count.exported / factor))
 							.join(enter => {
 								enter.append('div')
 									.attr('class', 'export')

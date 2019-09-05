@@ -359,13 +359,14 @@ sub {
       flex-wrap: wrap;
   max-width: 54rem;
   margin: 1rem auto;
-  overflow: hidden;
-}
-.exported .figure-container.is-expanded {
   height: auto;
   -webkit-transition: height 300ms ease-in-out;
   transition: height 300ms ease-in-out;
   overflow: none;
+}
+.exported .figure-container.is-clipped {
+  height: 600px;
+  overflow: hidden;
 }
 .exported .figure-container .state {
   margin: 1rem 1.5rem;
@@ -914,6 +915,9 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
   font-size: 20px;
   font-weight: bold;
 }
+.movement {
+  margin-top: 5rem;
+}
 .movement .figure-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -960,6 +964,7 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
   width: 2px;
   height: 2px;
   background-color: #edb4b4;
+  margin: 1px 1px 0 0;
 }
 .movement .figure-container .grid-block .container-exports {
   display: -webkit-box;
@@ -975,6 +980,7 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
   width: 2px;
   height: 2px;
   background-color: #e38552;
+  margin: 1px 1px 0 0;
 }
 .northern {
   background-color: #fff;

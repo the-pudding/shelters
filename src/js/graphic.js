@@ -16,6 +16,8 @@ const $outCount = $section.selectAll('.outTotal')
 const $total = $section.selectAll('.stateTotal')
 const $pupHerHis = $section.selectAll('.herhis')
 const $pupSheHe = $section.selectAll('.shehe')
+const $reason = $section.selectAll('.moveCondition')
+const $dogOrigin = $section.selectAll('.dogOrigin')
 
 
 
@@ -32,6 +34,7 @@ function updateLocation(loc){
 
 function filterDogs(){
 	readerDog = exampleDogs.filter(d => d.current === readerState)
+	console.log({readerDog})
 
 	// update state
 	$state.text(readerState)
@@ -55,6 +58,10 @@ function filterDogs(){
 	const pupPronoun = readerDog[0].sex
 	$pupHerHis.text(pupPronoun === 'm' ? 'his' : 'her')
 	$pupSheHe.text(pupPronoun === 'm' ? 'he' : 'she')
+
+	// update conditions
+	$reason.text(readerDog[0].conditions)
+	$dogOrigin.text(readerDog[0].original)
 
 	// add dog image
 	const fileName = readerDog[0].name.replace(' ', '')

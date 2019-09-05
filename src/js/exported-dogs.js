@@ -19,18 +19,18 @@ let dogCount = 0
 
 function setupExpand(){
 	$moreButton.on('click', () => {
-		const truncated = !$container.classed('is-expanded');
-		const text = truncated ? 'Show Fewer' : 'Show All';
+		const expanded = !$container.classed('is-clipped');
+		const text = !expanded ? 'Show Fewer' : 'Show All';
 		$moreButton.text(text);
-		$container.classed('is-expanded', truncated);
+		$container.classed('is-clipped', expanded);
 
-		if (!truncated) {
+		if (expanded) {
 			const y = +$moreButton.attr('data-y');
 			window.scrollTo(0, y);
 		}
 
 		$moreButton.attr('data-y', window.scrollY);
-		$transparency.classed('is-visible', !truncated);
+		$transparency.classed('is-visible', !expanded);
 	});
 }
 
@@ -42,13 +42,13 @@ function nestDogs(loc){
 
 	dogCount = filteredExports.length
 
-	if (dogCount >= 100){
-		$container.style('height', '600px')
+	if (dogCount >= 60){
+		$container.classed('is-clipped', true)
 		$transparency.classed('is-visible', true)
 		$moreButton.property('disabled', false).classed('is-disabled', false)
 	}
 	else {
-		$container.style('height', 'auto')
+		$container.classed('is-clipped', false)
 		$transparency.classed('is-visible', false)
 		$moreButton.property('disabled', true).classed('is-disabled', true)
 	}

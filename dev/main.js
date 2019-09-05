@@ -609,7 +609,9 @@ var $inCount = $section.selectAll('.inTotal');
 var $outCount = $section.selectAll('.outTotal');
 var $total = $section.selectAll('.stateTotal');
 var $pupHerHis = $section.selectAll('.herhis');
-var $pupSheHe = $section.selectAll('.shehe'); // constants
+var $pupSheHe = $section.selectAll('.shehe');
+var $reason = $section.selectAll('.moveCondition');
+var $dogOrigin = $section.selectAll('.dogOrigin'); // constants
 
 var exampleDogs = null;
 var exportedDogs = null;
@@ -623,6 +625,9 @@ function updateLocation(loc) {
 function filterDogs() {
   readerDog = exampleDogs.filter(function (d) {
     return d.current === readerState;
+  });
+  console.log({
+    readerDog: readerDog
   }); // update state
 
   $state.text(readerState);
@@ -643,7 +648,10 @@ function filterDogs() {
 
   var pupPronoun = readerDog[0].sex;
   $pupHerHis.text(pupPronoun === 'm' ? 'his' : 'her');
-  $pupSheHe.text(pupPronoun === 'm' ? 'he' : 'she'); // add dog image
+  $pupSheHe.text(pupPronoun === 'm' ? 'he' : 'she'); // update conditions
+
+  $reason.text(readerDog[0].conditions);
+  $dogOrigin.text(readerDog[0].original); // add dog image
 
   var fileName = readerDog[0].name.replace(' ', '');
   var fileState = readerDog[0].current.replace(' ', '');
@@ -816,18 +824,18 @@ var dogCount = 0;
 
 function setupExpand() {
   $moreButton.on('click', function () {
-    var truncated = !$container.classed('is-expanded');
-    var text = truncated ? 'Show Fewer' : 'Show All';
+    var expanded = !$container.classed('is-clipped');
+    var text = !expanded ? 'Show Fewer' : 'Show All';
     $moreButton.text(text);
-    $container.classed('is-expanded', truncated);
+    $container.classed('is-clipped', expanded);
 
-    if (!truncated) {
+    if (expanded) {
       var y = +$moreButton.attr('data-y');
       window.scrollTo(0, y);
     }
 
     $moreButton.attr('data-y', window.scrollY);
-    $transparency.classed('is-visible', !truncated);
+    $transparency.classed('is-visible', !expanded);
   });
 }
 
@@ -839,12 +847,12 @@ function nestDogs(loc) {
   });
   dogCount = filteredExports.length;
 
-  if (dogCount >= 100) {
-    $container.style('height', '600px');
+  if (dogCount >= 60) {
+    $container.classed('is-clipped', true);
     $transparency.classed('is-visible', true);
     $moreButton.property('disabled', false).classed('is-disabled', false);
   } else {
-    $container.style('height', 'auto');
+    $container.classed('is-clipped', false);
     $transparency.classed('is-visible', false);
     $moreButton.property('disabled', true).classed('is-disabled', true);
   }
@@ -1380,7 +1388,8 @@ d3.selection.prototype.tileMap = function init(options) {
 
     var width = 0;
     var textHeight = 18;
-    var containerHeight = null; // helper functions
+    var containerHeight = null;
+    var factor = 2; // helper functions
 
     var Chart = {
       // called once at start
@@ -1421,10 +1430,10 @@ d3.selection.prototype.tileMap = function init(options) {
           var $exports = $container.append('div').attr('class', 'container-exports'); // if the data exists for that state, add dogs
 
           if (_data.count) {
-            $imports.selectAll('.import dog').data(d3.range(_data.count.imported)).join(function (enter) {
+            $imports.selectAll('.import dog').data(d3.range(_data.count.imported / factor)).join(function (enter) {
               enter.append('div').attr('class', 'import');
             });
-            $exports.selectAll('.export dog').data(d3.range(_data.count.exported)).join(function (enter) {
+            $exports.selectAll('.export dog').data(d3.range(_data.count.exported / factor)).join(function (enter) {
               enter.append('div').attr('class', 'export');
             });
           }
