@@ -1,0 +1,353 @@
+"from","to","n"
+"Texas","New York",170
+"Texas","Washington",121
+"Texas","New Jersey",105
+"California","Washington",104
+"Alabama","Pennsylvania",99
+"Alabama","Maryland",75
+"North Carolina","New Jersey",67
+"Texas","Maine",58
+"South Korea","Washington",50
+"Texas","Colorado",48
+"North Carolina","Pennsylvania",34
+"Alabama","Vermont",32
+"Louisiana","Rhode Island",31
+"Texas","Wisconsin",31
+"Maine","Tennessee",30
+"North Carolina","Virginia",28
+"South Carolina","New Jersey",28
+"Georgia","New York",25
+"Texas","Virginia",25
+"Georgia","New Jersey",24
+"Alabama","Virginia",23
+"North Carolina","New York",23
+"Texas","Massachusetts",22
+"South Carolina","New York",19
+"South Korea","Virginia",19
+"Texas","Minnesota",19
+"Alabama","New York",18
+"Kentucky","Ohio",16
+"Kentucky","Minnesota",15
+"Tennessee","New York",15
+"Thailand","New York",15
+"West Virginia","Pennsylvania",15
+"Florida","New York",14
+"Taiwan","Washington",14
+"West Virginia","Virginia",13
+"Texas","Rhode Island",12
+"Bahamas","New York",10
+"Mississippi","New York",10
+"New York","New Jersey",10
+"South Carolina","Connecticut",10
+"Georgia","Maryland",9
+"North Carolina","Delaware",9
+"Thailand","Washington",9
+"Georgia","Massachusetts",8
+"Georgia","Pennsylvania",8
+"Louisiana","Florida",8
+"Texas","Connecticut",8
+"California","New York",7
+"Georgia","Wisconsin",7
+"India","New Jersey",7
+"Louisiana","Massachusetts",7
+"Mexico","Arizona",7
+"Mississippi","Virginia",7
+"New Mexico","Colorado",7
+"North Carolina","Maryland",7
+"North Carolina","Massachusetts",7
+"Alabama","Connecticut",6
+"Alabama","New Hampshire",6
+"Egypt","New Jersey",6
+"Florida","Pennsylvania",6
+"Georgia","Virginia",6
+"Hawaii","Washington",6
+"Louisiana","New York",6
+"Mississippi","Maine",6
+"Mississippi","Pennsylvania",6
+"North Carolina","Connecticut",6
+"Texas","Maryland",6
+"Texas","New Hampshire",6
+"Virginia","Massachusetts",6
+"West Virginia","New Jersey",6
+"Alabama","Maine",5
+"Georgia","Maine",5
+"Louisiana","Connecticut",5
+"Louisiana","Indiana",5
+"Louisiana","Maine",5
+"South Korea","New York",5
+"Tennessee","Pennsylvania",5
+"West Virginia","Kentucky",5
+"Alabama","New Jersey",4
+"Arkansas","Minnesota",4
+"California","Oregon",4
+"China","Indiana",4
+"China","Maine",4
+"China","New Jersey",4
+"Egypt","Georgia",4
+"Kansas","Colorado",4
+"Kansas","Maine",4
+"Kentucky","Delaware",4
+"Kentucky","Illinois",4
+"Kentucky","New York",4
+"Kentucky","Pennsylvania",4
+"Louisiana","Maryland",4
+"Louisiana","New Jersey",4
+"Mississippi","Connecticut",4
+"New Jersey","New York",4
+"North Carolina","Maine",4
+"South Carolina","Maine",4
+"South Carolina","Maryland",4
+"South Carolina","Pennsylvania",4
+"South Carolina","Vermont",4
+"Tennessee","New Jersey",4
+"Texas","Arizona",4
+"Texas","North Carolina",4
+"Texas","Ohio",4
+"Washington DC","Washington",4
+"West Virginia","Maryland",4
+"Alabama","Florida",3
+"Alabama","Massachusetts",3
+"Alabama","Michigan",3
+"Arkansas","New York",3
+"Arkansas","Oklahoma",3
+"Arkansas","Rhode Island",3
+"China","New Hampshire",3
+"China","North Carolina",3
+"Florida","Maine",3
+"Kuwait","Virginia",3
+"Louisiana","Michigan",3
+"Louisiana","Vermont",3
+"Mississippi","Georgia",3
+"Mississippi","New Jersey",3
+"New York","Pennsylvania",3
+"New York","South Carolina",3
+"North Carolina","Georgia",3
+"North Carolina","South Carolina",3
+"Oklahoma","Pennsylvania",3
+"Spain","Indiana",3
+"Taiwan","Delaware",3
+"Tennessee","Delaware",3
+"Tennessee","Massachusetts",3
+"Tennessee","Ohio",3
+"Texas","Oregon",3
+"Texas","Vermont",3
+"Virginia","Maryland",3
+"Virginia","New Jersey",3
+"Virginia","South Carolina",3
+"Virginia","Vermont",3
+"Washington","Kentucky",3
+"West Virginia","New York",3
+"Alabama","Colorado",2
+"Alabama","Tennessee",2
+"Arkansas","Connecticut",2
+"Arkansas","New Jersey",2
+"Arkansas","Wisconsin",2
+"California","Arizona",2
+"California","Maine",2
+"China","Minnesota",2
+"China","Pennsylvania",2
+"China","Washington",2
+"Egypt","New York",2
+"Florida","New Jersey",2
+"Georgia","Florida",2
+"Georgia","Ohio",2
+"India","New York",2
+"Indiana","Illinois",2
+"Iowa","Wisconsin",2
+"Kentucky","Indiana",2
+"Kentucky","New Jersey",2
+"Kentucky","Wisconsin",2
+"Louisiana","Minnesota",2
+"Louisiana","Tennessee",2
+"Louisiana","Virginia",2
+"Louisiana","Washington",2
+"Maine","Connecticut",2
+"Massachusetts","Maine",2
+"Mexico","Minnesota",2
+"Mexico","New York",2
+"Mexico","Utah",2
+"Mississippi","Maryland",2
+"Mississippi","Rhode Island",2
+"Mississippi","Tennessee",2
+"Mississippi","Vermont",2
+"Missouri","Illinois",2
+"Missouri","Iowa",2
+"New Jersey","Massachusetts",2
+"New Jersey","Vermont",2
+"New Mexico","Arizona",2
+"New York","Vermont",2
+"North Carolina","Ohio",2
+"Ohio","Michigan",2
+"Ohio","New York",2
+"Ohio","Virginia",2
+"Pennsylvania","New Jersey",2
+"Qatar","Maryland",2
+"Russia","Washington DC",2
+"South Carolina","New Hampshire",2
+"South Carolina","Virginia",2
+"South Korea","Minnesota",2
+"Spain","Virginia",2
+"St. Maarten","Maryland",2
+"Tennessee","Rhode Island",2
+"Texas","Indiana",2
+"Texas","Iowa",2
+"Texas","Michigan",2
+"Thailand","Virginia",2
+"United Arab Emirates","Washington",2
+"Virginia","Delaware",2
+"Virginia","North Carolina",2
+"Washington DC","New York",2
+"Washington DC","Oregon",2
+"West Virginia","Ohio",2
+"Afghanistan","Colorado",1
+"Afghanistan","Connecticut",1
+"Alabama","North Carolina",1
+"Alabama","Wisconsin",1
+"Arkansas","Iowa",1
+"Arkansas","Massachusetts",1
+"Aruba","New York",1
+"Aruba","Rhode Island",1
+"Bahamas","Florida",1
+"Bahrain","Virginia",1
+"Belize","Minnesota",1
+"Bosnia","Georgia",1
+"British Virgin Islands","Virginia",1
+"California","Iowa",1
+"California","Utah",1
+"China","Connecticut",1
+"China","New York",1
+"Colorado","Kentucky",1
+"Connecticut","New York",1
+"Costa Rica","Washington",1
+"Delaware","Ohio",1
+"Ecuador","New York",1
+"Egypt","Arizona",1
+"Egypt","Iowa",1
+"Florida","Arizona",1
+"Florida","Connecticut",1
+"Florida","Georgia",1
+"Florida","Kentucky",1
+"Florida","Massachusetts",1
+"Florida","New Hampshire",1
+"Florida","North Carolina",1
+"Florida","Tennessee",1
+"Florida","Vermont",1
+"Florida","Virginia",1
+"Georgia","Connecticut",1
+"Georgia","Kentucky",1
+"Georgia","Rhode Island",1
+"Georgia","Tennessee",1
+"Georgia","Vermont",1
+"Idaho","Oregon",1
+"Illinois","Georgia",1
+"Illinois","Indiana",1
+"Illinois","Iowa",1
+"Illinois","New York",1
+"Illinois","Ohio",1
+"Illinois","Oklahoma",1
+"Illinois","Pennsylvania",1
+"India","Virginia",1
+"India","Washington",1
+"Indiana","Ohio",1
+"Indiana","Vermont",1
+"Iran","Maryland",1
+"Jamaica","Indiana",1
+"Jamaica","Massachusetts",1
+"Kansas","Iowa",1
+"Kansas","Missouri",1
+"Kansas","Nebraska",1
+"Kansas","New York",1
+"Kentucky","Maryland",1
+"Kentucky","Michigan",1
+"Kentucky","Rhode Island",1
+"Kentucky","Virginia",1
+"Kosovo","Maryland",1
+"Kosovo","New Jersey",1
+"Kosovo","Virginia",1
+"Kuwait","New York",1
+"Louisiana","Georgia",1
+"Louisiana","Illinois",1
+"Louisiana","New Hampshire",1
+"Louisiana","North Carolina",1
+"Louisiana","Ohio",1
+"Maine","Massachusetts",1
+"Maryland","Virginia",1
+"Mexico","Colorado",1
+"Mexico","Michigan",1
+"Mexico","South Carolina",1
+"Mexico","Washington",1
+"Michigan","New York",1
+"Mississippi","New Hampshire",1
+"Mississippi","Wisconsin",1
+"Missouri","Minnesota",1
+"Missouri","New Jersey",1
+"Missouri","Virginia",1
+"Nevis","Kansas",1
+"New Hampshire","Maine",1
+"New Hampshire","Massachusetts",1
+"New Jersey","Alabama",1
+"New Jersey","Delaware",1
+"New Jersey","South Carolina",1
+"New Jersey","Virginia",1
+"New Mexico","Utah",1
+"New York","New Hampshire",1
+"New York","North Carolina",1
+"New York","Rhode Island",1
+"New York","Virginia",1
+"North Carolina","Florida",1
+"North Carolina","Rhode Island",1
+"North Carolina","Washington DC",1
+"Ohio","Alabama",1
+"Ohio","New Jersey",1
+"Ohio","Pennsylvania",1
+"Ohio","Vermont",1
+"Ohio","Washington",1
+"Oklahoma","New Jersey",1
+"Oklahoma","Virginia",1
+"Oman","Maryland",1
+"Oman","New York",1
+"Oman","Virginia",1
+"Oregon","New York",1
+"Oregon","Pennsylvania",1
+"Oregon","Tennessee",1
+"Pennsylvania","Maryland",1
+"Puerto Rico","Massachusetts",1
+"Puerto Rico","New York",1
+"Puerto Rico","Pennsylvania",1
+"Puerto Rico","Virginia",1
+"Quebec","Missouri",1
+"Saudi Arabia","Arizona",1
+"South Carolina","Arizona",1
+"South Carolina","Massachusetts",1
+"South Carolina","North Carolina",1
+"South Carolina","Rhode Island",1
+"South Dakota","Minnesota",1
+"South Korea","New Jersey",1
+"Tennessee","Arizona",1
+"Tennessee","Connecticut",1
+"Tennessee","Illinois",1
+"Tennessee","Kentucky",1
+"Tennessee","Minnesota",1
+"Tennessee","New Hampshire",1
+"Tennessee","Wisconsin",1
+"Texas","Florida",1
+"Texas","Kentucky",1
+"Texas","North Dakota",1
+"Texas","Oklahoma",1
+"Texas","Pennsylvania",1
+"Texas","Tennessee",1
+"Thailand","Colorado",1
+"Tunisia","New Jersey",1
+"Tunisia","Virginia",1
+"Turkey","Maryland",1
+"Vermont","New Hampshire",1
+"Virginia","Pennsylvania",1
+"Virginia","Washington DC",1
+"Washington DC","Virginia",1
+"Washington DC","Washington DC",1
+"West Virginia","Connecticut",1
+"West Virginia","Georgia",1
+"Wisconsin","Illinois",1
+"Wisconsin","Indiana",1
+"Wisconsin","Minnesota",1
+"Wisconsin","New Jersey",1
