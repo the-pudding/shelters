@@ -53,7 +53,9 @@ function loadLocations(){
     .catch(console.error)
 }
 
-function resize(){}
+function resize(){
+
+}
 
 function init(){
   load.loadCSV('importExport.csv')

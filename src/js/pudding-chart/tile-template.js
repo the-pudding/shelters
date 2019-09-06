@@ -15,8 +15,11 @@ d3.selection.prototype.tileMap = function init(options) {
 		let width = 0;
 		const textHeight = 18;
 		let containerHeight = null
+		let isMobile = false
 
-		const factor = 2
+		// factor to determine how many dogs should be
+		// equal to one block
+		let factor = isMobile === true ? 2 : 4
 
 		// helper functions
 
@@ -38,6 +41,10 @@ d3.selection.prototype.tileMap = function init(options) {
 					width = d3.select('.block-Maine').node().offsetWidth
 					$sel.style('height', `${width}px`)
 				}
+
+				const windowWidth = window.innerWidth
+				isMobile = windowWidth <= 600
+				factor = isMobile === true ? 10 : 2
 
 				// container height should be height - text height
 				containerHeight = width - textHeight

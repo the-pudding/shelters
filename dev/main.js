@@ -1384,7 +1384,7 @@ var _default = {
   init: init
 };
 exports.default = _default;
-},{"./pudding-chart/northern-template":"bcyP","./load-data":"xZJw"}],"uAm8":[function(require,module,exports) {
+},{"./pudding-chart/northern-template":"bcyP","./load-data":"xZJw"}],"pudding-chart/tile-template.js":[function(require,module,exports) {
 /*
  USAGE (example: line chart)
  1. c+p this template to a new file (line.js)
@@ -1403,7 +1403,10 @@ d3.selection.prototype.tileMap = function init(options) {
     var width = 0;
     var textHeight = 18;
     var containerHeight = null;
-    var factor = 2; // helper functions
+    var isMobile = false; // factor to determine how many dogs should be
+    // equal to one block
+
+    var factor = isMobile === true ? 2 : 4; // helper functions
 
     var Chart = {
       // called once at start
@@ -1420,8 +1423,11 @@ d3.selection.prototype.tileMap = function init(options) {
         } else {
           width = d3.select('.block-Maine').node().offsetWidth;
           $sel.style('height', "".concat(width, "px"));
-        } // container height should be height - text height
+        }
 
+        var windowWidth = window.innerWidth;
+        isMobile = windowWidth <= 600;
+        factor = isMobile === true ? 10 : 2; // container height should be height - text height
 
         containerHeight = width - textHeight; // resize entire bounding chart once
 
@@ -1500,7 +1506,7 @@ function lookupStateAbbr(state) {
 
 var _default = lookupStateAbbr;
 exports.default = _default;
-},{"./us-state-data":"osrT"}],"KRMc":[function(require,module,exports) {
+},{"./us-state-data":"osrT"}],"tile-movement.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1581,7 +1587,7 @@ var _default = {
   resize: resize
 };
 exports.default = _default;
-},{"./load-data":"xZJw","./pudding-chart/tile-template":"uAm8","./utils/lookup-state-abbr":"NDWt"}],"epB2":[function(require,module,exports) {
+},{"./load-data":"xZJw","./pudding-chart/tile-template":"pudding-chart/tile-template.js","./utils/lookup-state-abbr":"NDWt"}],"epB2":[function(require,module,exports) {
 "use strict";
 
 var _lodash = _interopRequireDefault(require("lodash.debounce"));
@@ -1682,5 +1688,5 @@ function init() {
 }
 
 init();
-},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"graphic.js","./exported-dogs":"sOMx","./footer":"v9Q8","./utils/us-state-data":"osrT","./northern-movement":"dOkl","./tile-movement":"KRMc"}]},{},["epB2"], null)
+},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"graphic.js","./exported-dogs":"sOMx","./footer":"v9Q8","./utils/us-state-data":"osrT","./northern-movement":"dOkl","./tile-movement":"tile-movement.js"}]},{},["epB2"], null)
 //# sourceMappingURL=/main.js.map
