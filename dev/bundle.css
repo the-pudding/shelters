@@ -915,6 +915,46 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
   font-size: 20px;
   font-weight: bold;
 }
+.intro .intro-dog__bar .bars {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.intro .intro-dog__bar .bars .bar {
+  height: 70px;
+  padding: 0 0.5rem;
+}
+.intro .intro-dog__bar .bars .bar p {
+  font-family: 'National 2 Web';
+  font-size: 14px;
+}
+.intro .intro-dog__bar .bars .bar__inState {
+  background-color: #e1a186;
+}
+.intro .intro-dog__bar .bars .bar__inState p {
+  color: #352418;
+}
+.intro .intro-dog__bar .bars .bar__outState {
+  background-color: #352418;
+}
+.intro .intro-dog__bar .bars .bar__outState p {
+  color: #e1a186;
+  text-align: right;
+}
+.intro .intro-dog__bar .labels {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.intro .intro-dog__bar .labels h4 {
+  font-family: 'National 2 Web';
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 14px;
+}
 .movement {
   margin-top: 5rem;
 }

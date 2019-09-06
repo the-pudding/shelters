@@ -20,6 +20,21 @@
 			{{/each}}
 		</div>
 
+		<figure class='intro-dog__bar'>
+			<div class='bars'>
+				<div class='bar bar__inState'>
+					<p class='bar__inState-label bar-label'>0%</p>
+				</div>
+				<div class='bar bar__outState'>
+					<p class='bar__outState-label bar-label'>0%</p>
+				</div>
+			</div>
+
+			<div class='labels'>
+				<h4>In-State</h4>
+				<h4>Out of State</h4>
+		</figure>
+
 		<div class='intro-dog_in'>
 			{{#each doc.dogDescIn}}
 				<p class='prose-block'>{{{value}}}</p>

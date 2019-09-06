@@ -226,7 +226,8 @@ Which state or country exports the most dogs?
 ```{r}
 most_exported <- outOfState %>% 
   group_by(cleanLoc) %>% 
-  count(., sort = TRUE)
+  count(., sort = TRUE) %>% 
+  rename(location = cleanLoc)
 ```
 ```{r echo = FALSE}
 DT::datatable(most_exported, rownames = FALSE, filter = "top", options = list(pageLength = 10, scrollX = TRUE))
@@ -239,7 +240,8 @@ Which state imports the most dogs?
 ```{r}
 most_imported <- outOfState %>% 
   group_by(contact_state_full) %>% 
-  count(., sort = TRUE)
+  count(., sort = TRUE) %>% 
+  rename(location = contact_state_full)
 ```
 ```{r echo = FALSE}
 DT::datatable(most_imported, rownames = FALSE, filter = "top", options = list(pageLength = 10, scrollX = TRUE))
@@ -251,6 +253,16 @@ ggplot(most_imported, aes(x = reorder(contact_state_full, n), y = n )) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
   ylab("Count of Imported Adoptable Dogs") + 
   xlab("State or Country Importing Animals")
+```
+
+```{r}
+importExport <- most_exported %>% 
+  left_join(most_imported, by = "location") %>% 
+  rename(exported = n.x, imported = n.y) %>% 
+  ungroup() %>% 
+  mutate(inUS = location %in% state.name)
+
+puddingR::export_data(importExport, "importExport", directory = "../../src/assets/data/")
 ```
 
 

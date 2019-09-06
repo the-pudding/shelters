@@ -611,23 +611,36 @@ var $total = $section.selectAll('.stateTotal');
 var $pupHerHis = $section.selectAll('.herhis');
 var $pupSheHe = $section.selectAll('.shehe');
 var $reason = $section.selectAll('.moveCondition');
-var $dogOrigin = $section.selectAll('.dogOrigin'); // constants
+var $dogOrigin = $section.selectAll('.dogOrigin');
+var $stackBarContainer = $section.select('.intro-dog__bar'); // constants
 
 var exampleDogs = null;
 var exportedDogs = null;
 var readerDog = null;
+var formatCount = d3.format(',.0f');
+var formatPercent = d3.format('.0%');
 
 function updateLocation(loc) {
   readerState = loc;
   filterDogs();
 }
 
+function updateBars(dog) {
+  var perOut = +dog[0].count_imported / +dog[0].total;
+  var perIn = (+dog[0].total - +dog[0].count_imported) / +dog[0].total;
+  $stackBarContainer.select('.bar__inState').style('flex', "".concat(perIn, " 1 0"));
+  $stackBarContainer.select('.bar__outState').style('flex', "".concat(perOut, " 1 0"));
+  $stackBarContainer.select('.bar__inState-label').text(formatPercent(perIn));
+  $stackBarContainer.select('.bar__outState-label').text(formatPercent(perOut));
+  console.log({
+    perOut: perOut,
+    perIn: perIn
+  });
+}
+
 function filterDogs() {
   readerDog = exampleDogs.filter(function (d) {
     return d.current === readerState;
-  });
-  console.log({
-    readerDog: readerDog
   }); // update state
 
   $state.text(readerState);
@@ -642,9 +655,9 @@ function filterDogs() {
   } // update counts
 
 
-  $inCount.text(readerDog[0].count_imported);
-  $outCount.text(readerDog[0].count_exported);
-  $total.text(readerDog[0].total); // update pronouns
+  $inCount.text(formatCount(+readerDog[0].count_imported));
+  $outCount.text(formatCount(+readerDog[0].count_exported));
+  $total.text(formatCount(+readerDog[0].total)); // update pronouns
 
   var pupPronoun = readerDog[0].sex;
   $pupHerHis.text(pupPronoun === 'm' ? 'his' : 'her');
@@ -656,6 +669,7 @@ function filterDogs() {
   var fileName = readerDog[0].name.replace(' ', '');
   var fileState = readerDog[0].current.replace(' ', '');
   $img.attr('src', "assets/images/faces/".concat(fileName, "_").concat(fileState, ".png"));
+  updateBars(readerDog);
 } // code for determining user's location and subsequent data
 
 
@@ -678,7 +692,7 @@ var _default = {
   updateLocation: updateLocation
 };
 exports.default = _default;
-},{"./load-data":"xZJw"}],"pudding-chart/exports-template.js":[function(require,module,exports) {
+},{"./load-data":"xZJw"}],"HYmN":[function(require,module,exports) {
 /*
  USAGE (example: line chart)
  1. c+p this template to a new file (line.js)
@@ -788,7 +802,7 @@ d3.selection.prototype.exportsByState = function init(options) {
   var charts = this.nodes().map(createChart);
   return charts.length > 1 ? charts : charts.pop();
 };
-},{}],"exported-dogs.js":[function(require,module,exports) {
+},{}],"sOMx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -919,7 +933,7 @@ var _default = {
   updateLocation: updateLocation
 };
 exports.default = _default;
-},{"./load-data":"xZJw","./pudding-chart/exports-template":"pudding-chart/exports-template.js"}],"v9Q8":[function(require,module,exports) {
+},{"./load-data":"xZJw","./pudding-chart/exports-template":"HYmN"}],"v9Q8":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1370,7 +1384,7 @@ var _default = {
   init: init
 };
 exports.default = _default;
-},{"./pudding-chart/northern-template":"bcyP","./load-data":"xZJw"}],"pudding-chart/tile-template.js":[function(require,module,exports) {
+},{"./pudding-chart/northern-template":"bcyP","./load-data":"xZJw"}],"uAm8":[function(require,module,exports) {
 /*
  USAGE (example: line chart)
  1. c+p this template to a new file (line.js)
@@ -1458,7 +1472,7 @@ d3.selection.prototype.tileMap = function init(options) {
   var charts = this.nodes().map(createChart);
   return charts.length > 1 ? charts : charts.pop();
 };
-},{}],"utils/lookup-state-abbr.js":[function(require,module,exports) {
+},{}],"NDWt":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1486,7 +1500,7 @@ function lookupStateAbbr(state) {
 
 var _default = lookupStateAbbr;
 exports.default = _default;
-},{"./us-state-data":"osrT"}],"tile-movement.js":[function(require,module,exports) {
+},{"./us-state-data":"osrT"}],"KRMc":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1567,7 +1581,7 @@ var _default = {
   resize: resize
 };
 exports.default = _default;
-},{"./load-data":"xZJw","./pudding-chart/tile-template":"pudding-chart/tile-template.js","./utils/lookup-state-abbr":"utils/lookup-state-abbr.js"}],"main.js":[function(require,module,exports) {
+},{"./load-data":"xZJw","./pudding-chart/tile-template":"uAm8","./utils/lookup-state-abbr":"NDWt"}],"epB2":[function(require,module,exports) {
 "use strict";
 
 var _lodash = _interopRequireDefault(require("lodash.debounce"));
@@ -1668,5 +1682,5 @@ function init() {
 }
 
 init();
-},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"graphic.js","./exported-dogs":"exported-dogs.js","./footer":"v9Q8","./utils/us-state-data":"osrT","./northern-movement":"dOkl","./tile-movement":"tile-movement.js"}]},{},["main.js"], null)
+},{"lodash.debounce":"or4r","./utils/is-mobile":"WEtf","./graphic":"graphic.js","./exported-dogs":"sOMx","./footer":"v9Q8","./utils/us-state-data":"osrT","./northern-movement":"dOkl","./tile-movement":"KRMc"}]},{},["epB2"], null)
 //# sourceMappingURL=/main.js.map

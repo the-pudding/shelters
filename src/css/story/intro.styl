@@ -67,3 +67,30 @@
 		font-family $tiempos
 		set-type-size('large')
 		font-weight bold
+
+	.intro-dog__bar
+		.bars
+			display flex
+			.bar
+				height 70px
+				padding 0 0.5rem
+				p
+					font-family $national
+					set-type-size('small')
+			.bar__inState
+				background-color $orange-light
+				p
+					color $brown-dark
+			.bar__outState
+				background-color $brown-dark
+				p
+					color $orange-light
+					text-align right
+		.labels
+			display flex
+			justify-content: space-between;
+			h4
+				font-family $national
+				margin 0
+				text-transform: uppercase;
+				set-type-size('small')
