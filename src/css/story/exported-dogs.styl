@@ -1,6 +1,4 @@
 .exported
-  .exported-figure
-    position relative
   .figure-container
     display flex
     flex-wrap wrap
@@ -32,6 +30,23 @@
         // background-image url('assets/images/pinkDog.png')
         background-size contain
         background-repeat no-repeat
+        opacity 1
+        transition 100ms ease-in-out
+        &.dimmed
+          opacity 0.3
+          transition 100ms ease-in-out
+
+  .tooltip
+    position absolute
+    border 1px solid $brown-dark
+    background-color $bg
+    opacity 1
+    pointer-events none
+    &.is-hidden
+      opacity 0
+    p
+      font-family $tiempos
+      margin 0.2rem 0.5rem
 
   .bttn-wrapper
     max-width 5.5rem

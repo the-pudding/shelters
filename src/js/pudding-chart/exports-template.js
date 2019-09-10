@@ -9,6 +9,7 @@
 
 d3.selection.prototype.exportsByState = function init(options) {
 	function createChart(el) {
+		const $container = d3.select('.exported-figure')
 		const $sel = d3.select(el);
 		let data = $sel.datum();
 		// dimension stuff
@@ -28,8 +29,42 @@ d3.selection.prototype.exportsByState = function init(options) {
 		const $axis = null;
 		const $vis = null;
 		const $containerMini = null
+		const $tooltip = $container.select('.exported-tooltip')
+		let allDogs = null
 
 		// helper functions
+		function handleMouseover(){
+			const hovered = d3.select(this)
+			const parent = hovered.node().parentNode
+			const $selParent = d3.select(parent)
+
+			const hoveredBreed = hovered.attr('data-file')
+
+			const dogs = $selParent.selectAll('.dog')
+				.classed('dimmed', true)
+
+			const thisBreed = dogs.filter((d, i, n) => d3.select(n[i]).attr('data-file') === hoveredBreed)
+				.classed('dimmed', false)
+
+			$tooltip
+				.style('left', `${d3.event.pageX}px`)
+				.style('top', `${d3.event.pageY}px`)
+				.classed('is-hidden', false)
+
+			const breedCount = thisBreed.size()
+
+			$tooltip
+				.select('p').text(breedCount > 1 ? `${breedCount} ${hoveredBreed}s` : `${breedCount} ${hoveredBreed}`)
+		}
+
+		function handleMouseout(){
+			const section = d3.select(this)
+			console.log({section})
+			d3.selectAll('.dog')
+				.classed('dimmed', false)
+
+			$tooltip.classed('is-hidden', true)
+		}
 
 		const Chart = {
 			// called once at start
@@ -74,15 +109,16 @@ d3.selection.prototype.exportsByState = function init(options) {
 						}
 					);
 
-				console.log({$state})
-
 				$state.select('.container-mini').selectAll('.dog')
 					.data(d => d.value.breedMap)
 					.join(enter => {
-						const dog = enter.append('div')
+						allDogs = enter.append('div')
 							.attr('class', 'dog')
+							.attr('data-file', d => d.key )
+							.on('mouseover', handleMouseover)
+							.on('mouseout', handleMouseout)
 
-						return dog
+						return allDogs
 					})
 					.style('background-image', d => d.key === 'mix' ? 'url(assets/images/profiles/labrador.png)' : `url(assets/images/profiles/${d.key}.png)`)
 
