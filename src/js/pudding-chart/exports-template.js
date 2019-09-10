@@ -6,6 +6,7 @@
  4a. const charts = d3.selectAll('.thing').data(data).puddingChartLine();
  4b. const chart = d3.select('.thing').datum(datum).puddingChartLine();
 */
+import load from './../load-data'
 
 d3.selection.prototype.exportsByState = function init(options) {
 	function createChart(el) {
@@ -31,6 +32,7 @@ d3.selection.prototype.exportsByState = function init(options) {
 		const $containerMini = null
 		const $tooltip = $container.select('.exported-tooltip')
 		let allDogs = null
+		let crosswalk = null
 
 		// helper functions
 		function handleMouseover(){
@@ -39,6 +41,7 @@ d3.selection.prototype.exportsByState = function init(options) {
 			const $selParent = d3.select(parent)
 
 			const hoveredBreed = hovered.attr('data-file')
+			const displayBreed = crosswalk.get(hoveredBreed).display
 
 			const dogs = $selParent.selectAll('.dog')
 				.classed('dimmed', true)
@@ -54,7 +57,7 @@ d3.selection.prototype.exportsByState = function init(options) {
 			const breedCount = thisBreed.size()
 
 			$tooltip
-				.select('p').text(breedCount > 1 ? `${breedCount} ${hoveredBreed}s` : `${breedCount} ${hoveredBreed}`)
+				.select('p').text(breedCount > 1 ? `${breedCount} ${displayBreed}s` : `${breedCount} ${displayBreed}`)
 		}
 
 		function handleMouseout(){
@@ -66,11 +69,20 @@ d3.selection.prototype.exportsByState = function init(options) {
 			$tooltip.classed('is-hidden', true)
 		}
 
+		function importCrosswalk(){
+			load.loadCrosswalk()
+				.then(result => {
+					crosswalk = d3.map(result[0], d => d.file)
+				})
+				.catch(console.error)
+
+		}
+
 		const Chart = {
 			// called once at start
 			init() {
 
-
+				importCrosswalk()
 				Chart.resize();
 				Chart.render();
 			},

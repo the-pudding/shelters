@@ -15,6 +15,11 @@
         "id": "1fv26CjH0-MnWEabx2tj0rd7zyR28TAwgUP6qSLfN3kE",
         "gid": "0",
         "filepath": "src/assets/data/exampleDogs.json"
+      },
+      {
+        "id": "13ffbiCcfWIzZH7NmAr-PBpMCiU0CddaMKw4-RJnq1EI",
+        "gid": "0",
+        "filepath": "src/assets/data/breed-crosswalk.json"
       }
     ]
   }
