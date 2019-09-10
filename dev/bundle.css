@@ -915,13 +915,16 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
   font-size: 20px;
   font-weight: bold;
 }
+.intro .intro-dog__bar {
+  margin-top: 1rem;
+}
 .intro .intro-dog__bar .bars {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 .intro .intro-dog__bar .bars .bar {
-  height: 70px;
+  height: 50px;
   padding: 0 0.5rem;
 }
 .intro .intro-dog__bar .bars .bar p {
@@ -929,17 +932,34 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
   font-size: 14px;
 }
 .intro .intro-dog__bar .bars .bar__inState {
-  background-color: #e1a186;
+  background-color: #df753c;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .intro .intro-dog__bar .bars .bar__inState p {
   color: #352418;
+  margin: 0;
 }
 .intro .intro-dog__bar .bars .bar__outState {
-  background-color: #352418;
+  background-color: #f2c8b1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 .intro .intro-dog__bar .bars .bar__outState p {
-  color: #e1a186;
+  color: #352418;
   text-align: right;
+  margin: 0;
 }
 .intro .intro-dog__bar .labels {
   display: -webkit-box;
@@ -951,7 +971,7 @@ header.is-sticky.is-dark .header__toggle.is-visible span svg {
 }
 .intro .intro-dog__bar .labels h4 {
   font-family: 'National 2 Web';
-  margin: 0;
+  margin: 0.2rem 0 0 0;
   text-transform: uppercase;
   font-size: 14px;
 }

@@ -69,28 +69,36 @@
 		font-weight bold
 
 	.intro-dog__bar
+		margin-top 1rem
 		.bars
 			display flex
 			.bar
-				height 70px
+				height 50px
 				padding 0 0.5rem
 				p
 					font-family $national
 					set-type-size('small')
 			.bar__inState
-				background-color $orange-light
+				background-color $orange
+				display flex
+				align-items center
 				p
 					color $brown-dark
+					margin 0
 			.bar__outState
-				background-color $brown-dark
+				background-color $orange-lightest
+				display flex
+				align-items center
+				justify-content flex-end
 				p
-					color $orange-light
+					color $brown-dark
 					text-align right
+					margin 0
 		.labels
 			display flex
 			justify-content: space-between;
 			h4
 				font-family $national
-				margin 0
+				margin 0.2rem 0 0 0
 				text-transform: uppercase;
 				set-type-size('small')
