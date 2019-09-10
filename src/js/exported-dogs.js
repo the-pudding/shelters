@@ -19,6 +19,7 @@ let dogCount = 0
 
 function setupExpand(){
 	$moreButton.on('click', () => {
+		// was the container clipped before clicking?
 		const expanded = !$container.classed('is-clipped');
 		const text = !expanded ? 'Show Fewer' : 'Show All';
 		$moreButton.text(text);
@@ -29,8 +30,10 @@ function setupExpand(){
 			window.scrollTo(0, y);
 		}
 
+		console.log({expanded})
+
 		$moreButton.attr('data-y', window.scrollY);
-		$transparency.classed('is-visible', !expanded);
+		$transparency.classed('is-visible', expanded);
 	});
 }
 

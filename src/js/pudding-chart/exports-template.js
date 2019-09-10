@@ -31,6 +31,7 @@ d3.selection.prototype.exportsByState = function init(options) {
 		const $vis = null;
 		const $containerMini = null
 		const $tooltip = $container.select('.exported-tooltip')
+		let $stateTitle = null
 		let allDogs = null
 		let crosswalk = null
 
@@ -62,7 +63,6 @@ d3.selection.prototype.exportsByState = function init(options) {
 
 		function handleMouseout(){
 			const section = d3.select(this)
-			console.log({section})
 			d3.selectAll('.dog')
 				.classed('dimmed', false)
 
@@ -99,16 +99,15 @@ d3.selection.prototype.exportsByState = function init(options) {
 			// update scales and render chart
 			render() {
 				const $state = $sel.selectAll('.state')
-					.data(data, d => d.key)
+					.data(data, d => `${d.key}-${d.value.stateTotal}`)
 					.join(
 						enter => {
 							const state = enter
 								.append('div')
 								.attr('class', 'state')
 
-							const $title = state.append('p')
+							$stateTitle = state.append('p')
 								.attr('class', 'state-name')
-								.text(d => d.key)
 
 							const $container = state.append('div')
 								.attr('class', 'container-mini')
@@ -120,6 +119,8 @@ d3.selection.prototype.exportsByState = function init(options) {
 							//
 						}
 					);
+
+				$stateTitle.text(d => `${d.key} • ${d.value.stateTotal}`)
 
 				$state.select('.container-mini').selectAll('.dog')
 					.data(d => d.value.breedMap)
