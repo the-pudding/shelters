@@ -11,6 +11,7 @@ d3.selection.prototype.tileMap = function init(options) {
 	function createChart(el) {
 		const $sel = d3.select(el);
 		let data = $sel.datum();
+		const $legendScale = d3.select('.legend-scale')
 		// dimension stuff
 		let width = 0;
 		const textHeight = 18;
@@ -45,6 +46,8 @@ d3.selection.prototype.tileMap = function init(options) {
 				const windowWidth = window.innerWidth
 				isMobile = windowWidth <= 600
 				factor = isMobile === true ? 10 : 2
+
+				$legendScale.text(`${factor * 2}`)
 
 				// container height should be height - text height
 				containerHeight = width - textHeight
