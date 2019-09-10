@@ -49,7 +49,7 @@ d3.selection.prototype.tileMap = function init(options) {
 				isMobile = windowWidth <= 600
 				factor = isMobile === true ? 10 : 2
 
-				$legendScale.text(`${factor * 2}`)
+				$legendScale.text(`${factor * 4}`)
 
 				// container height should be height - text height
 				containerHeight = width - textHeight
