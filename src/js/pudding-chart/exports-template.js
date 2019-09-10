@@ -10,7 +10,7 @@ import load from './../load-data'
 
 d3.selection.prototype.exportsByState = function init(options) {
 	function createChart(el) {
-		const $container = d3.select('.exported-figure')
+		const $container = d3.select('.exported')
 		const $sel = d3.select(el);
 		let data = $sel.datum();
 		// dimension stuff
