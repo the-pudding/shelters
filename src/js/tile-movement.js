@@ -9,6 +9,28 @@ let tileLoc = null
 // selections
 const $section = d3.select('.movement')
 const $container = $section.select('.figure-container')
+const $tooltip = $section.select('.movement-tooltip')
+
+function handleMouseover(){
+	const sel = d3.select(this)
+	const state = sel.attr('data-state')
+	$tooltip
+		.style('left', `${d3.event.pageX}px`)
+		.style('top', `${d3.event.pageY}px`)
+		.classed('is-hidden', false)
+
+	if (state !== 'blank'){
+		const imported = sel.attr('data-imported')
+		const exported = sel.attr('data-exported')
+		$tooltip.select('.tooltip-state').text(sel.attr('data-state'))
+		$tooltip.select('.tooltip-count-import').text(imported)
+		$tooltip.select('.tooltip-count-export').text(exported)
+
+		console.log({exported, imported})
+		$tooltip.classed('is-hidden', false)
+	}
+	else $tooltip.classed('is-hidden', true)
+}
 
 function cleanData(arr){
 	return arr.map((d, i) => {
@@ -39,7 +61,14 @@ console.log({tileData})
   const charts = $container
 		.selectAll('.grid-block')
 		.data(tileData)
-    .join(enter => enter.append('div').attr('class', d => `grid-block block-${d.location}`))
+    .join(enter => enter
+			.append('div')
+			.attr('class', d => `grid-block block-${d.location}`)
+			.attr('data-state', d => d.location)
+			.attr('data-imported', d => (d.count) ? d.count.imported : null)
+			.attr('data-exported', d => (d.count) ? d.count.exported : null)
+			.on('mouseover', handleMouseover)
+		)
 		.tileMap()
 
 }

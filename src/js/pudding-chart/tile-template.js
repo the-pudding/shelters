@@ -11,12 +11,14 @@ d3.selection.prototype.tileMap = function init(options) {
 	function createChart(el) {
 		const $sel = d3.select(el);
 		let data = $sel.datum();
-		const $legendScale = d3.select('.legend-scale')
+
 		// dimension stuff
 		let width = 0;
 		const textHeight = 18;
 		let containerHeight = null
 		let isMobile = false
+		const $container = d3.select('.movement')
+		const $legendScale = $container.select('.legend-scale')
 
 		// factor to determine how many dogs should be
 		// equal to one block
