@@ -26,4 +26,8 @@
   </div>
 
   <div class='figure-note'>{{{doc.movementNote}}}</div>
+
+  {{#each doc.postMovement}}
+    <p class='prose'>{{{value}}}</p>
+  {{/each}}
 </section>

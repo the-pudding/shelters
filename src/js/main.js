@@ -8,6 +8,7 @@ import states from './utils/us-state-data'
 // import movement from './movement'
 import northern from './northern-movement'
 import tile from './tile-movement'
+import countries from './countries'
 
 const $body = d3.select('body');
 let previousWidth = 0;
@@ -73,6 +74,7 @@ function init() {
 	// movement.init();
 	// northern.init();
 	tile.init()
+	countries.init()
 
 	// load footer stories
 	footer.init();
