@@ -19,7 +19,7 @@ const $pupSheHe = $section.selectAll('.shehe')
 const $reason = $section.selectAll('.moveCondition')
 const $dogOrigin = $section.selectAll('.dogOrigin')
 const $stackBarContainer = $section.select('.intro-dog__bar')
-
+const $exportedSection = d3.selectAll('.exported')
 
 
 // constants
@@ -59,9 +59,11 @@ function filterDogs(){
 	if (readerDog[0].imported === 'TRUE'){
 		$pOut.classed('is-visible', true)
 		$pIn.classed('is-visible', false)
+		$exportedSection.classed('is-hidden', false)
 	} else {
 		$pOut.classed('is-visible', false)
 		$pIn.classed('is-visible', true)
+		$exportedSection.classed('is-hidden', true)
 	}
 
 	// update counts

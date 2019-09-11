@@ -26,7 +26,6 @@ function handleMouseover(){
 		$tooltip.select('.tooltip-count-import').text(imported)
 		$tooltip.select('.tooltip-count-export').text(exported)
 
-		console.log({exported, imported})
 		$tooltip.classed('is-hidden', false)
 	}
 	else $tooltip.classed('is-hidden', true)
@@ -56,7 +55,7 @@ function setup(){
     }
   })
 
-console.log({tileData})
+console.log({importExport})
 
   const charts = $container
 		.selectAll('.grid-block')
