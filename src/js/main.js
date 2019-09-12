@@ -17,6 +17,7 @@ const $dropdown = d3.selectAll('.stateSelect')
 let readerState = 'Washington'
 let importExport = null
 let filteredDD = null
+let allDD = null
 
 function resize() {
 	// only do resize on width changes, not height
@@ -31,10 +32,10 @@ function resize() {
 function setupStateDropdown(){
 	const justStates = states.map(d => d.state).sort((a, b) => d3.ascending(a, b))
 
-	const limitedStates = importExport.filter(d => d.imported > 0).map(d => d.location)
+	const limitedStates = importExport.filter(d => d.imported > 0).map(d => d.location).sort((a, b) => d3.ascending(a, b))
 
 	filteredDD = $dropdown.filter((d, i, n) => d3.select(n[i]).attr('data-condition') === 'limited')
-	const allDD = $dropdown.filter((d, i, n) => d3.select(n[i]).attr('data-condition') === 'all')
+	allDD = $dropdown.filter((d, i, n) => d3.select(n[i]).attr('data-condition') === 'all')
 
 	filteredDD.selectAll('option')
 		.data(limitedStates)
@@ -63,6 +64,7 @@ function updateLocation(){
 	exported.updateLocation(readerState)
 
 	filteredDD.selectAll('option').property('selected', d => d === readerState)
+	allDD.selectAll('option').property('selected', d => d === readerState)
 
 }
 
