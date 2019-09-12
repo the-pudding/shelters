@@ -9,11 +9,14 @@ import states from './utils/us-state-data'
 import northern from './northern-movement'
 import tile from './tile-movement'
 import countries from './countries'
+import load from './load-data'
 
 const $body = d3.select('body');
 let previousWidth = 0;
 const $dropdown = d3.selectAll('.stateSelect')
 let readerState = 'Washington'
+let importExport = null
+let filteredDD = null
 
 function resize() {
 	// only do resize on width changes, not height
@@ -26,9 +29,22 @@ function resize() {
 }
 
 function setupStateDropdown(){
-	const justStates = states.map(d => d.state)
+	const justStates = states.map(d => d.state).sort((a, b) => d3.ascending(a, b))
 
-	$dropdown.selectAll('option')
+	const limitedStates = importExport.filter(d => d.imported > 0).map(d => d.location)
+
+	filteredDD = $dropdown.filter((d, i, n) => d3.select(n[i]).attr('data-condition') === 'limited')
+	const allDD = $dropdown.filter((d, i, n) => d3.select(n[i]).attr('data-condition') === 'all')
+
+	filteredDD.selectAll('option')
+		.data(limitedStates)
+		.enter()
+		.append('option')
+		.attr('value', d => d)
+		.text(d => d)
+		.property('selected', d => d === readerState)
+
+	allDD.selectAll('option')
 		.data(justStates)
 		.enter()
 		.append('option')
@@ -45,6 +61,9 @@ function setupStateDropdown(){
 function updateLocation(){
 	graphic.updateLocation(readerState)
 	exported.updateLocation(readerState)
+
+	filteredDD.selectAll('option').property('selected', d => d === readerState)
+
 }
 
 function setupStickyHeader() {
@@ -60,7 +79,18 @@ function setupStickyHeader() {
 	}
 }
 
-function init() {
+function cleanData(arr){
+	return arr.map((d, i) => {
+		return {
+			...d,
+      imported: +d.imported,
+      exported: +d.exported,
+      number: i
+		}
+	})
+}
+
+function setup(){
 	// add mobile class to body tag
 	$body.classed('is-mobile', isMobile.any());
 	// setup resize event
@@ -78,6 +108,16 @@ function init() {
 
 	// load footer stories
 	footer.init();
+}
+
+function init() {
+	load.loadCSV('importExport.csv')
+		.then(result => {
+			importExport = cleanData(result)
+			setup()
+		})
+		.catch(console.error)
+
 }
 
 init();
