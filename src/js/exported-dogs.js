@@ -30,7 +30,6 @@ function setupExpand(){
 			window.scrollTo(0, y);
 		}
 
-		console.log({expanded})
 
 		$moreButton.attr('data-y', window.scrollY);
 		$transparency.classed('is-visible', expanded);
@@ -56,27 +55,42 @@ function nestDogs(loc){
 		$moreButton.property('disabled', true).classed('is-disabled', true)
 	}
 
+	const counts = d3.nest()
+		.key(d => d.original_state)
+		.key(d => d.file)
+		.rollup(leaves => leaves.length)
+		.entries(filteredExports)
+
+	const countsMap = d3.map(counts, d => d.key)
+	console.log({countsMap})
+
 	const nestedExports = d3.nest()
 		.key(d => d.original_state)
-		.rollup(leaves => {
-			const stateTotal = leaves.length
+		// .rollup(leaves => {
+		// 	const stateTotal = leaves.length
 
-			const breeds = d3.nest().key(d => d.file)
-				.rollup(buds => {
-					const count = Math.floor(buds.length / 1)
-					return d3.range(count).map(() => ({
-						key: buds[0].file
-					}))
-				})
-				.entries(leaves)
-				.sort((a, b) => d3.descending(a.value, b.value))
-
-			const breedMap = [].concat(...breeds.map(d => d.value))
-
-			return {stateTotal, breedMap}
-		})
+		// 	const breeds = d3.nest().key(d => d.file)
+		// 		.rollup(buds => {
+		// 			const count = Math.floor(buds.length / 1)
+		// 			return d3.range(count).map(() => ({
+		// 				key: buds[0].file
+		// 			}))
+		// 		})
+		// 		.entries(leaves)
+		// 		.sort((a, b) => d3.descending(a.value, b.value))
+		//
+		// 	const breedMap = [].concat(...breeds.map(d => d.value))
+		//
+		// 	return {stateTotal, breedMap}
+		// })
 		.entries(filteredExports)
-		.sort((a, b) => d3.descending(a.value.stateTotal, b.value.stateTotal))
+		.sort((a, b) => d3.descending(a.values.length, b.values.length))
+		// .map(d => ({
+		// 	...d,
+		// 	name: d.values.name.replace(/ *\([^)]*\) */g, '')
+		// }))
+
+	console.log({nestedExports})
 
 	return nestedExports
 }
@@ -99,6 +113,15 @@ function filterDogs(loc){
 		.exportsByState()
 }
 
+function cleanData(arr){
+	return arr.map((d, i) => {
+		return {
+			...d,
+      name: d.name.replace(/ *\([^)]*\) */g, "").replace('Adopted', '').replace('Pending', '')
+		}
+	})
+}
+
 
 // code for determining user's location and subsequent data
 function resize() {}
@@ -107,7 +130,7 @@ function init(loc) {
 	load.loadCSV('exportedDogs.csv')
 		.then(result => {
 			readerState = loc
-			exportedDogs = result
+			exportedDogs = cleanData(result)
 			filterDogs(loc)
 
 			// setup interaction with show more button

@@ -44,7 +44,7 @@ function updateBars(dog){
 	$stackBarContainer.select('.bar__inState-label').text(formatPercent(perIn))
 	$stackBarContainer.select('.bar__outState-label').text(formatPercent(perOut))
 
-	console.log({perOut, perIn})
+	$section.select('.inPer').text(formatPercent(perIn))
 }
 
 

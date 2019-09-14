@@ -213,6 +213,7 @@ northernMovement <- fromTo %>%
   select(-c("startLat", "endLat")) %>% 
   mutate(inUS = from %in% state.name)
 
+
 ggplot(northernMovement, aes(x = latDiff)) + geom_histogram()
 
 puddingR::export_data(northernMovement, "northernMovement", directory = "../../src/assets/data/")
@@ -227,7 +228,14 @@ Which state or country exports the most dogs?
 most_exported <- outOfState %>% 
   group_by(cleanLoc) %>% 
   count(., sort = TRUE) %>% 
-  rename(location = cleanLoc)
+  rename(location = cleanLoc) %>% 
+  mutate(inUS = location %in% state.name) 
+
+exportedUS_out <- outOfState %>% 
+  mutate(inUS = cleanLoc %in% state.name) %>% 
+  count(inUS, sort = TRUE)
+
+puddingR::export_data(most_exported, "exported_countries", directory = "../../src/assets/data/")
 ```
 ```{r echo = FALSE}
 DT::datatable(most_exported, rownames = FALSE, filter = "top", options = list(pageLength = 10, scrollX = TRUE))
@@ -257,10 +265,11 @@ ggplot(most_imported, aes(x = reorder(contact_state_full, n), y = n )) +
 
 ```{r}
 importExport <- most_exported %>% 
-  left_join(most_imported, by = "location") %>% 
+  full_join(most_imported, by = "location") %>% 
   rename(exported = n.x, imported = n.y) %>% 
   ungroup() %>% 
-  mutate(inUS = location %in% state.name)
+  mutate(inUS = location %in% state.name) %>% 
+  mutate(inUS = tolower(inUS))
 
 puddingR::export_data(importExport, "importExport", directory = "../../src/assets/data/")
 ```
@@ -360,6 +369,19 @@ statePop <- tidycensus::get_estimates(
   mutate(perTenThousand = humanPop/10000,
          dogsPerTenThousand = adoptableDogs/perTenThousand) %>% 
   arrange(desc(dogsPerTenThousand)) %>% 
+  select(-c("GEOID", "variable"))
+
+perCapitaExports <- tidycensus::get_estimates(
+  geography = "state",
+  product = "population",
+  year = 2018
+) %>% 
+  filter(variable == "POP") %>% 
+  left_join(importExport, by = c("NAME" = "location")) %>% 
+  rename(humanPop = value) %>% 
+  mutate(perHunThousand = humanPop/100000,
+         importsPerHunThousand = imported / perHunThousand,
+         exportsPerHunThousand = exported / perHunThousand) %>% 
   select(-c("GEOID", "variable"))
 ```
 

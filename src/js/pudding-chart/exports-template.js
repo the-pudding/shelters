@@ -38,27 +38,34 @@ d3.selection.prototype.exportsByState = function init(options) {
 		// helper functions
 		function handleMouseover(){
 			const hovered = d3.select(this)
+			const hoveredData = hovered.data()[0]
+			console.log({hovered, hoveredData})
 			const parent = hovered.node().parentNode
 			const $selParent = d3.select(parent)
 
-			const hoveredBreed = hovered.attr('data-file')
-			const displayBreed = crosswalk.get(hoveredBreed).display
-
+			// const hoveredBreed = hovered.attr('data-file')
+			// // const displayBreed = crosswalk.get(hoveredBreed).display
+			//
 			const dogs = $selParent.selectAll('.dog')
 				.classed('dimmed', true)
+			//
+			// const thisBreed = dogs.filter((d, i, n) => d3.select(n[i]).attr('data-file') === hoveredBreed)
+			// 	.classed('dimmed', false)
 
-			const thisBreed = dogs.filter((d, i, n) => d3.select(n[i]).attr('data-file') === hoveredBreed)
-				.classed('dimmed', false)
+			hovered.classed('dimmed', false)
 
 			$tooltip
 				.style('left', `${d3.event.pageX}px`)
 				.style('top', `${d3.event.pageY}px`)
 				.classed('is-hidden', false)
 
-			const breedCount = thisBreed.size()
+			// const breedCount = thisBreed.size()
 
-			$tooltip
-				.select('p').text(breedCount > 1 ? `${breedCount} ${displayBreed}s` : `${breedCount} ${displayBreed}`)
+			$tooltip.select('.tooltip-name').text(hoveredData.name)
+			$tooltip.select('.tooltip-desc').text(`${hoveredData.age} • ${hoveredData.sex}`)
+			$tooltip.select('.tooltip-breed').text(hoveredData.breed_secondary ? `${hoveredData.breed_primary} / ${hoveredData.breed_secondary} mix` : `${hoveredData.breed_primary}`)
+
+
 		}
 
 		function handleMouseout(){
@@ -99,7 +106,7 @@ d3.selection.prototype.exportsByState = function init(options) {
 			// update scales and render chart
 			render() {
 				const $state = $sel.selectAll('.state')
-					.data(data, d => `${d.key}-${d.value.stateTotal}`)
+					.data(data, d => `${d.key}-${d.values.length}`)
 					.join(
 						enter => {
 							const state = enter
@@ -120,20 +127,19 @@ d3.selection.prototype.exportsByState = function init(options) {
 						}
 					);
 
-				$stateTitle.text(d => `${d.key} • ${d.value.stateTotal}`)
+				$stateTitle.text(d => `${d.key} • ${d.values.length}`)
 
 				$state.select('.container-mini').selectAll('.dog')
-					.data(d => d.value.breedMap)
+					.data(d => d.values.sort((a, b) => d3.ascending(a.file, b.file)))
 					.join(enter => {
 						allDogs = enter.append('div')
 							.attr('class', 'dog')
-							.attr('data-file', d => d.key )
 							.on('mouseover', handleMouseover)
 							.on('mouseout', handleMouseout)
 
 						return allDogs
 					})
-					.style('background-image', d => d.key === 'mix' ? 'url(assets/images/profiles/labrador.png)' : `url(assets/images/profiles/${d.key}.png)`)
+					.style('background-image', d => d.file === 'mix' ? 'url(assets/images/profiles/labrador.png)' : `url(assets/images/profiles/${d.file}.png)`)
 
 
 				//
