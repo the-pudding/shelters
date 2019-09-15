@@ -39,20 +39,20 @@ d3.selection.prototype.tileMap = function init(options) {
 				// defaults to grabbing dimensions from container element
 				if (data.location === 'Maine'){
   				width = $sel.node().offsetWidth
-  				$sel.style('height', `${width}px`)
+  				$sel.style('height', `${width * 0.7}px`)
 				} else {
 					width = d3.select('.block-Maine').node().offsetWidth
-					$sel.style('height', `${width}px`)
+					$sel.style('height', `${width * 0.7}px`)
 				}
 
 				const windowWidth = window.innerWidth
 				isMobile = windowWidth <= 600
-				factor = isMobile === true ? 10 : 2
+				factor = isMobile === true ? 10 : 4
 
-				$legendScale.text(`${factor * 4}`)
+				$legendScale.text(`${factor}`)
 
 				// container height should be height - text height
-				containerHeight = width - textHeight
+				containerHeight = (width * 0.7) - textHeight
 
 				// resize entire bounding chart once
 				if (data.location === 'Florida') {
@@ -66,8 +66,6 @@ d3.selection.prototype.tileMap = function init(options) {
 			render() {
 
 				if (data.location != 'blank'){
-  				// add state name
-					$sel.append('p').text(data.abbreviation)
 
 					// add div for chart
 					const $container = $sel.append('div')
@@ -80,6 +78,10 @@ d3.selection.prototype.tileMap = function init(options) {
 
 					const $exports = $container.append('div')
 						.attr('class', 'container-exports')
+
+					// add state name
+					const $nameDiv = $sel.append('div').attr('class', 'name-div')
+					$nameDiv.append('span').text(data.abbreviation).attr('class', 'name name-upper')
 
 					// if the data exists for that state, add dogs
 					if (data.count){
