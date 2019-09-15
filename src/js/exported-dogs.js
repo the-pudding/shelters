@@ -4,6 +4,7 @@ import './pudding-chart/exports-template'
 
 // reader parameters
 let readerState = null
+let lastReaderState = null
 let selToggle = 'exports'
 
 // updating text selections
@@ -59,7 +60,7 @@ function setupToggle(){
 }
 
 function readerSelNest({dogs, counts}){
-
+	// setting container height
 	if (counts[selToggle] >= 60){
 		$container.classed('is-clipped', true)
 		$transparency.classed('is-visible', true)
@@ -70,6 +71,18 @@ function readerSelNest({dogs, counts}){
 		$transparency.classed('is-visible', false)
 		$moreButton.property('disabled', true).classed('is-disabled', true)
 	}
+
+	// default toggle whichever is higher when new state selected
+	if (readerState !== lastReaderState){
+		if (counts.imports > counts.exports) {
+			$toggle.attr('aria-checked', false)
+			selToggle = 'imports'
+		} else {
+			$toggle.attr('aria-checked', true)
+			selToggle = 'exports'
+		}
+	}
+
 
 	const nested = d3.nest()
 		.key(d => selToggle === 'exports' ? d.final_state : d.original_state)
@@ -83,6 +96,9 @@ function readerSelNest({dogs, counts}){
 		.key(d => selToggle === 'exports' ? d.final_state : d.original_state)
 		.entries(dogs[selToggle])
 		.sort((a, b) => d3.descending(a.values.length, b.values.length))
+
+	lastReaderState = readerState
+
 
 	return nestedExports
 
