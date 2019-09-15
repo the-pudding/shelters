@@ -35,36 +35,29 @@ d3.selection.prototype.exportsByState = function init(options) {
 		let allDogs = null
 		let crosswalk = null
 
-		// helper functions
 		function handleMouseover(){
+			// select hovered animal, its data, and the parent state/country div
 			const hovered = d3.select(this)
 			const hoveredData = hovered.data()[0]
-			console.log({hovered, hoveredData})
 			const parent = hovered.node().parentNode
 			const $selParent = d3.select(parent)
 
-			// const hoveredBreed = hovered.attr('data-file')
-			// // const displayBreed = crosswalk.get(hoveredBreed).display
-			//
+			// dim everyone except hovered dog
 			const dogs = $selParent.selectAll('.dog')
 				.classed('dimmed', true)
-			//
-			// const thisBreed = dogs.filter((d, i, n) => d3.select(n[i]).attr('data-file') === hoveredBreed)
-			// 	.classed('dimmed', false)
 
 			hovered.classed('dimmed', false)
 
+			// update tooltip location based on mouse location
 			$tooltip
 				.style('left', `${d3.event.pageX}px`)
 				.style('top', `${d3.event.pageY}px`)
 				.classed('is-hidden', false)
 
-			// const breedCount = thisBreed.size()
-
+			// update tooltip info based on hovered dog
 			$tooltip.select('.tooltip-name').text(hoveredData.name)
 			$tooltip.select('.tooltip-desc').text(`${hoveredData.age} • ${hoveredData.sex}`)
 			$tooltip.select('.tooltip-breed').text(hoveredData.breed_secondary ? `${hoveredData.breed_primary} / ${hoveredData.breed_secondary} mix` : `${hoveredData.breed_primary}`)
-
 
 		}
 

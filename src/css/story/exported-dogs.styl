@@ -96,3 +96,38 @@
     pointer-events none
     &.is-visible
     	visibility visible
+
+  .figure-meta
+    display flex
+    flex-wrap wrap
+    align-items baseline
+    justify-content center
+    font-family $tiempos
+    .stateSelect
+      margin-right 1rem
+      font-weight normal
+      set-type-size('x-large')
+    .toggle
+      font-family $tiempos
+      margin 0 1rem
+      display flex
+      padding 0.5rem
+      border-radius 5px
+      border 1px solid $white
+      background-color $white
+      height 45px
+
+    .button-label
+      set-type-size('x-large')
+      padding 0 0.5rem
+      border-radius 2px
+      pointer-events: none
+    [role="switch"][aria-checked="true"] :first-child,
+    [role="switch"][aria-checked="false"] :last-child
+    	background $white
+    	color $orange
+
+    [role="switch"][aria-checked="false"] :first-child,
+    [role="switch"][aria-checked="true"] :last-child
+    	background $orange
+    	color $white

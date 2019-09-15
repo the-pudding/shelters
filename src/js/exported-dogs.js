@@ -4,17 +4,20 @@ import './pudding-chart/exports-template'
 
 // reader parameters
 let readerState = null
+let selToggle = 'exports'
 
 // updating text selections
 const $section = d3.selectAll('.exported')
 const $container = $section.selectAll('.figure-container')
 const $moreButton = $section.select('.show-more')
 const $transparency = $section.select('.transparency')
+const $toggle = $section.select('.toggle')
 
 // constants
 let exportedDogs = null
 let charts = null
-let dogCount = 0
+let importCount = 0
+let exportCount = 0
 
 
 function setupExpand(){
@@ -36,15 +39,28 @@ function setupExpand(){
 	});
 }
 
-function nestDogs(loc){
-	readerState = loc
+function setupToggle(){
 
-	// filter exported dogs
-	const filteredExports = exportedDogs.filter(d => d.final_state === readerState)
+  $toggle.on('click', function(){
+    const el = d3.select(this)
+    const aria = el.attr('aria-checked')
+    if (aria === 'false') {
+			el.attr('aria-checked', 'true')
+			selToggle = 'exports'
+		}
+    else if (aria === 'true') {
+			el.attr('aria-checked', 'false')
+			selToggle = 'imports'
+		}
 
-	dogCount = filteredExports.length
+		updateLocation(readerState)
+		//console.log({selToggle})
+  })
+}
 
-	if (dogCount >= 60){
+function readerSelNest({dogs, counts}){
+
+	if (counts[selToggle] >= 60){
 		$container.classed('is-clipped', true)
 		$transparency.classed('is-visible', true)
 		$moreButton.property('disabled', false).classed('is-disabled', false)
@@ -55,49 +71,41 @@ function nestDogs(loc){
 		$moreButton.property('disabled', true).classed('is-disabled', true)
 	}
 
-	const counts = d3.nest()
-		.key(d => d.original_state)
+	const nested = d3.nest()
+		.key(d => selToggle === 'exports' ? d.final_state : d.original_state)
 		.key(d => d.file)
 		.rollup(leaves => leaves.length)
-		.entries(filteredExports)
+		.entries(dogs[selToggle])
 
 	const countsMap = d3.map(counts, d => d.key)
-	console.log({countsMap})
 
 	const nestedExports = d3.nest()
-		.key(d => d.original_state)
-		// .rollup(leaves => {
-		// 	const stateTotal = leaves.length
-
-		// 	const breeds = d3.nest().key(d => d.file)
-		// 		.rollup(buds => {
-		// 			const count = Math.floor(buds.length / 1)
-		// 			return d3.range(count).map(() => ({
-		// 				key: buds[0].file
-		// 			}))
-		// 		})
-		// 		.entries(leaves)
-		// 		.sort((a, b) => d3.descending(a.value, b.value))
-		//
-		// 	const breedMap = [].concat(...breeds.map(d => d.value))
-		//
-		// 	return {stateTotal, breedMap}
-		// })
-		.entries(filteredExports)
+		.key(d => selToggle === 'exports' ? d.final_state : d.original_state)
+		.entries(dogs[selToggle])
 		.sort((a, b) => d3.descending(a.values.length, b.values.length))
-		// .map(d => ({
-		// 	...d,
-		// 	name: d.values.name.replace(/ *\([^)]*\) */g, '')
-		// }))
 
-	console.log({nestedExports})
+	return nestedExports
+
+}
+
+function nestDogs(loc, toggle){
+	readerState = loc
+	selToggle = toggle
+
+	// filter exported dogs
+	const filteredImports = exportedDogs.filter(d => d.final_state === readerState)
+	const filteredExports = exportedDogs.filter(d => d.original_state === readerState)
+	const allDogs = {imports: filteredImports, exports: filteredExports}
+	const dogCounts = {imports: filteredImports.length, exports:filteredExports.length}
+
+	const nestedExports = readerSelNest({dogs: allDogs, counts: dogCounts})
 
 	return nestedExports
 }
 
 function updateLocation(loc){
 
-	const nestedExports = nestDogs(loc)
+	const nestedExports = nestDogs(loc, selToggle)
 
 	charts.data(nestedExports)
 
@@ -105,7 +113,7 @@ function updateLocation(loc){
 
 
 function filterDogs(loc){
-	const nestedExports = nestDogs(loc)
+	const nestedExports = nestDogs(loc, selToggle)
 
 	charts = $section
 		.select('.figure-container')
@@ -131,10 +139,11 @@ function init(loc) {
 		.then(result => {
 			readerState = loc
 			exportedDogs = cleanData(result)
-			filterDogs(loc)
+			filterDogs(loc, selToggle)
 
 			// setup interaction with show more button
 			setupExpand()
+			setupToggle()
 		})
 		.catch(console.error)
 }
