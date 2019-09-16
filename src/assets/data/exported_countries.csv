@@ -1,71 +1,65 @@
 "location","n","inUS"
 "Texas",661,TRUE
-"Alabama",283,TRUE
-"North Carolina",196,TRUE
+"Alabama",278,TRUE
+"North Carolina",182,TRUE
 "California",121,TRUE
-"Georgia",101,TRUE
-"Louisiana",94,TRUE
-"South Carolina",81,TRUE
+"Georgia",103,TRUE
+"South Carolina",83,TRUE
 "South Korea",77,FALSE
-"Kentucky",57,TRUE
+"Louisiana",63,TRUE
+"Kentucky",55,TRUE
 "West Virginia",50,TRUE
-"Mississippi",49,TRUE
+"Mississippi",48,TRUE
 "Tennessee",42,TRUE
-"Florida",35,TRUE
-"Maine",33,TRUE
+"Florida",32,TRUE
 "Thailand",27,FALSE
-"China",26,FALSE
-"Virginia",24,TRUE
-"New York",22,TRUE
+"China",25,FALSE
+"Virginia",23,TRUE
 "Arkansas",21,TRUE
 "Mexico",17,FALSE
+"New York",17,TRUE
 "Taiwan",17,FALSE
-"Egypt",14,FALSE
+"Egypt",15,FALSE
 "Kansas",12,TRUE
-"New Jersey",12,TRUE
 "Bahamas",11,FALSE
 "India",11,FALSE
-"Ohio",11,TRUE
 "New Mexico",10,TRUE
-"Washington DC",10,FALSE
-"Illinois",7,TRUE
+"Ohio",10,TRUE
 "Missouri",7,TRUE
+"New Jersey",7,TRUE
 "Hawaii",6,TRUE
+"Illinois",5,TRUE
 "Oklahoma",5,TRUE
+"Pennsylvania",5,TRUE
 "Spain",5,FALSE
 "Indiana",4,TRUE
 "Kuwait",4,FALSE
 "Puerto Rico",4,FALSE
-"Wisconsin",4,TRUE
 "Kosovo",3,FALSE
 "Oman",3,FALSE
 "Oregon",3,TRUE
-"Pennsylvania",3,TRUE
-"Washington",3,TRUE
+"Washington DC",3,TRUE
+"Wisconsin",3,TRUE
 "Afghanistan",2,FALSE
 "Aruba",2,FALSE
 "Iowa",2,TRUE
-"Jamaica",2,FALSE
 "Massachusetts",2,TRUE
-"New Hampshire",2,TRUE
 "Qatar",2,FALSE
 "Russia",2,FALSE
 "St. Maarten",2,FALSE
 "Tunisia",2,FALSE
 "United Arab Emirates",2,FALSE
+"Washington",2,TRUE
 "Bahrain",1,FALSE
 "Belize",1,FALSE
 "Bosnia",1,FALSE
 "British Virgin Islands",1,FALSE
-"Colorado",1,TRUE
 "Connecticut",1,TRUE
 "Costa Rica",1,FALSE
-"Delaware",1,TRUE
 "Ecuador",1,FALSE
 "Idaho",1,TRUE
 "Iran",1,FALSE
-"Maryland",1,TRUE
-"Michigan",1,TRUE
+"Jamaica",1,FALSE
 "Nevis",1,FALSE
 "Quebec",1,FALSE
 "Saudi Arabia",1,FALSE

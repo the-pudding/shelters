@@ -525,3 +525,49 @@ dogSize <- dogsTrim %>%
   
 ```
 
+
+```{r}
+manualCheck <- dogsTrim %>% 
+  left_join(allFrom) %>% 
+  filter(!is.na(cleanLoc)) %>% 
+  left_join(descriptions) %>% 
+  select(c(id, url, contact_city, contact_state, cleanLoc, fullDes)) %>% 
+  distinct(id, fullDes, .keep_all = TRUE) %>% 
+  mutate(contact_state = ifelse(is.na(state.name[match(contact_state, state.abb)]), contact_state, state.name[match(contact_state, state.abb)]) ,
+    same = ifelse(contact_state == cleanLoc, TRUE, FALSE)) %>% 
+  filter(same == FALSE) %>% 
+  arrange(cleanLoc) %>% 
+  select(-same)
+
+write_csv(manualCheck, here::here("assets", "data", "processed_data", "manual_check.csv"))
+
+# upload to google drive
+folder <- as_dribble(as_id("1egKvQvptatpY6hveSrK3JbLj77FhaeGC"))
+upload <- drive_upload(
+  here::here("assets", "data", "processed_data", "manual_check.csv"),
+  folder,
+  name = "manual_check",
+  type = "spreadsheet"
+)
+
+googleLoc3 <- as_id("https://docs.google.com/spreadsheets/d/1PeF-mcw0-vf07pnjgeYq6-DavEw7p8SZZoX__z3Ynf0/edit#gid=602878102")
+drive_download(
+  file = googleLoc3,
+  path = here::here("assets", "data", "processed_data", "cleaned_manual_check.csv"),
+  overwrite = TRUE
+)
+
+cleanedManual <- read_csv(here::here("assets", "data", "processed_data", "cleaned_manual_check.csv")) %>% 
+  select(c(id, manualLoc)) %>% 
+  mutate(id = as.character(id))
+
+
+cleanedExportedDogs <- allFrom %>% 
+  left_join(cleanedManual) %>% 
+  mutate(final_origin = ifelse(is.na(manualLoc), cleanLoc, manualLoc)) %>% 
+  filter(final_origin != "REMOVE") %>% 
+  select(c(id, final_origin))
+
+
+```
+

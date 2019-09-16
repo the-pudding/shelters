@@ -97,6 +97,8 @@ function readerSelNest({dogs, counts}){
 		.entries(dogs[selToggle])
 		.sort((a, b) => d3.descending(a.values.length, b.values.length))
 
+	console.log({nestedExports})
+
 	lastReaderState = readerState
 
 
