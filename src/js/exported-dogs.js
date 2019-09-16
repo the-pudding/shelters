@@ -13,6 +13,7 @@ const $container = $section.selectAll('.figure-container')
 const $moreButton = $section.select('.show-more')
 const $transparency = $section.select('.transparency')
 const $toggle = $section.select('.toggle')
+const $warning = $section.select('.figure-warning')
 
 // constants
 let exportedDogs = null
@@ -72,6 +73,7 @@ function readerSelNest({dogs, counts}){
 		$moreButton.property('disabled', true).classed('is-disabled', true)
 	}
 
+
 	const stateImport = counts.imports > 0
 
 	// default toggle whichever is higher when new state selected
@@ -79,6 +81,15 @@ function readerSelNest({dogs, counts}){
 		$toggle.attr('aria-checked', !stateImport)
 		selToggle = stateImport ? 'imports' : 'exports'
 	}
+
+	const noDogsMoved = counts[selToggle] === 0
+	$warning.classed('is-visible', noDogsMoved)
+	if (noDogsMoved){
+		$warning.select('.userState').text(readerState)
+		$warning.select('.condition').text(selToggle === 'imports' ? 'imported from' : 'exported')
+	}
+
+
 
 
 	const nested = d3.nest()
