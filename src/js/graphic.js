@@ -10,6 +10,7 @@ const $state = d3.selectAll('.userState')
 const $name = $section.selectAll('.exampleDog')
 const $pOut = $section.selectAll('.intro-dog_out')
 const $pIn = $section.selectAll('.intro-dog_in')
+const $pInEx = $section.selectAll('.intro-dog_inEx')
 const $img = $section.selectAll('.intro-dog_image')
 const $inCount = $section.selectAll('.inTotal')
 const $outCount = $section.selectAll('.outTotal')
@@ -37,8 +38,17 @@ function updateLocation(loc){
 	filterDogs()
 }
 
+function cleanData(arr){
+	return arr.map((d, i) => {
+		return {
+			...d,
+      imported: d.imported === 'TRUE'
+		}
+	})
+}
+
 function updateBars(state){
-	const selState = state[0]
+	const selState = state
 	const perOut = +selState.imported / +selState.total
 	const perIn = (+selState.total - +selState.imported) /  +selState.total
 	$stackBarContainer.select('.bar__inState').style('flex', `${perIn} 1 0`)
@@ -47,30 +57,58 @@ function updateBars(state){
 	$stackBarContainer.select('.bar__inState-label').text(formatPercent(perIn))
 	$stackBarContainer.select('.bar__outState-label').text(formatPercent(perOut))
 
-	$section.select('.inPer').text(formatPercent(perIn))
+	$section.select('.inPer').text(formatPercent(perOut))
+
+	const oneHundred = perOut === 0 || perIn === 0
+	$stackBarContainer.classed('is-hidden', oneHundred)
+
+
 }
 
 
 function filterDogs(){
 	readerDog = exampleDogs.filter(d => d.current === readerState)
-	readerStateData = importExport.filter(d => d.location === readerState)
+	readerStateData = importExport.filter(d => d.location === readerState)[0]
 	// update state
 	$state.text(readerState)
 	$name.text(readerDog[0].name)
 
 	// show appropriate text
-	if (readerDog[0].imported === 'TRUE'){
+	const exampleImport = readerDog[0].imported
+	const exportFew = readerStateData.exported <= 1
+
+	if (exampleImport){
 		$pOut.classed('is-visible', true)
 		$pIn.classed('is-visible', false)
-	} else {
+		$pInEx.classed('is-visible', false)
+	} else if (!exampleImport) {
 		$pOut.classed('is-visible', false)
-		$pIn.classed('is-visible', true)
+		if (readerStateData.exported <= 1){
+			$pInEx.classed('is-visible', false)
+			$pIn.classed('is-visible', true)
+		} else {
+			$pInEx.classed('is-visible', true)
+			$pIn.classed('is-visible', false)
+		}
 	}
 
+
+	// $pOut.classed('is-visible', exampleImport)
+	// $exportedSection.classed('is-hidden', false)
+	// if (!exampleImport){
+	// 	$pInEx.classed('is-visible', !exportFew)
+	// 	$pIn.classed('is-visible', exportFew)
+	// 	$exportedSection.classed('is-hidden', exportFew)
+	// }
+
+
 	// update counts
-	$inCount.text(formatCount(+readerStateData[0].imported))
-	$outCount.text(formatCount(+readerStateData[0].exported))
-	$total.text(formatCount(+readerStateData[0].total))
+	if (readerStateData){
+		$inCount.text(formatCount(+readerStateData.imported))
+		$outCount.text(formatCount(+readerStateData.exported))
+		$total.text(formatCount(+readerStateData.total))
+	}
+
 
 	// update pronouns
 	const pupPronoun = readerDog[0].sex
@@ -105,7 +143,7 @@ function init(loc) {
 		const loads = files.map(load.loadAny);
 		Promise.all(loads)
 			.then(([exampleDogsData, importExportData]) => {
-				exampleDogs = exampleDogsData
+				exampleDogs = cleanData(exampleDogsData)
 				importExport = importExportData
 				readerState = loc
 				resolve()
@@ -113,14 +151,6 @@ function init(loc) {
 			.then(filterDogs)
 			.catch(console.error)
 	})
-	// load.loadJSON('exampleDogs.json')
-	// 	.then(result => {
-	// 		loadImports()
-	// 		readerState = loc
-	// 		exampleDogs = result
-	// 	})
-	// 	.then(filterDogs)
-	// 	.catch(console.error)
 }
 
 export default { init, resize, updateLocation };

@@ -51,25 +51,17 @@
 			display none
 			&.is-visible
 				display block
-		&_in
+		&_in, &_inEx
 			display none
 			&.is-visible
 				display block
 
-	.stateSelect
-		cursor pointer
-		height 2.5rem
-		width 10rem
-		line-height 1.7
-		background-color $orange
-		color $off-white
-		border none
-		font-family $tiempos
-		set-type-size('large')
-		font-weight bold
 
 	.intro-dog__bar
 		margin 1rem 0
+		display block
+		&.is-hidden
+			display none
 		.bars
 			display flex
 			.bar
