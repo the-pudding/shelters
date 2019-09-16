@@ -54,10 +54,11 @@ function updateBars(state){
 	$stackBarContainer.select('.bar__inState').style('flex', `${perIn} 1 0`)
 	$stackBarContainer.select('.bar__outState').style('flex', `${perOut} 1 0`)
 
-	$stackBarContainer.select('.bar__inState-label').text(formatPercent(perIn))
-	$stackBarContainer.select('.bar__outState-label').text(formatPercent(perOut))
+	$stackBarContainer.select('.bar__inState-label').text(perOut < 0.01 ? '> 99%' : formatPercent(perIn))
+	$stackBarContainer.select('.bar__outState-label').text(perOut < .01 ? '< 1%' : formatPercent(perOut))
 
-	$section.select('.inPer').text(formatPercent(perOut))
+	$section.select('.inPer').text(perOut < .01 ? '< 1%' : formatPercent(perOut))
+	console.log({perOut})
 
 	const oneHundred = perOut === 0 || perIn === 0
 	$stackBarContainer.classed('is-hidden', oneHundred)
@@ -81,26 +82,19 @@ function filterDogs(){
 		$pOut.classed('is-visible', true)
 		$pIn.classed('is-visible', false)
 		$pInEx.classed('is-visible', false)
+		$exportedSection.classed('is-hidden', false)
 	} else if (!exampleImport) {
 		$pOut.classed('is-visible', false)
 		if (readerStateData.exported <= 1){
 			$pInEx.classed('is-visible', false)
 			$pIn.classed('is-visible', true)
+			$exportedSection.classed('is-hidden', true)
 		} else {
 			$pInEx.classed('is-visible', true)
 			$pIn.classed('is-visible', false)
+			$exportedSection.classed('is-hidden', false)
 		}
 	}
-
-
-	// $pOut.classed('is-visible', exampleImport)
-	// $exportedSection.classed('is-hidden', false)
-	// if (!exampleImport){
-	// 	$pInEx.classed('is-visible', !exportFew)
-	// 	$pIn.classed('is-visible', exportFew)
-	// 	$exportedSection.classed('is-hidden', exportFew)
-	// }
-
 
 	// update counts
 	if (readerStateData){

@@ -72,15 +72,12 @@ function readerSelNest({dogs, counts}){
 		$moreButton.property('disabled', true).classed('is-disabled', true)
 	}
 
+	const stateImport = counts.imports > 0
+
 	// default toggle whichever is higher when new state selected
 	if (readerState !== lastReaderState){
-		if (counts.imports > counts.exports) {
-			$toggle.attr('aria-checked', false)
-			selToggle = 'imports'
-		} else {
-			$toggle.attr('aria-checked', true)
-			selToggle = 'exports'
-		}
+		$toggle.attr('aria-checked', !stateImport)
+		selToggle = stateImport ? 'imports' : 'exports'
 	}
 
 
@@ -96,8 +93,6 @@ function readerSelNest({dogs, counts}){
 		.key(d => selToggle === 'exports' ? d.final_state : d.original_state)
 		.entries(dogs[selToggle])
 		.sort((a, b) => d3.descending(a.values.length, b.values.length))
-
-	console.log({nestedExports})
 
 	lastReaderState = readerState
 
