@@ -569,5 +569,54 @@ cleanedExportedDogs <- allFrom %>%
   select(c(id, final_origin))
 
 
-```
+allFromManual <- dogsTrim %>% 
+  left_join(cleanedExportedDogs) %>% 
+  filter(!is.na(final_origin)) %>% 
+  mutate(contact_state_full = ifelse(is.na(state.name[match(contact_state, state.abb)]), contact_state, state.name[match(contact_state, state.abb)]) ,
+    same = ifelse(contact_state_full == final_origin, TRUE, FALSE)) %>% 
+  filter(same == FALSE) %>% 
+  filter(contact_state_full %notin% removeID) %>% 
+  rename(original_state = final_origin, final_state = contact_state_full)
 
+newExport <- allFromManual %>% 
+  left_join(manualBreeds)
+  
+puddingR::export_data(newExport, "exportedDogs", directory = "../../src/assets/data/")
+
+
+```
+```{r}
+most_exported2 <- newExport %>% 
+  group_by(original_state) %>% 
+  count(., sort = TRUE) %>% 
+  rename(location = original_state) %>% 
+  mutate(inUS = location %in% state.name || location == "Washington DC") 
+
+exportedUS_out2 <- newExport %>% 
+  mutate(inUS = location %in% state.name || location == "Washington DC") %>% 
+  count(inUS, sort = TRUE)
+
+puddingR::export_data(most_exported2, "exported_countries", directory = "../../src/assets/data/")
+
+most_imported2 <- newExport %>% 
+  group_by(final_state) %>% 
+  count(., sort = TRUE) %>% 
+  rename(location = final_state)
+
+totalCounts <- dogsTrim %>% 
+  distinct(id, .keep_all = TRUE) %>% 
+  count(contact_state, sort = TRUE) %>% 
+  mutate(contact_state_full = ifelse(is.na(state.name[match(contact_state, state.abb)]), contact_state, state.name[match(contact_state, state.abb)])) %>% 
+  rename(location = contact_state_full, total = n) %>% 
+  select(-contact_state)
+
+importExport2 <- most_exported2 %>% 
+  full_join(most_imported2, by = "location") %>% 
+  rename(exported = n.x, imported = n.y) %>% 
+  ungroup() %>% 
+  mutate(inUS = location %in% state.name) %>% 
+  mutate(inUS = tolower(inUS)) %>% 
+  left_join(totalCounts)
+
+puddingR::export_data(importExport2, "importExport", directory = "../../src/assets/data/")
+```

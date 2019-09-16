@@ -26,6 +26,8 @@ const $exportedSection = d3.selectAll('.exported')
 let exampleDogs = null
 const exportedDogs = null
 let readerDog = null
+let importExport = null
+let readerStateData = null
 
 const formatCount = d3.format(',.0f')
 const formatPercent = d3.format('.0%')
@@ -35,9 +37,10 @@ function updateLocation(loc){
 	filterDogs()
 }
 
-function updateBars(dog){
-	const perOut = +dog[0].count_imported / +dog[0].total
-	const perIn = (+dog[0].total - +dog[0].count_imported) /  +dog[0].total
+function updateBars(state){
+	const selState = state[0]
+	const perOut = +selState.imported / +selState.total
+	const perIn = (+selState.total - +selState.imported) /  +selState.total
 	$stackBarContainer.select('.bar__inState').style('flex', `${perIn} 1 0`)
 	$stackBarContainer.select('.bar__outState').style('flex', `${perOut} 1 0`)
 
@@ -50,7 +53,7 @@ function updateBars(dog){
 
 function filterDogs(){
 	readerDog = exampleDogs.filter(d => d.current === readerState)
-
+	readerStateData = importExport.filter(d => d.location === readerState)
 	// update state
 	$state.text(readerState)
 	$name.text(readerDog[0].name)
@@ -65,9 +68,9 @@ function filterDogs(){
 	}
 
 	// update counts
-	$inCount.text(formatCount(+readerDog[0].count_imported))
-	$outCount.text(formatCount(+readerDog[0].count_exported))
-	$total.text(formatCount(+readerDog[0].total))
+	$inCount.text(formatCount(+readerStateData[0].imported))
+	$outCount.text(formatCount(+readerStateData[0].exported))
+	$total.text(formatCount(+readerStateData[0].total))
 
 	// update pronouns
 	const pupPronoun = readerDog[0].sex
@@ -83,7 +86,7 @@ function filterDogs(){
 	const fileState = readerDog[0].current.replace(' ', '')
 	$img.attr('src', `assets/images/faces/${fileName}_${fileState}.png`)
 
-	updateBars(readerDog)
+	updateBars(readerStateData)
 }
 
 
@@ -92,15 +95,32 @@ function resize() {
 
 }
 
+
 function init(loc) {
-	load.loadJSON('exampleDogs.json')
-		.then(result => {
-			console.log({loc})
-			readerState = loc
-			exampleDogs = result
-			filterDogs()
-		})
-		.catch(console.error)
+	return new Promise((resolve,reject) => {
+		const files = [
+			'exampleDogs.json',
+			'importExport.csv'
+		]
+		const loads = files.map(load.loadAny);
+		Promise.all(loads)
+			.then(([exampleDogsData, importExportData]) => {
+				exampleDogs = exampleDogsData
+				importExport = importExportData
+				readerState = loc
+				resolve()
+			})
+			.then(filterDogs)
+			.catch(console.error)
+	})
+	// load.loadJSON('exampleDogs.json')
+	// 	.then(result => {
+	// 		loadImports()
+	// 		readerState = loc
+	// 		exampleDogs = result
+	// 	})
+	// 	.then(filterDogs)
+	// 	.catch(console.error)
 }
 
 export default { init, resize, updateLocation };

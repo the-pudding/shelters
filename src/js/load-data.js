@@ -37,6 +37,21 @@ function loadExported(){
 	loadCSV('exportedDogs.csv')
 }
 
+function loadAny(file) {
+	return new Promise((resolve, reject) => {
+		const ext = file.split('.').pop();
+		if (ext === 'csv')
+			d3.csv(`assets/data/${file}`)
+				.then(resolve)
+				.catch(reject);
+		else if (ext === 'json')
+			d3.json(`assets/data/${file}`)
+				.then(resolve)
+				.catch(reject);
+		else reject(new Error(`unsupported file type for: ${file}`));
+	});
+}
+
 function loadMap(){
 	const loads = [loadCSV('loc_centers.csv'), loadCSV('movement_paths.csv'), loadJSON('topo.json')];
 	return Promise.all(loads);
@@ -47,7 +62,7 @@ function loadCrosswalk(){
 	return Promise.all(loads)
 }
 
-export default {loadCSV, loadJSON, loadMap, loadCrosswalk}
+export default {loadCSV, loadJSON, loadMap, loadCrosswalk, loadAny}
 
 // export default function loadData() {
 //   const loads = [loadJSON('exampleDogs.json'), loadCSV('exportedDogs.csv')];

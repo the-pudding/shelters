@@ -1,81 +1,81 @@
-"location","exported","inUS","imported"
-"Texas",661,"true",
-"Alabama",278,"true",
-"North Carolina",182,"true",14
-"California",121,"true",
-"Georgia",103,"true",13
-"South Carolina",83,"true",10
-"South Korea",77,"false",
-"Louisiana",63,"true",
-"Kentucky",55,"true",8
-"West Virginia",50,"true",
-"Mississippi",48,"true",
-"Tennessee",42,"true",8
-"Florida",32,"true",16
-"Thailand",27,"false",
-"China",25,"false",
-"Virginia",23,"true",139
-"Arkansas",21,"true",
-"Mexico",17,"false",
-"New York",17,"true",361
-"Taiwan",17,"false",
-"Egypt",15,"false",
-"Kansas",12,"true",1
-"Bahamas",11,"false",
-"India",11,"false",
-"New Mexico",10,"true",
-"Ohio",10,"true",30
-"Missouri",7,"true",2
-"New Jersey",7,"true",282
-"Hawaii",6,"true",
-"Illinois",5,"true",11
-"Oklahoma",5,"true",5
-"Pennsylvania",5,"true",194
-"Spain",5,"false",
-"Indiana",4,"true",18
-"Kuwait",4,"false",
-"Puerto Rico",4,"false",
-"Kosovo",3,"false",
-"Oman",3,"false",
-"Oregon",3,"true",10
-"Washington DC",3,"false",
-"Wisconsin",3,"true",47
-"Afghanistan",2,"false",
-"Aruba",2,"false",
-"Iowa",2,"true",9
-"Massachusetts",2,"true",64
-"Qatar",2,"false",
-"Russia",2,"false",
-"St. Maarten",2,"false",
-"Tunisia",2,"false",
-"United Arab Emirates",2,"false",
-"Washington",2,"true",314
-"Bahrain",1,"false",
-"Belize",1,"false",
-"Bosnia",1,"false",
-"British Virgin Islands",1,"false",
-"Connecticut",1,"true",47
-"Costa Rica",1,"false",
-"Ecuador",1,"false",
-"Idaho",1,"true",
-"Iran",1,"false",
-"Jamaica",1,"false",
-"Nevis",1,"false",
-"Quebec",1,"false",
-"Saudi Arabia",1,"false",
-"South Dakota",1,"true",
-"Turkey",1,"false",
-"Vermont",1,"true",55
-"Maryland",,"true",124
-"Maine",,"true",103
-"Colorado",,"true",64
-"Minnesota",,"true",51
-"Rhode Island",,"true",27
-"New Hampshire",,"true",23
-"Delaware",,"true",22
-"Arizona",,"true",19
-"Michigan",,"true",12
-"DC",,"false",5
-"Utah",,"true",4
-"Nebraska",,"true",1
-"North Dakota",,"true",1
+"location","exported","inUS","imported","total"
+"Texas",661,"true",,540
+"Alabama",278,"true",,1332
+"North Carolina",182,"true",14,2607
+"California",121,"true",,1064
+"Georgia",103,"true",13,3375
+"South Carolina",83,"true",10,1716
+"South Korea",77,"false",,
+"Louisiana",63,"true",,960
+"Kentucky",55,"true",8,1132
+"West Virginia",50,"true",,556
+"Mississippi",48,"true",,490
+"Tennessee",42,"true",8,1588
+"Florida",32,"true",16,2724
+"Thailand",27,"false",,
+"China",25,"false",,
+"Virginia",23,"true",139,3261
+"Arkansas",21,"true",,693
+"Mexico",17,"false",,
+"New York",17,"true",361,3994
+"Taiwan",17,"false",,
+"Egypt",15,"false",,
+"Kansas",12,"true",1,370
+"Bahamas",11,"false",,
+"India",11,"false",,
+"New Mexico",10,"true",,619
+"Ohio",10,"true",30,2756
+"Missouri",7,"true",2,916
+"New Jersey",7,"true",282,3147
+"Hawaii",6,"true",,71
+"Illinois",5,"true",11,1017
+"Oklahoma",5,"true",5,1878
+"Pennsylvania",5,"true",194,2927
+"Spain",5,"false",,
+"Indiana",4,"true",18,1732
+"Kuwait",4,"false",,
+"Puerto Rico",4,"false",,
+"Kosovo",3,"false",,
+"Oman",3,"false",,
+"Oregon",3,"true",10,112
+"Washington DC",3,"false",,
+"Wisconsin",3,"true",47,589
+"Afghanistan",2,"false",,
+"Aruba",2,"false",,
+"Iowa",2,"true",9,490
+"Massachusetts",2,"true",64,945
+"Qatar",2,"false",,
+"Russia",2,"false",,
+"St. Maarten",2,"false",,
+"Tunisia",2,"false",,
+"United Arab Emirates",2,"false",,
+"Washington",2,"true",314,1265
+"Bahrain",1,"false",,
+"Belize",1,"false",,
+"Bosnia",1,"false",,
+"British Virgin Islands",1,"false",,
+"Connecticut",1,"true",47,1377
+"Costa Rica",1,"false",,
+"Ecuador",1,"false",,
+"Idaho",1,"true",,55
+"Iran",1,"false",,
+"Jamaica",1,"false",,
+"Nevis",1,"false",,
+"Quebec",1,"false",,
+"Saudi Arabia",1,"false",,
+"South Dakota",1,"true",,14
+"Turkey",1,"false",,
+"Vermont",1,"true",55,569
+"Maryland",,"true",124,1667
+"Maine",,"true",103,567
+"Colorado",,"true",64,2021
+"Minnesota",,"true",51,966
+"Rhode Island",,"true",27,643
+"New Hampshire",,"true",23,357
+"Delaware",,"true",22,272
+"Arizona",,"true",19,2184
+"Michigan",,"true",12,677
+"DC",,"false",5,378
+"Utah",,"true",4,210
+"Nebraska",,"true",1,124
+"North Dakota",,"true",1,82
