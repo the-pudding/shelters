@@ -48,7 +48,7 @@ function cleanData(arr){
 	return arr.map((d, i) => {
 		return {
 			...d,
-      imported: d.imported === 'TRUE'
+      imported: d.imported === 'TRUE',
 		}
 	})
 }
@@ -74,13 +74,13 @@ function updateBars(state){
 function filterDogs(){
 	readerDog = exampleDogs.filter(d => d.current === readerState)
 	readerStateData = importExport.filter(d => d.location === readerState)[0]
+
 	// update state
 	$state.text(readerState)
 	$name.text(readerDog[0].name)
 
 	// nevada specific things
 	const nevada = readerState === 'Nevada'
-	console.log({nevada})
 	$introAll.classed('is-hidden', nevada)
 	$introNevada.classed('is-hidden', !nevada)
 	$introDogCont.classed('is-hidden', nevada)
