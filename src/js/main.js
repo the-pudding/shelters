@@ -16,6 +16,7 @@ const $body = d3.select('body');
 let previousWidth = 0;
 const $dropdown = d3.selectAll('.stateSelect')
 let readerState = 'New York'
+let defaultLocation = 'New York'
 let importExport = null
 let filteredDD = null
 let allDD = null
@@ -34,8 +35,8 @@ function findReaderState(){
 	return new Promise((resolve, reject) => {
 		const key = 'fd4d87f605681c0959c16d9164ab6a4a'
 		const locationData = locate(key, (err, result) => {
-			console.log({result})
-			readerState = result.region_name
+			const state = result.region_name
+			readerState = err ? defaultLocation : state
 
 			if (err) reject(err)
 			else resolve(readerState)
