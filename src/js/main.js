@@ -10,11 +10,12 @@ import northern from './northern-movement'
 import tile from './tile-movement'
 import countries from './countries'
 import load from './load-data'
+import locate from './utils/locate'
 
 const $body = d3.select('body');
 let previousWidth = 0;
 const $dropdown = d3.selectAll('.stateSelect')
-let readerState = 'Washington'
+let readerState = 'New York'
 let importExport = null
 let filteredDD = null
 let allDD = null
@@ -27,6 +28,19 @@ function resize() {
 		previousWidth = width;
 		graphic.resize();
 	}
+}
+
+function findReaderState(){
+	return new Promise((resolve, reject) => {
+		const key = 'fd4d87f605681c0959c16d9164ab6a4a'
+		const locationData = locate(key, (err, result) => {
+			readerState = result.region_name
+
+			if (err) reject(err)
+			else resolve(readerState)
+		})
+
+	})
 }
 
 function setupStateDropdown(){
@@ -99,14 +113,17 @@ function setup(){
 	window.addEventListener('resize', debounce(resize, 150));
 	// setup sticky header menu
 	setupStickyHeader();
-	// kick off graphic code
-	setupStateDropdown()
-	graphic.init(readerState);
-	exported.init(readerState);
-	// movement.init();
-	// northern.init();
-	tile.init()
-	countries.init()
+	findReaderState()
+		.then(() => {
+			// kick off graphic code
+			setupStateDropdown()
+			graphic.init(readerState);
+			exported.init(readerState);
+			// movement.init();
+			// northern.init();
+			tile.init()
+			countries.init()
+		})
 
 	// load footer stories
 	footer.init();
