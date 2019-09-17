@@ -34,6 +34,7 @@ function findReaderState(){
 	return new Promise((resolve, reject) => {
 		const key = 'fd4d87f605681c0959c16d9164ab6a4a'
 		const locationData = locate(key, (err, result) => {
+			console.log({result})
 			readerState = result.region_name
 
 			if (err) reject(err)
@@ -46,20 +47,20 @@ function findReaderState(){
 function setupStateDropdown(){
 	const justStates = states.map(d => d.state).sort((a, b) => d3.ascending(a, b))
 
-	const limitedStates = importExport.filter(d => d.imported > 0).map(d => d.location).sort((a, b) => d3.ascending(a, b))
+	const limitedStates = importExport//.filter(d => d.imported > 0 || d.exported > 0).map(d => d.location).sort((a, b) => d3.ascending(a, b))
 
 	filteredDD = $dropdown.filter((d, i, n) => d3.select(n[i]).attr('data-condition') === 'limited')
-	allDD = $dropdown.filter((d, i, n) => d3.select(n[i]).attr('data-condition') === 'all')
+	// allDD = $dropdown.filter((d, i, n) => d3.select(n[i]).attr('data-condition') === 'all')
 
-	filteredDD.selectAll('option')
-		.data(limitedStates)
-		.enter()
-		.append('option')
-		.attr('value', d => d)
-		.text(d => d)
-		.property('selected', d => d === readerState)
+	// filteredDD.selectAll('option')
+	// 	.data(limitedStates)
+	// 	.enter()
+	// 	.append('option')
+	// 	.attr('value', d => d)
+	// 	.text(d => d)
+	// 	.property('selected', d => d === readerState)
 
-	allDD.selectAll('option')
+	$dropdown.selectAll('option')
 		.data(justStates)
 		.enter()
 		.append('option')
@@ -68,18 +69,22 @@ function setupStateDropdown(){
 		.property('selected', d => d === readerState)
 
 	$dropdown.on('change', function(d){
+		const dd = d3.select(this).attr('data-condition')
 		readerState = this.value
-		updateLocation()
+		updateLocation(dd)
 	})
 
 }
 
-function updateLocation(){
-	graphic.updateLocation(readerState)
+function updateLocation(condition){
+	// only update the text/image if it is the upper dropdown that's changed
+	if (condition === 'all')	graphic.updateLocation(readerState)
+
+	// everything else is always updated
 	exported.updateLocation(readerState)
 
 	filteredDD.selectAll('option').property('selected', d => d === readerState)
-	allDD.selectAll('option').property('selected', d => d === readerState)
+	//allDD.selectAll('option').property('selected', d => d === readerState)
 }
 
 function setupStickyHeader() {
