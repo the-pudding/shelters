@@ -61,6 +61,14 @@ function setupToggle(){
 }
 
 function readerSelNest({dogs, counts}){
+	const stateImport = counts.imports > 0
+
+	// default toggle to import if there was an imported dog, and exported otherwise
+	if (readerState !== lastReaderState){
+		$toggle.attr('aria-checked', !stateImport)
+		selToggle = stateImport ? 'imports' : 'exports'
+	}
+
 	// setting container height
 	if (counts[selToggle] >= 60){
 		$container.classed('is-clipped', true)
@@ -74,14 +82,7 @@ function readerSelNest({dogs, counts}){
 	}
 
 
-	const stateImport = counts.imports > 0
-
-	// default toggle whichever is higher when new state selected
-	if (readerState !== lastReaderState){
-		$toggle.attr('aria-checked', !stateImport)
-		selToggle = stateImport ? 'imports' : 'exports'
-	}
-
+	// show a warning when there were no dogs moved in or out of the state
 	const noDogsMoved = counts[selToggle] === 0
 	$warning.classed('is-visible', noDogsMoved)
 	if (noDogsMoved){
