@@ -21,6 +21,9 @@ const $reason = $section.selectAll('.moveCondition')
 const $dogOrigin = $section.selectAll('.dogOrigin')
 const $stackBarContainer = $section.select('.intro-dog__bar')
 const $exportedSection = d3.selectAll('.exported')
+const $introAll = $section.selectAll('.prose-intro')
+const $introNevada = $section.selectAll('.prose-introNevada')
+const $introDogCont = $section.select('.intro-dog')
 
 
 // constants
@@ -35,6 +38,7 @@ const formatPercent = d3.format('.0%')
 
 function updateLocation(loc){
 	readerState = loc
+
 	filterDogs()
 }
 
@@ -62,8 +66,6 @@ function updateBars(state){
 
 	const oneHundred = perOut === 0 || perIn === 0
 	$stackBarContainer.classed('is-hidden', oneHundred)
-
-
 }
 
 
@@ -73,6 +75,13 @@ function filterDogs(){
 	// update state
 	$state.text(readerState)
 	$name.text(readerDog[0].name)
+
+	// nevada specific things
+	const nevada = readerState === 'Nevada'
+	console.log({nevada})
+	$introAll.classed('is-hidden', nevada)
+	$introNevada.classed('is-hidden', !nevada)
+	$introDogCont.classed('is-hidden', nevada)
 
 	// show appropriate text
 	const exampleImport = readerDog[0].imported

@@ -57,6 +57,7 @@ function setupStateDropdown(){
 		readerState = this.value
 		updateLocation()
 	})
+
 }
 
 function updateLocation(){
@@ -65,7 +66,6 @@ function updateLocation(){
 
 	filteredDD.selectAll('option').property('selected', d => d === readerState)
 	allDD.selectAll('option').property('selected', d => d === readerState)
-
 }
 
 function setupStickyHeader() {
