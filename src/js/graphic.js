@@ -24,6 +24,8 @@ const $exportedSection = d3.selectAll('.exported')
 const $introAll = $section.selectAll('.prose-intro')
 const $introNevada = $section.selectAll('.prose-introNevada')
 const $introDogCont = $section.select('.intro-dog')
+const $postIntroIn = $section.select('.prose-block-in')
+const $postIntroOut = $section.select('.prose-block-out')
 
 
 // constants
@@ -92,8 +94,11 @@ function filterDogs(){
 		$pIn.classed('is-visible', false)
 		$pInEx.classed('is-visible', false)
 		$exportedSection.classed('is-hidden', false)
+		$postIntroIn.classed('is-hidden', false)
+		$postIntroOut.classed('is-hidden', true)
 	} else if (!exampleImport) {
 		$pOut.classed('is-visible', false)
+		$postIntroIn.classed('is-hidden', true)
 		if (readerStateData.exported <= 1){
 			$pInEx.classed('is-visible', false)
 			$pIn.classed('is-visible', true)
@@ -102,6 +107,7 @@ function filterDogs(){
 			$pInEx.classed('is-visible', true)
 			$pIn.classed('is-visible', false)
 			$exportedSection.classed('is-hidden', false)
+			$postIntroOut.classed('is-hidden', false)
 		}
 	}
 

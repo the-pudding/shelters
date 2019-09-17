@@ -53,11 +53,18 @@
 				<h4>In-State</h4>
 				<h4>Out of State</h4>
 		</figure>
-		<div class='intro-dog_out'>
-			{{#each doc.dogDescOut2}}
-				<p class='prose-block'>{{{value}}}</p>
-			{{/each}}
-		</div>
 
+	</div>
+
+	<div class='intro-dog_out'>
+		{{#each doc.dogDescOut2}}
+			<p class='prose-block prose-block-in'>{{{value}}}</p>
+		{{/each}}
+	</div>
+
+	<div class='intro-dog_out'>
+		{{#each doc.dogDescIn2}}
+			<p class='prose-block prose-block-out'>{{{value}}}</p>
+		{{/each}}
 	</div>
 </section>
