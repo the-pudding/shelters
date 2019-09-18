@@ -12,7 +12,7 @@ const $section = d3.selectAll('.exported')
 const $container = $section.selectAll('.figure-container')
 const $moreButton = $section.select('.show-more')
 const $transparency = $section.select('.transparency')
-const $toggle = $section.select('.toggle')
+const $toggle = $section.select('.conditionSelect')
 const $warning = $section.select('.figure-warning')
 
 // constants
@@ -43,22 +43,15 @@ function setupExpand(){
 }
 
 function setupToggle(){
+	$toggle.on('change', function(d){
+		const el = d3.select(this).node().value
+		selToggle = el
 
-  $toggle.on('click', function(){
-    const el = d3.select(this)
-    const aria = el.attr('aria-checked')
-    if (aria === 'false') {
-			el.attr('aria-checked', 'true')
-			selToggle = 'exports'
-		}
-    else if (aria === 'true') {
-			el.attr('aria-checked', 'false')
-			selToggle = 'imports'
-		}
-
+		// update graphic
 		updateLocation(readerState)
-		//console.log({selToggle})
-  })
+	})
+
+
 }
 
 function readerSelNest({dogs, counts}){
@@ -66,8 +59,14 @@ function readerSelNest({dogs, counts}){
 
 	// default toggle to import if there was an imported dog, and exported otherwise
 	if (readerState !== lastReaderState){
-		$toggle.attr('aria-checked', !stateImport)
 		selToggle = stateImport ? 'imports' : 'exports'
+		const test = $toggle.selectAll('option')
+			.property('selected', function(d) {
+				const sel = d3.select(this).node().value
+				console.log({sel})
+				return sel === selToggle
+			})
+		console.log({test})
 	}
 
 	// setting container height

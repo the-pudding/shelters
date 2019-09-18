@@ -6,21 +6,16 @@
   {{#each doc.dogDescIn2}}
     <p class='prose-block prose-block-out'>{{{value}}}</p>
   {{/each}}
-  
-  <h2 class='section-title'>{{{doc.exportedSectionTitle}}}</h2>
+
   <figure class='exported-figure'>
 
     <div class='figure-meta'>
       <!-- <h3 class='figure-title'>{{{doc.exportedTitle}}}</h3> -->
-      <h3 class='figure-title'>Where dogs in</h3>
-      <select class='stateSelect stateSelect-title' data-condition='limited'>Washington</select>
-      <h3 class='figure-title'>are</h3>
-        <button class='toggle' role='switch' aria-checked='true' aria-labelledby='figure-title'>
-            <span class='button-label'>Imported From</span>
-            <span class='button-label'>Exported To</span>
-        </button>
-
+      <h3 class='figure-title'>{{{doc.exportedSectionTitle}}}</h2>
       <h4 class='figure-sub'>{{{doc.exportedSub}}}</h4>
+
+      <h3 class='interactive-title'>{{{doc.exportedTitle}}}</h3>
+
       <p class='figure-warning'>{{{doc.exportedWarning}}}</p>
     </div>
 

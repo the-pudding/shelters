@@ -2,6 +2,13 @@
   display block
   &.is-hidden
     display none
+
+
+  .prose-block
+    display block
+    line-height 42px
+    &.is-hidden
+      display none
   &-figure
     position relative
   .figure-container
@@ -116,11 +123,24 @@
       display none
       &.is-visible
         display block
-    .stateSelect
+    select
+      font-family $national
+      font-weight bold
+      -webkit-appearance none
+      -moz-appearance none
+      background url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><polygon points='0,0 100,0 50,50'/></svg>") no-repeat;
+      background-size 15px
+      background-position calc(100% - 10px) 80%
+      background-repeat no-repeat
       margin 0 1rem
-      font-weight normal
       set-type-size('x-large')
       width 200px
+      border 0
+      outline 0
+      border-bottom 3px solid $off-black
+      border-radius 0
+
+
     .toggle
       font-family $tiempos
       margin-left 1rem

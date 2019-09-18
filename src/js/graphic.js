@@ -24,8 +24,8 @@ const $exportedSection = d3.selectAll('.exported')
 const $introAll = $section.selectAll('.prose-intro')
 const $introNevada = $section.selectAll('.prose-introNevada')
 const $introDogCont = $section.select('.intro-dog')
-const $postIntroIn = $section.select('.prose-block-in')
-const $postIntroOut = $section.select('.prose-block-out')
+const $postIntroIn = $exportedSection.select('.prose-block-in')
+const $postIntroOut = $exportedSection.select('.prose-block-out')
 
 
 // constants
