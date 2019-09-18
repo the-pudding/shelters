@@ -1,4 +1,12 @@
 <section class='exported'>
+  {{#each doc.dogDescOut2}}
+    <p class='prose-block prose-block-in'>{{{value}}}</p>
+  {{/each}}
+
+  {{#each doc.dogDescIn2}}
+    <p class='prose-block prose-block-out'>{{{value}}}</p>
+  {{/each}}
+  
   <h2 class='section-title'>{{{doc.exportedSectionTitle}}}</h2>
   <figure class='exported-figure'>
 

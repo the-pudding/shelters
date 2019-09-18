@@ -1,7 +1,11 @@
 .intro
 	margin 0 auto
-	padding 3rem 1rem 3rem 1rem
-	background-color $pink
+	padding 3rem 1rem 0rem 1rem
+	background: linear-gradient(to bottom, $pink 0%,$pink 70%,$bg 70%,$bg 100%);
+	position relative
+	.space
+		height 200vh
+
 	.hero-img
 		max-width $column-width
 		margin 0 auto 1rem auto
@@ -63,6 +67,8 @@
 		margin 3rem auto 3rem auto
 		background-color $white
 		display block
+		position sticky
+		top 15vh
 		&.is-hidden
 			display none
 		&_image
