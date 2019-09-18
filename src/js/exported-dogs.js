@@ -16,6 +16,7 @@ const $toggle = $section.select('.toggle')
 const $warning = $section.select('.figure-warning')
 
 // constants
+let exampleDogs = null
 let exportedDogs = null
 let charts = null
 let importCount = 0
@@ -150,7 +151,8 @@ function cleanData(arr){
 	return arr.map((d, i) => {
 		return {
 			...d,
-      name: d.name.replace(/ *\([^)]*\) */g, "").replace('Adopted', '').replace('Pending', '')
+      name: d.name.replace(/ *\([^)]*\) */g, "").replace('Adopted', '').replace('Pending', ''),
+			highlighted: exampleDogs.includes(d.id)
 		}
 	})
 }
@@ -159,18 +161,39 @@ function cleanData(arr){
 // code for determining user's location and subsequent data
 function resize() {}
 
-function init(loc) {
-	load.loadCSV('exportedDogs.csv')
-		.then(result => {
-			readerState = loc
-			exportedDogs = cleanData(result)
-			filterDogs(loc, selToggle)
+function init(loc) {	return new Promise((resolve,reject) => {
+		const files = [
+			'exampleDogs.json',
+			'exportedDogs.csv'
+		]
+		const loads = files.map(load.loadAny);
+		Promise.all(loads)
+			.then(([exampleDogsData, exportedDogsData]) => {
+				exampleDogs = exampleDogsData.map(d => d.id)
+				exportedDogs = cleanData(exportedDogsData)
+				readerState = loc
+				filterDogs(loc, selToggle)
 
-			// setup interaction with show more button
-			setupExpand()
-			setupToggle()
-		})
-		.catch(console.error)
+				// setup interaction with show more button
+				setupExpand()
+				setupToggle()
+
+				resolve()
+			})
+			.catch(console.error)
+	})
+
+	// load.loadCSV('exportedDogs.csv')
+	// 	.then(result => {
+	// 		readerState = loc
+	// 		exportedDogs = cleanData(result)
+	// 		filterDogs(loc, selToggle)
+	//
+	// 		// setup interaction with show more button
+	// 		setupExpand()
+	// 		setupToggle()
+	// 	})
+	// 	.catch(console.error)
 }
 
 export default { init, resize, updateLocation };

@@ -127,6 +127,7 @@ d3.selection.prototype.exportsByState = function init(options) {
 					.join(enter => {
 						allDogs = enter.append('div')
 							.attr('class', 'dog')
+							.classed('highlighted', d => d.highlighted)
 							.on('mouseover', handleMouseover)
 							.on('mouseout', handleMouseout)
 
