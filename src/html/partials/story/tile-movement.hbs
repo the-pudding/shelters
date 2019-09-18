@@ -1,5 +1,11 @@
 <section class='movement'>
-  {{#each doc.preMovement}}
+  {{#each doc.preMovement1}}
+    <p class='prose'>{{{value}}}</p>
+  {{/each}}
+
+  <img class=midText src=assets/images/pug.gif>
+
+  {{#each doc.preMovement2}}
     <p class='prose'>{{{value}}}</p>
   {{/each}}
 
@@ -37,7 +43,15 @@
 
   <div class='figure-note'>{{{doc.movementNote}}}</div>
 
-  {{#each doc.postMovement}}
+  <img class='midText' src='assets/images/lab.gif'>
+
+  {{#each doc.postMovement1}}
+    <p class='prose'>{{{value}}}</p>
+  {{/each}}
+
+  <img class=midText src=assets/images/chihuahua.gif>
+
+  {{#each doc.postMovement2}}
     <p class='prose'>{{{value}}}</p>
   {{/each}}
 </section>

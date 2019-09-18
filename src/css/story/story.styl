@@ -49,3 +49,27 @@
   background-position center
   background-repeat no-repeat
   background-size cover
+
+.bttn-wrapper
+  max-width 5.5rem
+  margin 0 auto
+  cursor pointer
+
+  .show-more
+    font-family $national
+    text-transform uppercase
+    color $brown-dark
+    border 1px solid $brown-dark
+    padding 0.25rem
+    width 100%
+    display inline-block
+    set-type-size('small')
+    &:hover
+      background-color rgba($gray-light, 0.1)
+    &.is-disabled
+      display none
+
+.midText
+  margin 3rem auto
+  max-width 88px
+  height auto
