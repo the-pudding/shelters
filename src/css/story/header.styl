@@ -4,20 +4,20 @@ header
 	top 0
 	left 0
 	width 100%
-	background-color $white
+	background-color $pink
 	font-family $sans
 
 	a.logo
 		display block
 		border none
 		max-width 9rem
-		margin 1rem auto
+		margin 1rem auto 0 auto
 
 		svg
-			fill $off-black
+			fill $orange
 			display block
 			width 100%
-	
+
 header.is-sticky
 	position fixed
 	transform translate3d(0,0,0)
@@ -26,10 +26,10 @@ header.is-sticky
 	height 3rem
 	display flex
 	align-items center
-	
+
 	a.logo
 		margin 0 auto
-	
+
 	.header__toggle
 		position fixed
 		transform translate3d(0,0,0)
@@ -39,17 +39,17 @@ header.is-sticky
 		cursor pointer
 		line-height 1
 		z-index set-index(overlay)
-		border none 
+		border none
 		background-color transparent
 		svg
 			stroke $off-black
-		
+
 		span
 			&:first-of-type
 				display block
 			&:last-of-type
 				display none
-		
+
 		&.is-visible span
 			&:first-of-type
 				display none
@@ -149,9 +149,7 @@ header.is-sticky.is-dark
 	.header__toggle
 		svg
 			stroke $off-white
-		
+
 		&.is-visible span
 			svg
 				stroke $off-black
-
-

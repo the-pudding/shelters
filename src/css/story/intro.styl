@@ -1,12 +1,18 @@
 .intro
 	margin 0 auto
-	padding 6rem 1rem 3rem 1rem
+	padding 3rem 1rem 3rem 1rem
 	background-color $pink
+	.hero-img
+		max-width $column-width
+		margin 0 auto 1rem auto
 
 	&__hed
 		max-width 60rem
-		margin 0 auto
+		margin 0 auto 2rem auto
 		text-align center
+		font-family $tiempos
+		set-type-size('xxxx-large')
+		font-weight bold
 
 	&__dek
 		max-width $column-width
@@ -22,17 +28,19 @@
 		padding 0 1rem
 
 	&__byline
-		margin-top 1rem
-		text-align left
-		set-type-size('x-large')
+		margin 1rem auto 0 auto
+		text-align center
+		set-type-size('large')
+
 
 	&__time
-		display block
+		display none
 		margin-top 1rem
 		text-align left
 
 	.prose-intro
 		display block
+		line-height 42px
 		&.is-hidden
 			display none
 		span
@@ -45,6 +53,7 @@
 
 	.prose-block
 		display block
+		line-height 42px
 		&.is-hidden
 			display none
 
@@ -109,3 +118,15 @@
 				margin 0.2rem 0 0 0
 				text-transform: uppercase;
 				set-type-size('small')
+
+	.stateSelect
+		cursor pointer
+		height 2.5rem
+		width 16rem
+		line-height 42px
+		background-color $orange
+		color $off-white
+		border none
+		font-family $tiempos
+		set-type-size('xx-large')
+		font-weight bold
