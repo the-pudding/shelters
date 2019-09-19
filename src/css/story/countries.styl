@@ -1,12 +1,19 @@
 .countries
   &-figure
     position relative
+    .figure-warning
+      display block
+      &.is-hidden
+        display none
   .figure-container
     max-width 25rem
     margin 2rem auto 0 auto
     height auto
     overflow hidden
     position relative
+    display block
+    &.is-hidden
+      display none
     &.is-truncated
       height 700px
       overflow hidden
@@ -106,22 +113,3 @@
       &.is-active
         background-color $orange
         color $bg
-
-  .bttn-wrapper
-    max-width 5.5rem
-    margin 0 auto
-    cursor pointer
-
-    .show-more
-      font-family $national
-      text-transform uppercase
-      color $gray
-      border 1px solid $gray-light
-      padding 0.25rem
-      width 100%
-      display inline-block
-      set-type-size('small')
-      &:hover
-        background-color rgba($gray-light, 0.1)
-      &.is-disabled
-        display none

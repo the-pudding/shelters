@@ -5,9 +5,13 @@ const $container = $section.select('.figure-container')
 const $toggles = $section.selectAll('.toggle')
 const $moreButton = $section.select('.show-more')
 const $transparency = $section.select('.transparency')
+const $checkboxes = $section.selectAll('input')
+const $warning = $section.select('.figure-warning')
+
 
 let rank = null
 let selButton = 'All'
+let conditions = {domestic: true, international: true}
 
 function cleanData(arr){
 	return arr.map((d, i) => {
@@ -38,14 +42,25 @@ function setupExpand(){
 }
 
 function setupToggles(){
-  $toggles.on('click', function(d){
-    const clicked = d3.select(this)
-    selButton = clicked.attr('data-condition')
-    $toggles.classed('is-active', false)
-    clicked.classed('is-active', true)
+	$checkboxes.on('change', function(d){
+		const box = d3.select(this)
+		const condition = box.node().checked
+		const value = box.node().value
 
-    filter(selButton)
-  })
+		conditions[value] = condition
+
+		console.log({conditions})
+
+		filter(conditions)
+	})
+  // $toggles.on('click', function(d){
+  //   const clicked = d3.select(this)
+  //   selButton = clicked.attr('data-condition')
+  //   $toggles.classed('is-active', false)
+  //   clicked.classed('is-active', true)
+	//
+  //   filter(selButton)
+  // })
 }
 
 function setup(){
@@ -57,13 +72,29 @@ function setup(){
 
   setupToggles()
   setupExpand()
-  filter(selButton)
+  filter(conditions)
 }
 
-function filter(selButton){
+function filter(conditions){
+	console.log({conditions})
 	let filtered = null
-	if (selButton === 'International') filtered = rank.filter(d => d.international === true)
-	else filtered = rank
+	if (conditions.international || conditions.domestic){
+		$warning.classed('is-hidden', true)
+		$container.classed('is-hidden', false)
+		$transparency.classed('is-visible', true)
+		$moreButton.classed('is-disabled', false)
+		if (conditions.international && conditions.domestic) filtered = rank
+		else if (conditions.international) filtered = rank.filter(d => d.international === true)
+		else if (conditions.domestic) filtered = rank.filter(d => d.international === false)
+	}
+
+	else if (!(conditions.international && conditions.domestic)) {
+		$warning.classed('is-hidden', false)
+		$container.classed('is-hidden', true)
+		$transparency.classed('is-visible', false)
+		$moreButton.classed('is-disabled', true)
+	}
+
 
 	const locations = $container.selectAll('.location')
 		.data(filtered, (d, i) => `${d.location}-${i}`)

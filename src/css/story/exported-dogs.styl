@@ -11,7 +11,7 @@
       display none
   &-figure
     position relative
-    margin-top 2rem 
+    margin-top 2rem
   .figure-container
     display flex
     flex-wrap wrap
@@ -97,15 +97,7 @@
     align-items baseline
     justify-content center
     font-family $tiempos
-    .figure-warning
-      max-width 28rem
-      text-align center
-      margin 2rem auto
-      font-family $tiempos
-      set-type-size('large')
-      display none
-      &.is-visible
-        display block
+
     select
       font-family $national
       font-weight bold
@@ -122,29 +114,3 @@
       outline 0
       border-bottom 3px solid $off-black
       border-radius 0
-
-
-    .toggle
-      font-family $tiempos
-      margin-left 1rem
-      display flex
-      padding 0.5rem
-      border-radius 5px
-      border 1px solid $white
-      background-color $white
-      height 45px
-
-    .button-label
-      set-type-size('x-large')
-      padding 0 0.5rem
-      border-radius 2px
-      pointer-events: none
-    [role="switch"][aria-checked="true"] :first-child,
-    [role="switch"][aria-checked="false"] :last-child
-    	background $white
-    	color $orange
-
-    [role="switch"][aria-checked="false"] :first-child,
-    [role="switch"][aria-checked="true"] :last-child
-    	background $orange
-    	color $white

@@ -7,19 +7,18 @@
       <div class='figure-toggles'>
 
         <div class='wrapper-check'>
-          <input id='list-1' name='table-filter' type='checkbox' value='domestic'>
+          <input id='list-1' name='table-filter' type='checkbox' value='domestic' checked>
           <label for='list-1'>Domestic</label>
         </div>
 
         <div class='wrapper-check'>
-          <input id='list-2' name='table-filter' type='checkbox' value='international'>
+          <input id='list-2' name='table-filter' type='checkbox' value='international' checked>
           <label for='list-2'>International</label>
         </div>
-<!--
-        <button class='toggle' data-condition='All'>International & Domestic</button>
-        <button class='toggle' data-condition='International'>Only International</button> -->
 
       </div>
+
+      <p class='figure-warning is-hidden'>{{{doc.countriesWarning}}}</p>
     </div>
 
     <div class='figure-container is-truncated'>
