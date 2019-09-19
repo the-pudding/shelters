@@ -47,7 +47,7 @@ d3.selection.prototype.tileMap = function init(options) {
 
 				const windowWidth = window.innerWidth
 				isMobile = windowWidth <= 600
-				factor = isMobile === true ? 10 : 4
+				factor = isMobile === true ? 20 : 4
 
 				$legendScale.text(`${factor}`)
 
