@@ -49,11 +49,51 @@
   .figure-toggles
     font-family $national
     set-type-size('small')
-    margin 1rem auto 0 auto
+    margin 2rem auto 0 auto
     max-width $column-width
     display flex
     justify-content center
-    align-items: baseline;
+    align-items: center;
+    .wrapper-check
+      position relative
+      &:first-of-type
+        margin-right 2rem
+      label
+        margin-left 1.8rem
+        set-type-size('large')
+        height 20px
+        line-height 1.1
+      input
+        height 20px
+        left 0
+        opacity 0
+        position absolute
+        top 0
+        width 20px
+      input, label::before
+        border 1px solid $brown-dark
+        content ''
+        height 20px
+        left 0
+        position absolute
+        top 0
+        width 20px
+      input, label::after
+        content ''
+        border 2px solid $brown-dark
+        border-left 0
+        border-top 0
+        height 10px
+        left 7px
+        opacity 0
+        position absolute
+        top 3px
+        transform rotate(45deg)
+        transition opacity 0.1s ease-in-out
+        width 6px
+      input:checked + label::after
+        opacity 1
+
     .toggle
       set-type-size('small')
       text-transform uppercase

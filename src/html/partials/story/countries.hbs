@@ -5,10 +5,20 @@
       <h3 class='figure-title'>{{{doc.countriesTitle}}}</h3>
       <h4 class='figure-sub'>{{{doc.countriesSub}}}</h4>
       <div class='figure-toggles'>
-        Show
+
+        <div class='wrapper-check'>
+          <input id='list-1' name='table-filter' type='checkbox' value='domestic'>
+          <label for='list-1'>Domestic</label>
+        </div>
+
+        <div class='wrapper-check'>
+          <input id='list-2' name='table-filter' type='checkbox' value='international'>
+          <label for='list-2'>International</label>
+        </div>
+<!--
         <button class='toggle' data-condition='All'>International & Domestic</button>
-        <button class='toggle' data-condition='International'>Only International</button>
-        Exports
+        <button class='toggle' data-condition='International'>Only International</button> -->
+
       </div>
     </div>
 
