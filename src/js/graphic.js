@@ -22,7 +22,6 @@ const $dogOrigin = $section.selectAll('.dogOrigin')
 const $stackBarContainer = $section.select('.intro-dog__bar')
 const $exportedSection = d3.selectAll('.exported')
 const $introAll = $section.selectAll('.prose-intro')
-const $introNevada = $section.selectAll('.prose-introNevada')
 const $introDogCont = $section.select('.intro-dog')
 const $postIntroIn = $exportedSection.select('.prose-block-in')
 const $postIntroOut = $exportedSection.select('.prose-block-out')
@@ -79,15 +78,15 @@ function filterDogs(){
 	$state.text(readerState)
 	$name.text(readerDog[0].name)
 
-	// nevada specific things
-	const nevada = readerState === 'Nevada'
-	$introAll.classed('is-hidden', nevada)
-	$introNevada.classed('is-hidden', !nevada)
-	$introDogCont.classed('is-hidden', nevada)
+	// // nevada specific things
+	// const nevada = readerState === 'Nevada'
+	// $introAll.classed('is-hidden', nevada)
+	// $introNevada.classed('is-hidden', !nevada)
+	// $introDogCont.classed('is-hidden', nevada)
 
 	// show appropriate text
-	const exampleImport = readerDog[0].imported
-	const exportFew = readerStateData.exported <= 1
+	const exampleImport = +readerDog[0].imported
+	const exportFew = +readerStateData.exported <= 1
 
 	if (exampleImport){
 		$pOut.classed('is-visible', true)

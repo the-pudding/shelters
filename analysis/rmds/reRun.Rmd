@@ -527,7 +527,14 @@ totalAvailable <- dogs %>%
     contact_state == "DC" ~ "Washington DC",
     TRUE ~ contact_state
   )) %>% 
-  count(shelterLoc, sort = TRUE)
+  count(shelterLoc, sort = TRUE) %>% 
+  mutate(remove = case_when(
+    grepl("[[:digit:]]", shelterLoc) ~ TRUE,
+    shelterLoc == "NB" | shelterLoc == "QC" ~ TRUE, 
+    TRUE ~ FALSE
+  )) %>% 
+  filter(remove == FALSE) %>% 
+  select(-remove)
 
 allMoves <- most_exported %>% 
   full_join(most_imported, by = "location") %>% 
@@ -538,10 +545,20 @@ allMoves <- most_exported %>%
     TRUE ~ FALSE
   )) %>% 
   mutate(inUS = tolower(inUS)) %>% 
-  left_join(totalAvailable, by = c("location" = "shelterLoc")) %>% 
+  full_join(totalAvailable, by = c("location" = "shelterLoc")) %>% 
   rename(total = n)
 
 puddingR::export_data(allMoves, "importExport", directory = "../../src/assets/data/")
+```
+
+
+How many didn't export or import?
+```{r}
+onlyLocal <- allMoves %>% 
+  filter(is.na(imported) & is.na(exported))
+
+check <- dogs %>% 
+  filter(contact_state == "TX")
 ```
 
 ## Hurricanes
