@@ -76,7 +76,6 @@ function setup(){
 }
 
 function filter(conditions){
-	console.log({conditions})
 	let filtered = null
 	if (conditions.international || conditions.domestic){
 		$warning.classed('is-hidden', true)
@@ -117,7 +116,7 @@ function resize(){
 function init(){
 	load.loadCSV('importExport.csv')
 		.then(result => {
-			rank = cleanData(result)
+			rank = cleanData(result).filter(d => d.exported > 0)
 			setup()
 			// setup interaction with show more button
 			// setupExpand()

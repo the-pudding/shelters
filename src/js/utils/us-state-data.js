@@ -50,5 +50,6 @@ export default [
 	{ state: 'West Virginia', abbr: 'WV' },
 	{ state: 'Wisconsin', abbr: 'WI' },
 	{ state: 'Wyoming', abbr: 'WY' },
-	{ state: 'Washington DC', abbr: 'DC' }
+	{ state: 'Washington DC', abbr: 'DC' },
+	{ state: 'Puerto Rico', abbr: 'PR' }
 ];

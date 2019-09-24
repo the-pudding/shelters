@@ -11,3 +11,8 @@ npm-debug.log
 node_modules
 dev
 dist
+
+analysis/assets/data/raw_data/2019-09-19/dogs
+analysis/assets/data/raw_data/2019-09-19/shelters
+analysis/assets/data/raw_data/2019-09-20/dogs
+analysis/assets/data/raw_data/2019-09-20/shelters

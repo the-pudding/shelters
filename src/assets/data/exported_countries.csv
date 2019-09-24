@@ -1,68 +1,82 @@
 "location","n","inUS"
-"Texas",661,TRUE
-"Alabama",278,TRUE
-"North Carolina",182,TRUE
-"California",121,TRUE
-"Georgia",103,TRUE
-"South Carolina",83,TRUE
-"South Korea",77,FALSE
-"Louisiana",63,TRUE
-"Kentucky",55,TRUE
+"Texas",635,TRUE
+"Alabama",268,TRUE
+"North Carolina",158,TRUE
+"South Carolina",139,TRUE
+"Georgia",137,TRUE
+"Puerto Rico",131,TRUE
+"California",130,TRUE
+"South Korea",76,FALSE
+"Tennessee",66,TRUE
+"Kentucky",57,TRUE
+"Mississippi",55,TRUE
+"Mexico",54,FALSE
+"Louisiana",53,TRUE
 "West Virginia",50,TRUE
-"Mississippi",48,TRUE
-"Tennessee",42,TRUE
-"Florida",32,TRUE
-"Thailand",27,FALSE
-"China",25,FALSE
-"Virginia",23,TRUE
-"Arkansas",21,TRUE
-"Mexico",17,FALSE
+"Florida",49,TRUE
+"Arkansas",47,TRUE
+"China",28,FALSE
+"New Mexico",27,TRUE
+"Thailand",20,FALSE
+"Virginia",20,TRUE
+"India",18,FALSE
+"Taiwan",18,FALSE
 "New York",17,TRUE
-"Taiwan",17,FALSE
 "Egypt",15,FALSE
-"Kansas",12,TRUE
-"Bahamas",11,FALSE
-"India",11,FALSE
-"New Mexico",10,TRUE
-"Ohio",10,TRUE
-"Missouri",7,TRUE
+"Arizona",14,TRUE
+"Bahamas",13,FALSE
+"Indiana",10,TRUE
+"Missouri",9,TRUE
+"Ohio",9,TRUE
+"Oklahoma",9,TRUE
+"Pennsylvania",9,TRUE
+"Spain",8,FALSE
+"Haiti",7,FALSE
 "New Jersey",7,TRUE
-"Hawaii",6,TRUE
-"Illinois",5,TRUE
-"Oklahoma",5,TRUE
-"Pennsylvania",5,TRUE
-"Spain",5,FALSE
-"Indiana",4,TRUE
-"Kuwait",4,FALSE
-"Puerto Rico",4,FALSE
-"Kosovo",3,FALSE
-"Oman",3,FALSE
-"Oregon",3,TRUE
-"Washington DC",3,TRUE
+"Oman",7,FALSE
+"Illinois",6,TRUE
+"Kuwait",5,FALSE
+"Maryland",4,TRUE
+"Nebraska",4,TRUE
+"Qatar",4,FALSE
+"Utah",4,TRUE
+"Connecticut",3,TRUE
+"Costa Rica",3,FALSE
+"Greece",3,FALSE
+"Idaho",3,TRUE
+"Kansas",3,TRUE
+"Russia",3,FALSE
 "Wisconsin",3,TRUE
 "Afghanistan",2,FALSE
-"Aruba",2,FALSE
+"Colorado",2,TRUE
+"England",2,FALSE
+"Hawaii",2,TRUE
 "Iowa",2,TRUE
 "Massachusetts",2,TRUE
-"Qatar",2,FALSE
-"Russia",2,FALSE
-"St. Maarten",2,FALSE
-"Tunisia",2,FALSE
-"United Arab Emirates",2,FALSE
+"North Dakota",2,TRUE
+"South Dakota",2,TRUE
 "Washington",2,TRUE
+"Aruba",1,FALSE
+"Azerbaijan",1,FALSE
 "Bahrain",1,FALSE
-"Belize",1,FALSE
 "Bosnia",1,FALSE
 "British Virgin Islands",1,FALSE
-"Connecticut",1,TRUE
-"Costa Rica",1,FALSE
-"Ecuador",1,FALSE
-"Idaho",1,TRUE
+"Canada",1,FALSE
+"Cayman Islands",1,FALSE
+"Finland",1,FALSE
+"Honduras",1,FALSE
+"Indianapolis",1,FALSE
 "Iran",1,FALSE
-"Jamaica",1,FALSE
+"Ireland",1,FALSE
+"Maine",1,TRUE
+"Nevada",1,TRUE
 "Nevis",1,FALSE
-"Quebec",1,FALSE
+"Oregon",1,TRUE
 "Saudi Arabia",1,FALSE
-"South Dakota",1,TRUE
+"St. Croix",1,FALSE
+"St. Maarten",1,FALSE
+"St. Simon",1,FALSE
+"St. Thomas",1,FALSE
 "Turkey",1,FALSE
-"Vermont",1,TRUE
+"United Arab Emirates",1,FALSE
+"Wyoming",1,TRUE

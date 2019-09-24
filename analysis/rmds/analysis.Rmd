@@ -622,5 +622,24 @@ importExport2 <- most_exported2 %>%
   mutate(inUS = location %in% state.name) %>% 
   mutate(inUS = tolower(inUS))
 
+outOfCountry <- importExport2 %>% 
+  group_by(inUS) %>% 
+  summarise(sum = sum(exported))
+
 puddingR::export_data(importExport2, "importExport", directory = "../../src/assets/data/")
 ```
+
+
+```{r}
+shelterIDs <- dogsTrim %>% 
+  count(org_id)
+```
+
+Plan for re-running:
+
+* Hit V2 API to get all available adoptable dogs in each state (run Nevada separately using evenly spaced zipcodes)
+* Come up with a list of all the shelter IDs and hit the V1 API for all full animal records for each shelter
+* Combine the two datasets to add descriptions to all of the animal listings for IDs
+* Run textual analysis
+* Manually check data (accuracy of location, single location, who moved, whether animal has already been moved or will be upon adoption)
+

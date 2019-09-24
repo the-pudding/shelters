@@ -28,7 +28,7 @@ Rottweiler,18,rottweiler
 Australian Shepherd,17,australian-shepherd
 Greyhound,17,greyhound
 Jindo,16,shiba-inu
-Mountain Dog,16,bernese
+Mountain Dog,16,german-shepherd
 Cairn Terrier,13,scottish-terrier
 Miniature Pinscher,13,miniature-pinscher
 Poodle,13,poodle
@@ -56,7 +56,7 @@ Bull Terrier,7,bull-terrier
 Rhodesian Ridgeback,7,labrador
 Shar-Pei,7,shar-pei
 Whippet,7,greyhound
-Australian Kelpie,6,australian-shepherd
+Australian Kelpie,6,german-shepherd
 Belgian Shepherd / Malinois,6,german-shepherd
 Canaan Dog,6,german-shepherd
 Corgi,6,corgi
@@ -134,4 +134,29 @@ Tibetan Spaniel,1,spaniel
 Tosa Inu,1,mastiff
 Toy Fox Terrier,1,fox-terrier
 West Highland White Terrier / Westie,1,westie
-Xoloitzcuintli / Mexican Hairless,1,xolitzcuintli
+Xoloitzcuintli / Mexican Hairless,1,xoloitzcuintli
+Italian Greyhound,,chihuahua
+Manchester Terrier,,chihuahua
+Wheaten Terrier,,schnauzer
+Australian Terrier,,yorkshire-terrier
+Chinese Crested Dog,,chinese-crested
+Harrier,,beagle
+English Shepherd,,australian-shepherd
+German Shorthaired Pointer,,pointer
+Lhasa Apso,,shih-tzu
+Vizsla,,pointer
+American Eskimo Dog,,malamute
+Bearded Collie,,collie
+Bernese Mountain Dog,,bernese
+Border Terrier,,westie
+Borzoi,,greyhound
+Brittany Spaniel,,spaniel
+Dogue de Bordeaux,,shar-pei
+English Springer Spaniel,,spaniel
+Eskimo Dog,,malamute
+Irish Wolfhound,,greyhound
+Japanese Chin,,shih-tzu
+Miniature Schnauzer,,schnauzer
+Patterdale Terrier / Fell Terrier,,westie
+Pembroke Welsh Corgi,,corgi
+Shetland Sheepdog / Sheltie,,collie
