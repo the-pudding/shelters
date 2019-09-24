@@ -521,6 +521,14 @@ most_imported <- descDogs %>%
   count(shelterLoc, sort = TRUE) %>% 
   rename(imported = n, location = shelterLoc)
 
+totalAvailable <- dogs %>% 
+  mutate(shelterLoc = case_when(
+    !is.na(state.name[match(contact_state, state.abb)]) ~ state.name[match(contact_state, state.abb)],
+    contact_state == "DC" ~ "Washington DC",
+    TRUE ~ contact_state
+  )) %>% 
+  count(shelterLoc, sort = TRUE)
+
 allMoves <- most_exported %>% 
   full_join(most_imported, by = "location") %>% 
   mutate(inUS = case_when(
@@ -529,9 +537,21 @@ allMoves <- most_exported %>%
     location == "Puerto Rico" ~ TRUE, 
     TRUE ~ FALSE
   )) %>% 
-  mutate(inUS = tolower(inUS))
+  mutate(inUS = tolower(inUS)) %>% 
+  left_join(totalAvailable, by = c("location" = "shelterLoc")) %>% 
+  rename(total = n)
 
 puddingR::export_data(allMoves, "importExport", directory = "../../src/assets/data/")
+```
+
+## Hurricanes
+
+Out of curiosity, how many of these dogs were moved due to hurricanes? 
+
+```{r}
+hurricanes <- descDogs %>% 
+  mutate(hurricaneMention = str_extract_all(description, "hurricane|Hurricane|hurricanes|Hurricanes (.*?)[.?!]", simplify = FALSE)) %>% 
+  filter(hurricaneMention != "character(0)")
 ```
 
 
