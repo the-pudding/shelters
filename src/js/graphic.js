@@ -78,12 +78,6 @@ function filterDogs(){
 	$state.text(readerState)
 	$name.text(readerDog[0].name)
 
-	// // nevada specific things
-	// const nevada = readerState === 'Nevada'
-	// $introAll.classed('is-hidden', nevada)
-	// $introNevada.classed('is-hidden', !nevada)
-	// $introDogCont.classed('is-hidden', nevada)
-
 	// show appropriate text
 	const exampleImport = +readerDog[0].imported
 	const exportFew = +readerStateData.exported <= 1
@@ -129,8 +123,8 @@ function filterDogs(){
 
 	// add dog image
 	const fileName = readerDog[0].name.replace(' ', '')
-	const fileState = readerDog[0].current.replace(' ', '')
-	$img.attr('src', `assets/images/faces/${fileName}_${fileState}.png`)
+	const fileState = readerDog[0].current.replace(' ', '_')
+	$img.attr('src', `assets/images/faces/${fileState}.png`)
 
 	updateBars(readerStateData)
 }

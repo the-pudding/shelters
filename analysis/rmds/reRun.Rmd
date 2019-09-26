@@ -343,6 +343,9 @@ shelterPets <- purrr::map_dfr(shelterFiles, .f = function(file){
 # write to file
 write.csv(shelterPets, here::here("assets", "data", "raw_data", today(), "allShelters.csv"), row.names = FALSE)
 ```
+```{r}
+shelterPets <- read_csv(here::here("assets", "data", "raw_data", "2019-09-20", "allShelters.csv"))
+```
 
 ```{r}
 dogDescriptions <- dogs %>% 
@@ -538,15 +541,15 @@ totalAvailable <- dogs %>%
 
 allMoves <- most_exported %>% 
   full_join(most_imported, by = "location") %>% 
+  full_join(totalAvailable, by = c("location" = "shelterLoc")) %>% 
+  rename(total = n) %>%   
   mutate(inUS = case_when(
     location %in% state.name ~ TRUE,
     location == "Washington DC" ~ TRUE,
-    location == "Puerto Rico" ~ TRUE, 
+    #location == "Puerto Rico" ~ TRUE, 
     TRUE ~ FALSE
   )) %>% 
-  mutate(inUS = tolower(inUS)) %>% 
-  full_join(totalAvailable, by = c("location" = "shelterLoc")) %>% 
-  rename(total = n)
+  mutate(inUS = tolower(inUS))
 
 puddingR::export_data(allMoves, "importExport", directory = "../../src/assets/data/")
 ```
@@ -558,7 +561,10 @@ onlyLocal <- allMoves %>%
   filter(is.na(imported) & is.na(exported))
 
 check <- dogs %>% 
-  filter(contact_state == "TX")
+  filter(contact_state == "WY")
+
+stillThere <- descDogs %>% 
+  count(still_there)
 ```
 
 ## Hurricanes
