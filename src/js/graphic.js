@@ -25,6 +25,7 @@ const $introAll = $section.selectAll('.prose-intro')
 const $introDogCont = $section.select('.intro-dog')
 const $postIntroIn = $exportedSection.select('.prose-block-in')
 const $postIntroOut = $exportedSection.select('.prose-block-out')
+const $postIntroOutEx = $exportedSection.select('.prose-block-outEx')
 
 
 // constants
@@ -86,21 +87,25 @@ function filterDogs(){
 		$pOut.classed('is-visible', true)
 		$pIn.classed('is-visible', false)
 		$pInEx.classed('is-visible', false)
-		$exportedSection.classed('is-hidden', false)
+		// $exportedSection.classed('is-hidden', false)
 		$postIntroIn.classed('is-hidden', false)
 		$postIntroOut.classed('is-hidden', true)
+		$postIntroOutEx.classed('is-hidden', true)
 	} else if (!exampleImport) {
 		$pOut.classed('is-visible', false)
 		$postIntroIn.classed('is-hidden', true)
 		if (readerStateData.exported <= 1){
 			$pInEx.classed('is-visible', false)
 			$pIn.classed('is-visible', true)
-			$exportedSection.classed('is-hidden', true)
+			$postIntroOut.classed('is-hidden', false)
+			$postIntroOutEx.classed('is-hidden', true)
+			// $exportedSection.classed('is-hidden', true)
 		} else {
 			$pInEx.classed('is-visible', true)
 			$pIn.classed('is-visible', false)
-			$exportedSection.classed('is-hidden', false)
-			$postIntroOut.classed('is-hidden', false)
+			// $exportedSection.classed('is-hidden', false)
+			$postIntroOut.classed('is-hidden', true)
+			$postIntroOutEx.classed('is-hidden', false)
 		}
 	}
 
@@ -114,8 +119,8 @@ function filterDogs(){
 
 	// update pronouns
 	const pupPronoun = readerDog[0].sex
-	$pupHerHis.text(pupPronoun === 'm' ? 'his' : 'her')
-	$pupSheHe.text(pupPronoun === 'm' ? 'he' : 'she')
+	$pupHerHis.text(pupPronoun === 'M' ? 'his' : 'her')
+	$pupSheHe.text(pupPronoun === 'M' ? 'he' : 'she')
 
 	// update conditions
 	$reason.text(readerDog[0].conditions)

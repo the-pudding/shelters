@@ -7,7 +7,6 @@ export default [
 	{ state: 'Colorado', abbr: 'CO' },
 	{ state: 'Connecticut', abbr: 'CT' },
 	{ state: 'Delaware', abbr: 'DE' },
-	{ state: 'District of Columbia', abbr: 'DC' },
 	{ state: 'Florida', abbr: 'FL' },
 	{ state: 'Georgia', abbr: 'GA' },
 	{ state: 'Hawaii', abbr: 'HI' },
@@ -50,6 +49,5 @@ export default [
 	{ state: 'West Virginia', abbr: 'WV' },
 	{ state: 'Wisconsin', abbr: 'WI' },
 	{ state: 'Wyoming', abbr: 'WY' },
-	{ state: 'Washington DC', abbr: 'DC' },
-	{ state: 'Puerto Rico', abbr: 'PR' }
+	{ state: 'Washington DC', abbr: 'DC' }
 ];
