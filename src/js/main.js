@@ -28,6 +28,7 @@ function resize() {
 	if (previousWidth !== width) {
 		previousWidth = width;
 		graphic.resize();
+		tile.resize()
 	}
 }
 
@@ -125,8 +126,6 @@ function setup(){
 			setupStateDropdown()
 			graphic.init(readerState);
 			exported.init(readerState);
-			// movement.init();
-			// northern.init();
 			tile.init()
 			countries.init()
 		})

@@ -2,6 +2,14 @@
   height 100vh
   background-color $pink
   max-height 50rem
-  img
+  &-img
     max-width $column-width
     margin 4rem auto 2rem auto
+    &__desktop
+      display none
+      +mq('bp-3')
+        display block
+    &__mobile
+      display block
+      +mq('bp-3')
+        display none

@@ -11,6 +11,7 @@ d3.selection.prototype.tileMap = function init(options) {
 	function createChart(el) {
 		const $sel = d3.select(el);
 		let data = $sel.datum();
+		let rendered = false
 
 		// dimension stuff
 		let width = 0;
@@ -25,6 +26,24 @@ d3.selection.prototype.tileMap = function init(options) {
 		let factor = isMobile === true ? 2 : 4
 
 		// helper functions
+
+		function addDogBlocks({$imports, $exports, factor}){
+			if (data.count){
+				$imports.selectAll('.import dog')
+					.data(d3.range(data.count.imported / factor))
+					.join(enter => {
+						enter.append('div')
+							.attr('class', 'import')
+					})
+
+				$exports.selectAll('.export dog')
+					.data(d3.range(data.count.exported / factor))
+					.join(enter => {
+						enter.append('div')
+							.attr('class', 'export')
+					})
+			}
+		}
 
 		const Chart = {
 			// called once at start
@@ -60,10 +79,39 @@ d3.selection.prototype.tileMap = function init(options) {
 					const $bound = $figure.select('.figure-container')
 						.style('height', `${width * 8}px`)
 				}
+
+
+
+				const $imports = $sel.select('.container-imports')
+				const $exports = $sel.select('.container-exports')
+				console.log({$sel})
+
+				// if the blocks have already been drawn
+				if (rendered && data.location !== 'blank') {
+					// console.log({factor})
+					// addDogBlocks({$imports, $exports, factor})
+					$imports.selectAll('.import')
+						.data(d3.range(data.count.imported / factor))
+						.join(update => {
+							update.append('div')
+								.attr('class', 'export')
+								.style('background-color', 'red')
+						})
+
+					$exports.selectAll('.export')
+						.data(d3.range(data.count.exported / factor))
+						.join(update => {
+							update.append('div')
+								.attr('class', 'export')
+						})
+
+				}
+
 				return Chart;
 			},
 			// update scales and render chart
 			render() {
+				rendered = true
 
 				if (data.location != 'blank'){
 
@@ -83,22 +131,24 @@ d3.selection.prototype.tileMap = function init(options) {
 					const $nameDiv = $sel.append('div').attr('class', 'name-div')
 					$nameDiv.append('span').text(data.abbreviation).attr('class', 'name name-upper')
 
-					// if the data exists for that state, add dogs
-					if (data.count){
-    					$imports.selectAll('.import dog')
-    						.data(d3.range(data.count.imported / factor))
-    						.join(enter => {
-    							enter.append('div')
-    								.attr('class', 'import')
-    						})
+					addDogBlocks({$imports, $exports, factor})
 
-						$exports.selectAll('.export dog')
-							.data(d3.range(data.count.exported / factor))
-							.join(enter => {
-								enter.append('div')
-									.attr('class', 'export')
-							})
-					}
+					// if the data exists for that state, add dogs
+					// if (data.count){
+    			// 		$imports.selectAll('.import dog')
+    			// 			.data(d3.range(data.count.imported / factor))
+    			// 			.join(enter => {
+    			// 				enter.append('div')
+    			// 					.attr('class', 'import')
+    			// 			})
+					//
+					// 	$exports.selectAll('.export dog')
+					// 		.data(d3.range(data.count.exported / factor))
+					// 		.join(enter => {
+					// 			enter.append('div')
+					// 				.attr('class', 'export')
+					// 		})
+					// }
 
 
 				}

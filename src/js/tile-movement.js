@@ -11,6 +11,9 @@ const $section = d3.select('.movement')
 const $container = $section.select('.figure-container')
 const $tooltip = $section.select('.movement-tooltip')
 
+// charts
+let charts = null
+
 function handleMouseover(){
 	const sel = d3.select(this)
 	const state = sel.attr('data-state')
@@ -55,9 +58,7 @@ function setup(){
     }
   })
 
-console.log({importExport})
-
-  const charts = $container
+  charts = $container
 		.selectAll('.grid-block')
 		.data(tileData)
     .join(enter => enter
@@ -82,7 +83,7 @@ function loadLocations(){
 }
 
 function resize(){
-
+	charts.forEach(d => d.resize())	
 }
 
 function init(){
