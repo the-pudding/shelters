@@ -15,9 +15,10 @@
 		margin 0 auto 2rem auto
 		text-align center
 		font-family $tiempos
-		set-type-size('xxxx-large')
+		set-type-size('xx-large')
 		font-weight bold
-
+		+mq('bp-3')
+			set-type-size('xxxx-large')
 	&__dek
 		max-width $column-width
 		margin 0 auto
@@ -34,7 +35,9 @@
 	&__byline
 		margin 1rem auto 0 auto
 		text-align center
-		set-type-size('large')
+		set-type-size('small')
+		+mq('bp-3')
+			set-type-size('large')
 
 
 	&__time
@@ -63,12 +66,14 @@
 
 	.intro-dog
 		max-width 54rem
-		padding 2rem 3rem
+		padding 1rem
 		margin 3rem auto 3rem auto
 		background-color $white
 		display block
 		position sticky
 		top 15vh
+		+mq('bp-3')
+			padding 2rem 3rem
 		&.is-hidden
 			display none
 		&_image
@@ -77,6 +82,8 @@
 			height auto
 			margin-right 1rem
 			margin-top 1rem
+			// +mq('bp-3')
+
 		&_out
 			display none
 			&.is-visible
@@ -99,7 +106,9 @@
 				padding 0 0.5rem
 				p
 					font-family $national
-					set-type-size('small')
+					set-type-size('x-small')
+					+mq('bp-3')
+						set-type-size('small')
 			.bar__inState
 				background-color $orange-lightest
 				display flex
@@ -123,16 +132,21 @@
 				font-family $national
 				margin 0.5rem 0 0 0
 				text-transform: uppercase;
-				set-type-size('small')
+				set-type-size('x-small')
+				+mq('bp-3')
+					set-type-size('small')
 
 	.stateSelect
 		cursor pointer
 		height 2.5rem
-		width 16rem
+		width 10rem
 		line-height 42px
 		background-color $orange
 		color $off-white
 		border none
 		font-family $tiempos
-		set-type-size('xx-large')
+		set-type-size('medium')
 		font-weight bold
+		+mq('bp-3')
+			set-type-size('xx-large')
+			width 16rem
