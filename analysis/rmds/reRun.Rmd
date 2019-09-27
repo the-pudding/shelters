@@ -555,6 +555,13 @@ puddingR::export_data(allMoves, "importExport", directory = "../../src/assets/da
 ```
 
 
+```{r}
+percentOutUS <- allMoves %>% 
+  ungroup() %>% 
+  group_by(inUS) %>% 
+  summarise(total = n())
+```
+
 How many didn't export or import?
 ```{r}
 onlyLocal <- allMoves %>% 
