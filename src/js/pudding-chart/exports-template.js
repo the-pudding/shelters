@@ -14,7 +14,7 @@ d3.selection.prototype.exportsByState = function init(options) {
 		const $sel = d3.select(el);
 		let data = $sel.datum();
 		// dimension stuff
-		const width = 0;
+		let width = 0;
 		const height = 0;
 		const marginTop = 0;
 		const marginBottom = 0;
@@ -48,16 +48,30 @@ d3.selection.prototype.exportsByState = function init(options) {
 
 			hovered.classed('dimmed', false)
 
-			// update tooltip location based on mouse location
-			$tooltip
-				.style('left', `${d3.event.pageX}px`)
-				.style('top', `${d3.event.pageY}px`)
-				.classed('is-hidden', false)
-
 			// update tooltip info based on hovered dog
 			$tooltip.select('.tooltip-name').text(hoveredData.name)
 			$tooltip.select('.tooltip-desc').text(`${hoveredData.age} • ${hoveredData.sex}`)
 			$tooltip.select('.tooltip-breed').text(hoveredData.breed_secondary ? `${hoveredData.breed_primary} / ${hoveredData.breed_secondary} mix` : `${hoveredData.breed_primary}`)
+
+			// update tooltip location based on mouse location
+			const x = hovered.node().offsetLeft;
+			const y = hovered.node().offsetTop;
+			const mouseX = d3.event.pageX
+			// const mouseY = d3.event.pageY
+			// const toolTipHeight = $tooltip.node().offsetHeight;
+			const toolTipWidth = $tooltip.node().offsetWidth;
+
+			$tooltip
+				.style('left', () => {
+					let xMove = mouseX
+					if (mouseX > 0.5 * width) xMove -= toolTipWidth
+					console.log({xMove, width})
+					return `${xMove}px`
+				})
+				.style('top', `${d3.event.pageY}px`)
+				.classed('is-hidden', false)
+
+
 
 		}
 
@@ -89,7 +103,7 @@ d3.selection.prototype.exportsByState = function init(options) {
 			// on resize, update new dimensions
 			resize() {
 				// defaults to grabbing dimensions from container element
-				// width = $sel.node().offsetWidth - marginLeft - marginRight;
+				width = $sel.node().offsetWidth - marginLeft - marginRight;
 				// height = $sel.node().offsetHeight - marginTop - marginBottom;
 				// $svg
 				// 	.attr('width', width + marginLeft + marginRight)

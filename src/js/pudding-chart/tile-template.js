@@ -84,7 +84,6 @@ d3.selection.prototype.tileMap = function init(options) {
 
 				const $imports = $sel.select('.container-imports')
 				const $exports = $sel.select('.container-exports')
-				console.log({$sel})
 
 				// if the blocks have already been drawn
 				if (rendered && data.location !== 'blank') {
