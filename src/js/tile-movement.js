@@ -13,14 +13,15 @@ const $tooltip = $section.select('.movement-tooltip')
 
 // charts
 let charts = null
+let width = null
 
 function handleMouseover(){
 	const sel = d3.select(this)
 	const state = sel.attr('data-state')
-	$tooltip
-		.style('left', `${d3.event.pageX}px`)
-		.style('top', `${d3.event.pageY}px`)
-		.classed('is-hidden', false)
+	// $tooltip
+	// 	.style('left', `${d3.event.pageX}px`)
+	// 	.style('top', `${d3.event.pageY}px`)
+	// 	.classed('is-hidden', false)
 
 	if (state !== 'blank'){
 		const imported = sel.attr('data-imported')
@@ -32,6 +33,20 @@ function handleMouseover(){
 		$tooltip.classed('is-hidden', false)
 	}
 	else $tooltip.classed('is-hidden', true)
+
+  const mouseX = d3.event.pageX
+  // const mouseY = d3.event.pageY
+  // const toolTipHeight = $tooltip.node().offsetHeight;
+  const toolTipWidth = $tooltip.node().offsetWidth;
+
+  $tooltip
+    .style('left', () => {
+      let xMove = mouseX
+      if (mouseX > 0.5 * width) xMove -= toolTipWidth
+      return `${xMove}px`
+    })
+    .style('top', `${d3.event.pageY}px`)
+    .classed('is-hidden', false)
 }
 
 function cleanData(arr){
@@ -83,7 +98,8 @@ function loadLocations(){
 }
 
 function resize(){
-	charts.forEach(d => d.resize())	
+  width = $section.node().offsetWidth
+	if (charts) charts.forEach(d => d.resize())
 }
 
 function init(){
@@ -91,6 +107,7 @@ function init(){
     .then(result => {
       importExport = cleanData(result)
       loadLocations()
+      resize()
     })
     .catch(console.error)
 }

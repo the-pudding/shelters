@@ -64,7 +64,6 @@ function updateBars(state){
 	$stackBarContainer.select('.bar__outState-label').text(perOut < .01 ? '< 1%' : formatPercent(perOut))
 
 	$section.select('.inPer').text(perOut < .01 ? '< 1%' : formatPercent(perOut))
-	console.log({perOut})
 
 	const oneHundred = perOut === 0 || perIn === 0
 	$stackBarContainer.classed('is-hidden', oneHundred)

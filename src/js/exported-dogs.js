@@ -63,10 +63,8 @@ function readerSelNest({dogs, counts}){
 		const test = $toggle.selectAll('option')
 			.property('selected', function(d) {
 				const sel = d3.select(this).node().value
-				console.log({sel})
 				return sel === selToggle
 			})
-		console.log({test})
 	}
 
 	// setting container height
@@ -182,17 +180,6 @@ function init(loc) {	return new Promise((resolve,reject) => {
 			.catch(console.error)
 	})
 
-	// load.loadCSV('exportedDogs.csv')
-	// 	.then(result => {
-	// 		readerState = loc
-	// 		exportedDogs = cleanData(result)
-	// 		filterDogs(loc, selToggle)
-	//
-	// 		// setup interaction with show more button
-	// 		setupExpand()
-	// 		setupToggle()
-	// 	})
-	// 	.catch(console.error)
 }
 
 export default { init, resize, updateLocation };

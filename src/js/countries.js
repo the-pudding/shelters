@@ -49,8 +49,6 @@ function setupToggles(){
 
 		conditions[value] = condition
 
-		console.log({conditions})
-
 		filter(conditions)
 	})
   // $toggles.on('click', function(d){
@@ -68,7 +66,6 @@ function setup(){
   header.append('p').attr('class', 'location-rank').text('Rank')
   header.append('p').attr('class', 'location-name').text('Location')
   header.append('p').attr('class', 'location-count').text('# Exported')
-  console.log({$toggles})
 
   setupToggles()
   setupExpand()

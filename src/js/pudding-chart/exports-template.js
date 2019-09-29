@@ -54,8 +54,6 @@ d3.selection.prototype.exportsByState = function init(options) {
 			$tooltip.select('.tooltip-breed').text(hoveredData.breed_secondary ? `${hoveredData.breed_primary} / ${hoveredData.breed_secondary} mix` : `${hoveredData.breed_primary}`)
 
 			// update tooltip location based on mouse location
-			const x = hovered.node().offsetLeft;
-			const y = hovered.node().offsetTop;
 			const mouseX = d3.event.pageX
 			// const mouseY = d3.event.pageY
 			// const toolTipHeight = $tooltip.node().offsetHeight;
