@@ -1,0 +1,40 @@
+---
+title: "Open Data"
+author: "Amber Thomas"
+date: "9/29/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(puddingR)
+```
+
+## Generate Re-Usable data/scripts 
+The following scripts are used for open data purposes. 
+
+```{r open_scripts}
+fileDir <- here::here("rmds", "reRun.Rmd")
+descriptionCodeChunks <- c("load_packages", "setup_auth", "v2_api", "v2_clean", "v2_pages", "v2_findDogs", "v2_mapData", "create_single_file", "v1_api", "v1_clean", "lookup_shelter", "find_shelters", "combine_files", "create_dogDescriptions" )
+puddingR::export_all(dogDescriptions, "allDogDescriptions", location = "open", codebook = TRUE, scripts = descriptionCodeChunks, script_file = fileDir)
+
+```
+
+```{r}
+fromCodeChunks <- c("load_packages", "import_dogDescriptions", "regex", "setup_spacyR", "label_entities", "cleanLoc")
+
+puddingR::export_all(cleanLoc, "dogTravel", location = "open", codebook = TRUE, scripts = fromCodeChunks, script_file = fileDir)
+```
+
+```{r}
+locCodeChunks <- c("load_packages", "export_loc")
+
+puddingR::export_all(allMoves, "movesByLocation", location = "open", codebook = TRUE, scripts = locCodeChunks, script_file = fileDir)
+```
+```{r}
+puddingR::knit_data_readme()
+```
+

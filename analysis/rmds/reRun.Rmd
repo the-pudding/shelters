@@ -85,8 +85,6 @@ dcCon <- content(dc, "text")
 
 
 ```{r v2_clean}
-# TODO Fix numbered extraction of API results
-
 # Cleans results, converts to data frame and exports to file
 cleanResults <- function(results, state){
   animals <- content(results)$animals
@@ -186,6 +184,22 @@ findDogs <- function(state, .pb = NULL){
 }
 ```
 
+```{r v2_mapData}
+# Due to a bug in the PetFinder API, I was encouraged to use zipcodes for the state of Nevada
+# All other states and DC simply used their state abbreviation
+nvZip <- c("89009", "89011", "89014", '89015', '89019', '89024', '89027','89032', '89048', '89052', '89074', '89101','89103', '89104','89107','89113','89117','89118','89119','89120','89121','89122','89123','89128','89129','89130','89131','89134','89135','89136','89139','89143','89145','89146','89147','89148','89149','89183','89193','89406','89408','89410','89415','89423','89429','89431','89434','89436','89445','89447','89450','89451','89460','89502','89506','89511','89512','89523','89701','89702','89703','89704','89706','89801')
+statesToCheck <- c(state.abb, nvZip, "DC")
+
+# Setting up progress bar
+pb <- progress_estimated(length(limitedStates))
+
+# Creating fallback in case an error occurs
+findSafely <- possibly(findDogs, otherwise = NA)
+
+purrr::walk(statesToCheck, findSafely, .pb = pb)
+```
+
+
 ```{r}
 nvZip <- c("89009", "89011", "89014", '89015', '89019', '89024', '89027','89032', '89048', '89052', '89074', '89101','89103', '89104','89107','89113','89117','89118','89119','89120','89121','89122','89123','89128','89129','89130','89131','89134','89135','89136','89139','89143','89145','89146','89147','89148','89149','89183','89193','89406','89408','89410','89415','89423','89429','89431','89434','89436','89445','89447','89450','89451','89460','89502','89506','89511','89512','89523','89701','89702','89703','89704','89706','89801')
 statesToCheck <- c(state.abb, nvZip, "DC")
@@ -240,6 +254,7 @@ dogs <- purrr::map_dfr(dogFiles, .f = function(file){
              env_cats = col_logical()
            ))
 }) %>%
+  # eliminate any duplicates
   distinct(id, .keep_all = TRUE)
 
 # write to file
@@ -252,6 +267,7 @@ dogs <- read_csv(here::here("assets", "data", "raw_data", "2019-09-20", "allDogs
 
 
 ```{r v1_api}
+# To get full dog descriptions, I need to use the V1 API 
 # Pings API and accesses results
 accessShelters <- function(shelterID, start_page = 1){
   userV1 <- Sys.getenv("PF_V1")
@@ -292,7 +308,8 @@ cleanShelters <- function(results, shelterID){
 ```
 
 
-```{r}
+```{r lookup_shelter}
+# Use the shelter ID's from the V2 API to find all animals available for adoption through that shelter
 lookupShelter <- function(shelterID, .pb = NULL){
   # adding progress bar
   if ((!is.null(.pb)) && inherits(.pb, "Progress") && (.pb$i < .pb$n)) .pb$tick()$print()
@@ -306,7 +323,7 @@ lookupShelter <- function(shelterID, .pb = NULL){
 
 
 ```{r find_shelters}
-
+# Create function that creates a new CSV for each shelter
 findShelters <- function(date = today()){
   # start by loading all of the data back into R
   dogs <- read.csv(here::here("assets", "data", "raw_data", date, "allDogs.csv"), stringsAsFactors = FALSE, header = TRUE)
@@ -322,6 +339,8 @@ findShelters <- function(date = today()){
   purrr::walk(sheltersList, lookupShelter, .pb = pb)
 }
 
+# Run function
+findShelters()
 ```
 
 Now to find those shelter details
@@ -330,7 +349,7 @@ findShelters()
 ```
 We'll combine the shelter details into a single file:
 
-```{r message = FALSE, warning = FALSE}
+```{r combineFiles, message = FALSE, warning = FALSE}
 shelterFiles <- list.files(path = here::here("assets", "data", "raw_data", today(), "shelters" ))
 # read all files in and bind them together
 shelterPets <- purrr::map_dfr(shelterFiles, .f = function(file){
@@ -347,7 +366,7 @@ write.csv(shelterPets, here::here("assets", "data", "raw_data", today(), "allShe
 shelterPets <- read_csv(here::here("assets", "data", "raw_data", "2019-09-20", "allShelters.csv"))
 ```
 
-```{r}
+```{r create_dogDescriptions}
 dogDescriptions <- dogs %>% 
   mutate(id = as.character(id)) %>% 
   select(-description) %>% 
@@ -359,34 +378,42 @@ write.csv(dogDescriptions, here::here("assets", "data", "raw_data", today(), "al
 
 ```
 
+```{r import_dogDescriptions}
+dogDescriptions <- read.csv(here::here("assets", "data", "raw_data", "2019-09-20", "allDogDesc.csv"), stringsAsFactors = FALSE) 
+```
+
 
 Now to use some Regex to find animals `from` a place (but not where they've gone `to`) and also those that are `located in` a place
 
-```{r}
+```{r regex}
 regexLocs <- dogDescriptions %>% 
+  # Find any instance of "from" to the end of its sentence
   mutate(from = str_extract_all(description, "from (.*?)[.?!]", simplify = FALSE),
+         # extract any instance of "located in" that doesn't start with "families" or "organization"
          located = str_extract_all(description, "\\w*(?<!families|organization) located in (.*?)[.?!]", simplify = FALSE)) 
 
 
 cleanRegex <- regexLocs %>% 
+  # combine all extracted chunks into one column
   gather("regex", "sentence", c("from", "located")) %>% 
+  # remove any dogs that didn't have any indication of travelling
   filter(!is.na(sentence)) %>% 
+  # separate out multiple chunks for a single animal and remove anything after the word "to"
   unnest(sentence) %>% 
-  mutate(onlySent = gsub("[:space:]to(.*?)[.?!]", "", sentence))
-
-check <- tail(cleanRegex)
+  mutate(onlySent = gsub("[[:space:]]to(.*?)[.?!]", "", sentence))
 ```
 
 Now to setup `spacyR`
 
-```{r}
+```{r setup_spacyR}
+# setup spacyR for entity recognition
 use_condaenv("spacy_condaenv", required = TRUE)
 cnlp_init_spacy()
 ```
 
 And write a function to detect entities:
 
-```{r}
+```{r label_entities}
 labelEntities <- function(text, id){
   ent <- spacy_extract_entity(text, extended = TRUE) 
   
@@ -403,6 +430,7 @@ labelEntities <- function(text, id){
   }
 }
 
+# find the entities
 fromLoc <- purrr::walk2(cleanRegex$onlySent, cleanRegex$id, labelEntities)
 ```
 
@@ -438,7 +466,7 @@ drive_download(
 )
 ```
 
-```{r}
+```{r cleanLoc}
 manualLoc <- read_csv(here::here("assets", "data", "processed_data", "2019-09-20", "cleaned_locations.csv"))
 
 cleanLoc <- manualLoc %>% 
@@ -455,7 +483,9 @@ cleanLoc <- manualLoc %>%
   filter(match == FALSE) %>% 
   distinct(id, origin, .keep_all = TRUE) %>% 
   select(-c(contact_city, contact_state, found, manual, remove, match))
+```
 
+```{r}
 originCount <- cleanLoc %>% 
   count(origin, sort = TRUE)
   
@@ -514,7 +544,7 @@ puddingR::export_data(exportedDogs, "exportedDogs", directory = "../../src/asset
 
 Alright, now to get state by state info:
 
-```{r}
+```{r export_loc}
 most_exported <- descDogs %>% 
   count(origin, sort = TRUE) %>% 
   rename(location = origin) %>% 
@@ -583,6 +613,7 @@ hurricanes <- descDogs %>%
   mutate(hurricaneMention = str_extract_all(description, "hurricane|Hurricane|hurricanes|Hurricanes (.*?)[.?!]", simplify = FALSE)) %>% 
   filter(hurricaneMention != "character(0)")
 ```
+
 
 
 
