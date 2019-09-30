@@ -16,7 +16,17 @@ const $body = d3.select('body');
 let previousWidth = 0;
 const $dropdown = d3.selectAll('.stateSelect')
 let readerState = 'New York'
-let defaultLocation = 'New York'
+const defaultLocation = {
+	country_code: 'US',
+	country_name: 'United States',
+	region_code: 'NY',
+	region_name: 'New York',
+	city: 'New York',
+	zip_code: '10001',
+	time_zone: 'America/New_York',
+	latitude: 40,
+	longitude: -72
+};
 let importExport = null
 let filteredDD = null
 let allDD = null
@@ -36,10 +46,9 @@ function findReaderState(){
 	return new Promise((resolve, reject) => {
 		const key = 'fd4d87f605681c0959c16d9164ab6a4a'
 		const locationData = locate(key, (err, result) => {
-			readerState = err ? defaultLocation : result.region_name
+			readerState = err ? defaultLocation.region_name : result.region_name
 
-			if (err) reject(err)
-			else resolve(readerState)
+			 resolve(readerState)
 		})
 
 	})
