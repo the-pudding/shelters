@@ -17,31 +17,22 @@
     &.is-truncated
       height 700px
       overflow hidden
-    .location, .header
-      display flex
-      padding 0.25rem 0.5rem
-      border-bottom 1px solid $gray-light
+    table 
       font-family $national
-      align-items: baseline;
-      &.international
-        background-color none
-      p
-        margin 0.25rem 0
-      .location-rank
-        set-type-size('small')
-        color $gray
-        flex 1 0 20%
-      .location-count
-        align-self: flex-end;
-        flex 1 0 30%
-        text-align center
-      .location-name
-        flex 1 0 50%
-    .header
-      p
-        set-type-size('small')
+      margin 0 auto
+      width 22rem
+      tr
+        border-bottom 1px solid $gray-light
+      td 
+        padding 0.5rem 0.5rem
+        &.Rank 
+          padding-right 2rem
+          color $gray
+      th
         text-transform uppercase
-        color $gray-dark
+        set-type-size('small')
+        padding 1rem 0
+    
   .transparency
     position absolute
     width 100%
