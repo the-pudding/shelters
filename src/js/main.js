@@ -46,7 +46,10 @@ function findReaderState() {
   return new Promise((resolve, reject) => {
     const key = 'fd4d87f605681c0959c16d9164ab6a4a';
     locate(key, (err, result) => {
-      readerState = err ? defaultLocation.region_name : result.region_name;
+      readerState =
+        err || result.country_code !== 'US'
+          ? defaultLocation.region_name
+          : result.region_name;
 
       resolve(readerState);
     });
