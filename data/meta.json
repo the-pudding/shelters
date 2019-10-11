@@ -3,15 +3,15 @@
 	"description": "It may be further than you think.",
 	"site": "https://pudding.cool",
 	"siteName": "The Pudding",
-	"url": "https://pudding.cool/year/month/name/",
+	"url": "https://pudding.cool/2019/10/shelters/",
 	"keywords": "dog, dog rescue, dog adoption, dog shelter, dog transport",
-	"imgFacebook": "https://pudding.cool/year/month/name/assets/social/social-facebook.jpg",
-	"imgTwitter": "https://pudding.cool/year/month/name/assets/social/social-twitter.jpg",
+	"imgFacebook": "https://pudding.cool/2019/10/shelters/assets/social/social-facebook.jpg",
+	"imgTwitter": "https://pudding.cool/2019/10/shelters/assets/social/social-twitter.jpg",
 	"author": {
 		"name": "The Pudding",
 		"url": "https://pudding.cool/author/amber-thomas",
 		"twitterHandle": "@ProQuesAsker"
 	},
-	"analytics": "",
+	"analytics": "UA-90567923-1",
 	"lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis neque sit amet sollicitudin vehicula. Maecenas fringilla mi non lacus mattis elementum. Curabitur dignissim faucibus justo."
 }
