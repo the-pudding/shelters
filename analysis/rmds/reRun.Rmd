@@ -615,5 +615,12 @@ hurricanes <- descDogs %>%
 ```
 
 
+```{r}
+insta <- allMoves %>% 
+  mutate(percent = (imported / total) * 100) %>% 
+  arrange(desc(percent))
+
+ggplot(head(insta, 10), aes(x = reorder(location, percent), y = percent)) + geom_bar(stat = 'identity')
+```
 
 
