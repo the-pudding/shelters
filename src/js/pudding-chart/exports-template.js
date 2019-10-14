@@ -6,7 +6,7 @@
  4a. const charts = d3.selectAll('.thing').data(data).puddingChartLine();
  4b. const chart = d3.select('.thing').datum(datum).puddingChartLine();
 */
-import load from "../load-data";
+import load from '../load-data';
 
 d3.selection.prototype.exportsByState = function init(options) {
   function createChart(el) {
@@ -70,7 +70,6 @@ d3.selection.prototype.exportsByState = function init(options) {
         .style('left', () => {
           let xMove = mouseX;
           if (mouseX > 0.5 * width) xMove -= toolTipWidth;
-          console.log({ xMove, width });
           return `${xMove}px`;
         })
         .style('top', `${d3.event.pageY}px`)
