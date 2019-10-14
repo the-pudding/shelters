@@ -15,6 +15,7 @@ import locate from './utils/locate';
 const $body = d3.select('body');
 let previousWidth = 0;
 const $dropdown = d3.selectAll('.stateSelect');
+const filteredDD = d3.select('.interactive-title .stateSelect');
 let readerState = 'New York';
 const defaultLocation = {
   country_code: 'US',
@@ -28,7 +29,6 @@ const defaultLocation = {
   longitude: -72,
 };
 let importExport = null;
-const filteredDD = null;
 const allDD = null;
 
 function resize() {
