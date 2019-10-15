@@ -63,7 +63,7 @@ function readerSelNest({ dogs, counts }) {
   }
 
   // setting container height
-  if (counts[selToggle] >= 60) {
+  if (counts[selToggle] >= 40) {
     $container.classed('is-clipped', true);
     $transparency.classed('is-visible', true);
     $moreButton.property('disabled', false).classed('is-disabled', false);
@@ -127,6 +127,8 @@ function nestDogs(loc, toggle) {
 
 function updateLocation(loc) {
   const nestedExports = nestDogs(loc, selToggle);
+  $moreButton.text('Show All');
+  $container.classed('is-clipped', true);
 
   charts.data(nestedExports);
 }
